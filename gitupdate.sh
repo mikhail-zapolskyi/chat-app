@@ -9,3 +9,5 @@ echo $DESCRIPTION
 git commit -m  "$DESCRIPTION"
 
 git push
+
+git status
