@@ -7,3 +7,5 @@ read DESCRIPTION
 
 echo $DESCRIPTION
 git commit -m  "$DESCRIPTION"
+
+git push
