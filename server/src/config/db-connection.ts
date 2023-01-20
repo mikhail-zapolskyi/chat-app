@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-interface ConnectionResultInterface {
+interface IConnectionResult {
 	connection: string;
 	state: number;
 	dbName: string;
@@ -19,7 +19,7 @@ const dbConnection = () =>
 				console.log(err);
 			}
 
-			const result: ConnectionResultInterface = {
+			const result: IConnectionResult = {
 				connection: "Connection to db successfull",
 				state: res.readyState!,
 				dbName: res.name!,
