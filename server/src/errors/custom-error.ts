@@ -9,7 +9,7 @@ class CustomError extends Error {
 	}
 
 	getErrors() {
-		return { message: [this.message] };
+		return { message: this.message };
 	}
 }
 
