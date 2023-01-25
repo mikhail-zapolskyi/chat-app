@@ -1,13 +1,12 @@
 import { Router } from "express";
 import { Response, Request, NextFunction } from "express";
+import { register } from "../controlers/auth";
 
 const router = Router();
 
-router.post("/register", (req: Request, res: Response, next: NextFunction) => {
-	res.send("Register");
-});
+router.post("/register", register);
 
-router.post("/login/:id", (req: Request, res: Response, next: NextFunction) => {
+router.post("/login", (req: Request, res: Response, next: NextFunction) => {
 	res.send("Login");
 });
 

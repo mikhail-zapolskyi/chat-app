@@ -1,19 +1,19 @@
 import { Schema, model } from "mongoose";
 import { Password } from "../service/index";
+import { IUser } from "../interface";
 
-interface IUser {
-	name?: string;
-	email: string;
-	avatar?: string;
-	password: string;
-}
-
-const userSchema = new Schema<IUser>({
-	name: { type: String },
-	email: { type: String, required: [true, "Please provide an email"] },
-	avatar: String,
-	password: { typs: String, required: [true, "Please provide a password"] },
-});
+const userSchema = new Schema<IUser>(
+	{
+		name: { type: String },
+		email: { type: String, required: [true, "Please provide an email"] },
+		avatar: String,
+		password: {
+			type: String,
+			required: [true, "Please provide a password"],
+		},
+	},
+	{ collection: "users" }
+);
 
 userSchema.pre("save", async function (done) {
 	if (this.isModified("password")) {

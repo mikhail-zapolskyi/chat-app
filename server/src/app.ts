@@ -3,6 +3,7 @@ import cors from "cors";
 import { corsOptions, dbConnection } from "./config";
 import cookieSession from "cookie-session";
 import router from "./routes";
+import { error_handler } from "./service";
 
 const app = express();
 
@@ -14,8 +15,11 @@ app.use(
 		secret: process.env.COOKIE_SECRET,
 	})
 );
-app.use("/api", router);
 
 dbConnection();
+
+app.use("/api", router);
+
+app.use(error_handler);
 
 export default app;
