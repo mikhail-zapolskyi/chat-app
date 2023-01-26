@@ -8,18 +8,22 @@ const error_handler = (
 	res: Response,
 	next: NextFunction
 ) => {
-	console.log(err.message);
 	if (err instanceof CustomError) {
 		return res.status(err.statusCode).json({ errors: err.getErrors() });
 	}
 
 	if (err.name === "ValidationError") {
 		const errors: MongooseError = err.errors;
-		console.log(errors);
 		const messages: string[] = Object.values(errors).map(
 			(i: Validator) => i.message!
 		);
 		return res.status(400).json({ errors: { message: messages[0] } });
+	}
+
+	if (err.name === "MongoServerError" && err.code) {
+		return res
+			.status(400)
+			.json({ errors: { message: "User already exist" } });
 	}
 
 	if (err.name === "MongooseError") {
@@ -36,7 +40,3 @@ const error_handler = (
 };
 
 export default error_handler;
-// this function helps to get any type of parameter and pass it to CastError type without asking missing values in type Error
-const sendCastError = (err: any) => {
-	return err;
-};

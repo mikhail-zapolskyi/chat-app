@@ -13,10 +13,9 @@ const register = async (req: Request, res: Response, next: NextFunction) => {
 		return next(new BadRequest(errors[0]));
 	}
 
-	const user = await User.create({ email, password });
+	const user = new User({ email, password });
 
-	await user
-		.save()
+	user.save()
 		.then((data) => {
 			console.log(data);
 			req.session = user;

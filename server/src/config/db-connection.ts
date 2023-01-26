@@ -6,27 +6,27 @@ interface IConnectionResult {
 	dbName: string;
 }
 
-const username: string = process.env.DB_USERNAME!;
-const password: string = process.env.DB_PASSWORD!;
-const cluster: string = process.env.DB_CLUSTER!;
+const DB_URL: string = process.env.DB_URL!;
 
-const dbConnection = () =>
-	mongoose.createConnection(
-		`mongodb+srv://${username}:${password}@${cluster}/?retryWrites=true&w=majority`,
-		{ dbName: "chat" },
-		(err, res) => {
+const dbConnection = () => {
+	mongoose
+		.connect(DB_URL, { dbName: "chat" })
+		.then((res) => {
+			if (res.connection.readyState === 1) {
+				const result: IConnectionResult = {
+					connection: "Connection to db successfull",
+					state: res.connection.readyState,
+					dbName: res.connection.db.namespace,
+				};
+
+				console.log(result);
+			}
+		})
+		.catch((err) => {
 			if (err) {
 				console.log(err);
 			}
-
-			const result: IConnectionResult = {
-				connection: "Connection to db successfull",
-				state: res.readyState!,
-				dbName: res.name!,
-			};
-
-			return result;
-		}
-	);
+		});
+};
 
 export default dbConnection;

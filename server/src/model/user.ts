@@ -5,7 +5,11 @@ import { IUser } from "../interface";
 const userSchema = new Schema<IUser>(
 	{
 		name: { type: String },
-		email: { type: String, required: [true, "Please provide an email"] },
+		email: {
+			type: String,
+			unique: true,
+			required: [true, "Please provide an email"],
+		},
 		avatar: String,
 		password: {
 			type: String,
