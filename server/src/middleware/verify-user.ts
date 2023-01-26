@@ -1,9 +1,13 @@
 import { Request, Response, NextFunction, request } from "express";
 import jwt from "jsonwebtoken";
 import { AuthError } from "../errors";
-import { IUser } from "../interface";
 
-interface IToken {
+interface IGlobalUser {
+	email: string;
+	id: string;
+}
+
+interface ITokenPayload {
 	user: {
 		email: string;
 		id: string;
@@ -13,13 +17,12 @@ interface IToken {
 declare global {
 	namespace Express {
 		interface Request {
-			user: IUser;
+			user?: IGlobalUser | null;
 		}
 	}
 }
 
 const verify_user = (req: Request, res: Response, next: NextFunction) => {
-	console.log("verify");
 	if (!req.session?.chatToken) {
 		return res.json({ user: null });
 	}
@@ -28,13 +31,14 @@ const verify_user = (req: Request, res: Response, next: NextFunction) => {
 		const token = jwt.verify(
 			req.session?.chatToken,
 			process.env.COOKIE_SECRET!
-		) as IToken;
+		) as ITokenPayload;
 
 		req.user = token.user;
-		res.json({ user: req.user });
 	} catch (error) {
 		return next(new AuthError("You are not authenticated"));
 	}
+
+	next();
 };
 
 export default verify_user;

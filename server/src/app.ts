@@ -1,4 +1,4 @@
-import express, { urlencoded } from "express";
+import express from "express";
 import cors from "cors";
 import { corsOptions, dbConnection } from "./config";
 import cookieSession from "cookie-session";
@@ -11,7 +11,7 @@ app.use(express.json());
 app.use(cors(corsOptions));
 app.use(
 	cookieSession({
-		name: "user",
+		name: "chatToken",
 		secret: process.env.COOKIE_SECRET,
 	})
 );

@@ -1,7 +1,7 @@
 import { Router, Response, Request, NextFunction } from "express";
-import { register } from "../controlers/auth";
-import { verify_user } from "../middleware";
+import { register, login, user } from "../controlers/auth";
 import { check } from "express-validator";
+import { validation_result, verify_user } from "../middleware";
 
 const router = Router();
 
@@ -16,20 +16,23 @@ router.post(
 		.exists()
 		.custom((value, { req }) => value === req.body.password)
 		.withMessage("Password and confirm password must match"),
+	validation_result,
 	register
 );
 
 router.post(
 	"/login",
+	check("email").isEmail().withMessage("Email format is incorrect"),
+	check("password").exists().withMessage("Please type your password"),
+	validation_result,
 	verify_user,
-	(req: Request, res: Response, next: NextFunction) => {
-		console.log("works");
-		res.send("Login");
-	}
+	login
 );
 
 router.post("/logout", (req: Request, res: Response, next: NextFunction) => {
 	res.send("Logout");
 });
+
+router.get("/", verify_user, user);
 
 export default router;
