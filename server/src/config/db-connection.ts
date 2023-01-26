@@ -2,7 +2,6 @@ import mongoose from "mongoose";
 
 interface IConnectionResult {
 	connection: string;
-	state: number;
 	dbName: string;
 }
 
@@ -16,7 +15,6 @@ const dbConnection = () => {
 			if (res.connection.readyState === 1) {
 				const result: IConnectionResult = {
 					connection: "Connection to db successfull",
-					state: res.connection.readyState,
 					dbName: res.connection.db.namespace,
 				};
 

@@ -1,6 +1,7 @@
 import { Router, Response, Request, NextFunction } from "express";
 import { register } from "../controlers/auth";
-import { body, check } from "express-validator";
+import { verify_user } from "../middleware";
+import { check } from "express-validator";
 
 const router = Router();
 
@@ -18,9 +19,14 @@ router.post(
 	register
 );
 
-router.post("/login", (req: Request, res: Response, next: NextFunction) => {
-	res.send("Login");
-});
+router.post(
+	"/login",
+	verify_user,
+	(req: Request, res: Response, next: NextFunction) => {
+		console.log("works");
+		res.send("Login");
+	}
+);
 
 router.post("/logout", (req: Request, res: Response, next: NextFunction) => {
 	res.send("Logout");
