@@ -11,7 +11,7 @@ const register = async (req: Request, res: Response, next: NextFunction) => {
 		.then((data) => {
 			const chatToken = jwt.sign(
 				{
-					exp: Math.floor(Date.now() / 1000) + 3600,
+					exp: Math.floor(Date.now() / 1000) + 3600, // 1 hour
 					user,
 				},
 				process.env.COOKIE_SECRET!

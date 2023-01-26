@@ -1,5 +1,5 @@
 import { Router, Response, Request, NextFunction } from "express";
-import { register, login, user } from "../controlers/auth";
+import { register, login, user, logout } from "../controlers/auth";
 import { check } from "express-validator";
 import { validation_result, verify_user } from "../middleware";
 
@@ -21,7 +21,6 @@ router.post(
 	validation_result,
 	register
 );
-
 router.post(
 	"/login",
 	check("email").isEmail().withMessage("Email format is incorrect"),
@@ -32,11 +31,7 @@ router.post(
 	validation_result,
 	login
 );
-
-router.post("/logout", (req: Request, res: Response, next: NextFunction) => {
-	res.send("Logout");
-});
-
+router.post("/logout", logout);
 router.get("/", verify_user, user);
 
 export default router;

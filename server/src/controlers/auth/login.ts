@@ -21,14 +21,14 @@ const login = async (req: Request, res: Response, next: NextFunction) => {
 
 	const chatToken = jwt.sign(
 		{
-			exp: Math.floor(Date.now() / 1000) + 3600,
+			exp: Math.floor(Date.now() / 1000) + 3600, // 1 hour
 			user,
 		},
 		process.env.COOKIE_SECRET!
 	);
 
 	req.session = { chatToken };
-	res.json(user);
+	res.json({ user, message: "You succesfully logged in" });
 };
 
 export default login;
