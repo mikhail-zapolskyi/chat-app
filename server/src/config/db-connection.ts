@@ -9,6 +9,7 @@ interface IConnectionResult {
 const DB_URL: string = process.env.DB_URL!;
 
 const dbConnection = () => {
+	mongoose.set("strictQuery", false);
 	mongoose
 		.connect(DB_URL, { dbName: "chat" })
 		.then((res) => {
