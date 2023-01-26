@@ -1,27 +1,34 @@
 import { Request, Response, NextFunction } from "express";
-import { validationResult } from "express-validator";
+import jwt from "jsonwebtoken";
 import { User } from "../../model/user";
-import { BadRequest } from "../../errors";
+import { BadRequest, AuthError } from "../../errors";
+import { Password } from "../../service";
 
 const login = async (req: Request, res: Response, next: NextFunction) => {
 	const { email, password } = req.body;
 
-	const errors: string[] = validationResult(req)
-		.array()
-		.map((i) => i.msg);
-
-	if (errors.length > 0) {
-		return next(new BadRequest(errors[0]));
-	}
-
-	if (req.user) {
-		console.log("req.user");
-		res.json({ user: req.user });
-	}
-
 	const user = await User.findOne({ email });
-	console.log("user");
-	res.json({ user: user || null });
+
+	if (!user) {
+		return next(new BadRequest("User not found"));
+	}
+
+	const isPasswordCorrect = await Password.verify(password, user.password);
+
+	if (!isPasswordCorrect) {
+		return next(new AuthError("Please provide correct password"));
+	}
+
+	const chatToken = jwt.sign(
+		{
+			exp: Math.floor(Date.now() / 1000) + 3600,
+			user,
+		},
+		process.env.COOKIE_SECRET!
+	);
+
+	req.session = { chatToken };
+	res.json(user);
 };
 
 export default login;

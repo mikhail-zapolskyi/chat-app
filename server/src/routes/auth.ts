@@ -10,10 +10,12 @@ router.post(
 	check("email").isEmail().withMessage("Email format is incorrect"),
 	check("password")
 		.exists()
+		.notEmpty()
 		.isLength({ min: 5 })
 		.withMessage("Password must be at least 5 characters"),
 	check("confirmPassword")
 		.exists()
+		.notEmpty()
 		.custom((value, { req }) => value === req.body.password)
 		.withMessage("Password and confirm password must match"),
 	validation_result,
@@ -23,9 +25,11 @@ router.post(
 router.post(
 	"/login",
 	check("email").isEmail().withMessage("Email format is incorrect"),
-	check("password").exists().withMessage("Please type your password"),
+	check("password")
+		.exists()
+		.notEmpty()
+		.withMessage("Please type correct password"),
 	validation_result,
-	verify_user,
 	login
 );
 

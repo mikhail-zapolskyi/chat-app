@@ -7,11 +7,10 @@ const validation_result = async (
 	res: Response,
 	next: NextFunction
 ) => {
-	const errors: string[] = validationResult(req)
-		.array()
-		.map((i) => i.msg);
+	const validation = validationResult(req);
+	const errors: string[] = validation.array().map((i) => i.msg);
 
-	if (errors.length > 0) {
+	if (!validation.isEmpty()) {
 		return next(new BadRequest(errors[0]));
 	}
 
