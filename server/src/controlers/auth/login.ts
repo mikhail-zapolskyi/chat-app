@@ -28,7 +28,7 @@ const login = async (req: Request, res: Response, next: NextFunction) => {
 	);
 
 	req.session = { chatToken };
-	res.json({ user, message: "You succesfully logged in" });
+	res.status(200).json({ user, message: "You succesfully logged in" });
 };
 
 export default login;

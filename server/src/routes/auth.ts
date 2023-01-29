@@ -1,12 +1,12 @@
 import { Router, Response, Request, NextFunction } from "express";
-import { register, login, user, logout } from "../controlers/auth";
+import { register, login, user, logout } from "../controlers";
 import { check } from "express-validator";
 import { validation_result, verify_user } from "../middleware";
 
-const router = Router();
+const router: Router = Router();
 
 router.post(
-	"/register",
+	"/api/register",
 	check("email").isEmail().withMessage("Email format is incorrect"),
 	check("password")
 		.exists()
@@ -22,7 +22,7 @@ router.post(
 	register
 );
 router.post(
-	"/login",
+	"/api/login",
 	check("email").isEmail().withMessage("Email format is incorrect"),
 	check("password")
 		.exists()
@@ -31,7 +31,7 @@ router.post(
 	validation_result,
 	login
 );
-router.post("/logout", logout);
-router.get("/", verify_user, user);
+router.post("/api/logout", logout);
+router.get("/api/user", verify_user, user);
 
 export default router;

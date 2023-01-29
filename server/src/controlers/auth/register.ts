@@ -18,7 +18,10 @@ const register = async (req: Request, res: Response, next: NextFunction) => {
 			);
 
 			req.session = { chatToken };
-			res.json({ user: data, message: "You succefully registred" });
+			res.status(201).json({
+				user: data,
+				message: "You succefully registred",
+			});
 		})
 		.catch((err) => {
 			return next(err);
