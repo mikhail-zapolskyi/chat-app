@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-const LoginPage = () => {
+const Login = () => {
 	const [auth, setAuth] = useState({ username: "", password: "" });
 
 	const handleSubmit = (event: React.FormEvent) => {
@@ -16,27 +16,33 @@ const LoginPage = () => {
 
 	return (
 		<div className="container-fs">
-			<form onSubmit={handleSubmit} className="login-form">
+			<form onSubmit={handleSubmit} className="auth-form">
 				<input
 					type="text"
+					name="username"
 					placeholder="Username"
 					value={auth.username}
 					onChange={handle_auth_state}
-					className="login-form__input login-form__username"
+					className="auth-form__input auth-form__username"
 				/>
 				<input
 					type="password"
+					name="password"
 					placeholder="Password"
 					value={auth.password}
 					onChange={handle_auth_state}
-					className="login-form__input login-form__password"
+					className="auth-form__input auth-form__password"
 				/>
-				<button type="submit" className="login-form__btn btn">
+				<button type="submit" className="auth-form__btn btn">
 					Login
 				</button>
+				<p>
+					Don't have an account.
+					<a href="/register">Register</a>
+				</p>
 			</form>
 		</div>
 	);
 };
 
-export default LoginPage;
+export default Login;

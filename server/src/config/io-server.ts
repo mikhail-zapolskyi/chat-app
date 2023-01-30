@@ -1,5 +1,6 @@
 import { Server } from "socket.io";
 import http from "http";
+import cors from "cors";
 
 const ioServer = (server: http.Server) => {
 	interface ServerToClientEvents {
@@ -26,7 +27,11 @@ const ioServer = (server: http.Server) => {
 		ServerToClientEvents,
 		InterServerEvents,
 		SocketData
-	>(server);
+	>(server, {
+		cors: {
+			origin: "http://localhost:3000",
+		},
+	});
 
 	return io;
 };
