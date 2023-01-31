@@ -1,9 +1,18 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useAppSelector } from "../redux/hooks";
 import io from "socket.io-client";
 
 const Chat = () => {
+	const { user } = useAppSelector((state) => state.auth);
 	const [message, setMessage] = useState("");
+	const [chatMessage, setChatMessage] = useState([]);
 	const socket = io("http://localhost:4000");
+
+	useEffect(() => {
+		socket.on("message", (msg) => {
+			setChatMessage([...chatMessage, { user: "main", msg }]);
+		});
+	}, [socket]);
 
 	const handleMessageState = (e) => {
 		e.preventDefault();
@@ -13,7 +22,7 @@ const Chat = () => {
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
-		socket.emit("message", message);
+		socket.emit("message", message, user?.id);
 
 		socket.on("disconnect", () => {
 			console.log("disconnected"); // undefined
@@ -22,38 +31,28 @@ const Chat = () => {
 		setMessage("");
 	};
 
+	const generate_id = () => {
+		return `id_${(Math.random() * 10000000000).toFixed(0)}`;
+	};
+
 	return (
 		<div className="chat">
-			<div className="chat-contacts"></div>
+			<div className="chat-contacts">
+				<p>{user && user.email}</p>
+			</div>
 			<div className="chat-messageBoard">
 				<ul className="chat-messageBoard__messages">
-					<li className={`chat-messageBoard__user-message`}>
-						<h3>Avatar</h3>
-						<p>
-							Lorem ipsum dolor sit amet consectetur
-							adipisicing elit. Sunt, at.
-						</p>
-					</li>
-					<li className={`chat-messageBoard__contact-message`}>
-						<h3>Avatar</h3>
-						<p>
-							Lorem ipsum dolor sit amet consectetur,
-							adipisicing elit. Dolorem earum inventore
-							quidem illum dolore?
-						</p>
-					</li>
-					<li className={`chat-messageBoard__user-message`}>
-						<h3>Avatar</h3>
-						<p>
-							Lorem ipsum dolor sit amet consectetur
-							adipisicing elit. Vel incidunt modi nihil
-							fuga fugiat, libero iure soluta dolorem
-							dolores voluptate? Ab eius autem optio ipsam!
-							Facere alias molestias dolor, culpa est
-							recusandae soluta, laboriosam laudantium
-							corrupti repellat adipisci aut magni.
-						</p>
-					</li>
+					{chatMessage.map((msg) => {
+						return (
+							<li
+								className={`chat-messageBoard__user-message`}
+								key={generate_id()}
+							>
+								<h3>user</h3>
+								<p>{msg.msg}</p>
+							</li>
+						);
+					})}
 				</ul>
 			</div>
 			<div className="chat-input">

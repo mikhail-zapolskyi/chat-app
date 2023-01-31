@@ -12,13 +12,23 @@ const HomePage = () => {
 	return (
 		<div>
 			<h1>Welcome to Chat App. Please proceed to login page</h1>
-			<a href="/login" className="">
-				Login
-			</a>
+			{!user && (
+				<a href="/login" className="">
+					Login
+				</a>
+			)}
 			{user && (
-				<p onClick={handleLogOut} style={{ cursor: "pointer" }}>
-					Logout
-				</p>
+				<div>
+					<a href="/chat" className="">
+						Chat
+					</a>
+					<p
+						onClick={handleLogOut}
+						style={{ cursor: "pointer" }}
+					>
+						Logout
+					</p>
+				</div>
 			)}
 		</div>
 	);

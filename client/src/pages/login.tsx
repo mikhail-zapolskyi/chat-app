@@ -19,7 +19,7 @@ const Login = () => {
 		event.preventDefault();
 		dispatch(loginUser(auth)).then((res) => {
 			const { errors, message } = res.payload;
-			console.log(res);
+
 			if (errors) {
 				setError(errors.message);
 			} else {
