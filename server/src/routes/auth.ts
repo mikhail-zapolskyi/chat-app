@@ -1,4 +1,4 @@
-import { Router, Response, Request, NextFunction } from "express";
+import { Router } from "express";
 import { register, login, user, logout } from "../controlers";
 import { check } from "express-validator";
 import { validation_result, verify_user } from "../middleware";
