@@ -4,19 +4,37 @@ import { loginUser } from "../redux/authSlice";
 import { Message, Error } from "../components";
 
 const Login = () => {
-	const [auth, setAuth] = useState({ email: "", password: "" });
 	const dispatch = useAppDispatch();
-
-	const handleSubmit = (event: React.FormEvent) => {
-		event.preventDefault();
-		// Perform authentication here
-		dispatch(loginUser(auth));
-	};
+	const [auth, setAuth] = useState({ email: "", password: "" });
+	const [message, setMessage] = useState("");
+	const [error, setError] = useState("");
 
 	const handle_auth_state = (e) => {
 		e.preventDefault();
 
 		setAuth({ ...auth, [e.target.name]: e.target.value });
+	};
+
+	const handleSubmit = (event: React.FormEvent) => {
+		event.preventDefault();
+		dispatch(loginUser(auth)).then((res) => {
+			const { errors, message } = res.payload;
+			console.log(res);
+			if (errors) {
+				setError(errors.message);
+			} else {
+				setMessage(message);
+			}
+
+			clear_error_message();
+		});
+	};
+
+	const clear_error_message = () => {
+		setTimeout(() => {
+			setError("");
+			setMessage("");
+		}, 3000);
 	};
 
 	return (
@@ -48,8 +66,8 @@ const Login = () => {
 					</p>
 				</form>
 			</div>
-			{/* <Message message="Hello Message"></Message> */}
-			<Error message="hello Error"></Error>
+			{message && <Message message={message}></Message>}
+			{error && <Error message={error}></Error>}
 		</>
 	);
 };
