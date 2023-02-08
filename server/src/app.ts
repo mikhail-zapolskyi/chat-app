@@ -20,8 +20,8 @@ app.use(
 );
 
 io.on("connection", (socket) => {
-	socket.on("message", (message, user) => {
-		io.emit("message", { message, user });
+	socket.on("message", (message, room, user) => {
+		io.emit("message", { message, room, user });
 	});
 });
 

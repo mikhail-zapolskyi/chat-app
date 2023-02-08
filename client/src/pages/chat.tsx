@@ -1,10 +1,12 @@
 import { useState, useEffect } from "react";
 import { useAppSelector } from "../redux/hooks";
+import { useRouter } from "next/router";
 import io from "socket.io-client";
 
 const Chat = () => {
+	const router = useRouter();
 	const { user } = useAppSelector((state) => state.auth);
-	const [message, setMessage] = useState("");
+	const [inputMessage, setInputMessage] = useState("");
 	const [chatMessage, setChatMessage] = useState([]);
 	const socket = io("http://localhost:4000");
 
@@ -15,20 +17,27 @@ const Chat = () => {
 		});
 	}, [socket]);
 
+	useEffect(() => {
+		if (!user) {
+			router.push("/login");
+		}
+	}, [user]);
+
 	const handleMessageState = (e) => {
 		e.preventDefault();
-		setMessage(e.target.value);
+		setInputMessage(e.target.value);
 	};
 
 	const handleSubmit = (e) => {
+		const room = "room";
 		e.preventDefault();
-		socket.emit("message", message, user.id);
+		socket.emit("message", inputMessage, room, user.id);
 
 		socket.on("disconnect", () => {
 			console.log("disconnected"); // undefined
 		});
 
-		setMessage("");
+		setInputMessage("");
 	};
 
 	const generate_id = () => {
@@ -63,7 +72,7 @@ const Chat = () => {
 				<textarea
 					className="chat-input__textarea"
 					name="chat"
-					value={message}
+					value={inputMessage}
 					onChange={handleMessageState}
 				></textarea>
 				<button

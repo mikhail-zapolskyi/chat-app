@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import { useAppDispatch } from "../redux/hooks";
+import { useRouter } from "next/router";
 import { loginUser } from "../redux/authSlice";
 import { Message, Error } from "../components";
 
 const Login = () => {
 	const dispatch = useAppDispatch();
+	const router = useRouter();
 	const [auth, setAuth] = useState({ email: "", password: "" });
 	const [message, setMessage] = useState("");
 	const [error, setError] = useState("");
@@ -24,6 +26,9 @@ const Login = () => {
 				setError(errors.message);
 			} else {
 				setMessage(message);
+				setTimeout(() => {
+					router.push("/chat");
+				}, 500);
 			}
 
 			clear_error_message();
