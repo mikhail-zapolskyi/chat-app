@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import { useAppDispatch } from "../redux/hooks";
+import { useRouter } from "next/router";
 import { registerUser } from "../redux/authSlice";
 import { Message, Error } from "../components";
 
 const Register = () => {
+	const router = useRouter();
 	const dispatch = useAppDispatch();
 	const [auth, setAuth] = useState({
 		email: "",
@@ -35,6 +37,9 @@ const Register = () => {
 				setError(errors.message);
 			} else {
 				setMessage(message);
+				setTimeout(() => {
+					router.push("/chat");
+				}, 500);
 			}
 
 			clear_error_message();
