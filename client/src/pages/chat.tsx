@@ -9,20 +9,20 @@ const Chat = () => {
 	const socket = io("http://localhost:4000");
 
 	useEffect(() => {
-		socket.on("message", (msg) => {
-			setChatMessage([...chatMessage, { user: "main", msg }]);
+		socket.on("message", (data) => {
+			const { message, user } = data;
+			setChatMessage([...chatMessage, { user, message }]);
 		});
 	}, [socket]);
 
 	const handleMessageState = (e) => {
 		e.preventDefault();
-
 		setMessage(e.target.value);
 	};
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
-		socket.emit("message", message, user?.id);
+		socket.emit("message", message, user.id);
 
 		socket.on("disconnect", () => {
 			console.log("disconnected"); // undefined
@@ -45,11 +45,15 @@ const Chat = () => {
 					{chatMessage.map((msg) => {
 						return (
 							<li
-								className={`chat-messageBoard__user-message`}
+								className={
+									user.id === msg.user
+										? `chat-messageBoard__user-message`
+										: `chat-messageBoard__contact-message`
+								}
 								key={generate_id()}
 							>
-								<h3>user</h3>
-								<p>{msg.msg}</p>
+								<h3>{msg.user}</h3>
+								<p>{msg.message}</p>
 							</li>
 						);
 					})}

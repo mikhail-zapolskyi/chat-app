@@ -21,9 +21,7 @@ app.use(
 
 io.on("connection", (socket) => {
 	socket.on("message", (message, user) => {
-		console.log(user);
-		console.log(message);
-		io.emit("message", message);
+		io.emit("message", { message, user });
 	});
 });
 
