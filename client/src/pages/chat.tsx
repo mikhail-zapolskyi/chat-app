@@ -1,22 +1,25 @@
 import { useState, useEffect } from "react";
-import { useAppSelector } from "../redux/hooks";
+import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import { useRouter } from "next/router";
 import io from "socket.io-client";
 import { v4 as uuid } from "uuid";
+import { LogoutBtn, ContactBoard } from "../components";
+import { logoutUser } from "../redux/authSlice";
 
 const Chat = () => {
 	const router = useRouter();
+	const dispatch = useAppDispatch();
 	const { user } = useAppSelector((state) => state.auth);
 	const [inputMessage, setInputMessage] = useState("");
 	const [chatMessage, setChatMessage] = useState([]);
 	const socket = io("http://localhost:4000");
 
-	useEffect(() => {
-		socket.on("message", (data) => {
-			const { message, room, user } = data;
-			setChatMessage([...chatMessage, { user, room, message }]);
-		});
-	}, [socket]);
+	// useEffect(() => {
+	// 	socket.on("message", (data) => {
+	// 		const { message, room, user } = data;
+	// 		setChatMessage([...chatMessage, { user, room, message }]);
+	// 	});
+	// }, [socket]);
 
 	useEffect(() => {
 		const checkAuth = setTimeout(() => {
@@ -63,10 +66,18 @@ const Chat = () => {
 		return `id_${(Math.random() * 10000000000).toFixed(0)}`;
 	};
 
+	const logout = (e) => {
+		e.preventDefault();
+		dispatch(logoutUser());
+	};
+
 	return (
 		<div className="chat">
 			<div className="chat-contacts">
-				<p>{user && user.email}</p>
+				<ContactBoard>
+					<p>{user && user.email}</p>
+					<LogoutBtn onclick={logout}></LogoutBtn>
+				</ContactBoard>
 			</div>
 			<div className="chat-messageBoard">
 				<ul className="chat-messageBoard__messages">

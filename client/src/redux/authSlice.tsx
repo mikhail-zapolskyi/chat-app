@@ -45,6 +45,7 @@ export const registerUser = createAsyncThunk(
 );
 
 export const logoutUser = createAsyncThunk("auth/logoutUser", async () => {
+	console.log("work front");
 	const response = await fetch(`http://localhost:4000/api/logout`, {
 		method: "POST",
 		credentials: "include",
@@ -62,28 +63,20 @@ export const authSlice = createSlice({
 	reducers: {},
 	extraReducers: (builder) => {
 		// CHECK IF USER STILL LOGEDIN
-		builder.addCase(fetchUser.pending, (state, action) => {});
 		builder.addCase(fetchUser.fulfilled, (state, { payload }) => {
 			state.user = payload.user;
 		});
-		builder.addCase(fetchUser.rejected, (state, action) => {});
 		// LOGIN USER
-		builder.addCase(loginUser.pending, (state, action) => {});
 		builder.addCase(loginUser.fulfilled, (state, { payload }) => {
 			state.user = payload.user;
 		});
-		builder.addCase(loginUser.rejected, (state, action) => {});
 		// REGISTER USER
-		builder.addCase(registerUser.pending, (state, action) => {});
 		builder.addCase(registerUser.fulfilled, (state, { payload }) => {
 			state.user = payload.user;
 		});
-		builder.addCase(registerUser.rejected, (state, action) => {});
 		// LOGOUT USER
-		builder.addCase(logoutUser.pending, (state, action) => {});
 		builder.addCase(logoutUser.fulfilled, (state, { payload }) => {
 			state.user = payload.user;
 		});
-		builder.addCase(logoutUser.rejected, (state, action) => {});
 	},
 });
