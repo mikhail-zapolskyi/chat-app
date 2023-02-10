@@ -19,9 +19,13 @@ const Chat = () => {
 	}, [socket]);
 
 	useEffect(() => {
-		if (!user) {
-			router.push("/login");
-		}
+		const checkAuth = setTimeout(() => {
+			if (!user) {
+				router.push("/login");
+			}
+		}, 500);
+
+		return () => clearTimeout(checkAuth);
 	}, [user]);
 
 	const handleMessageState = (e) => {
