@@ -3,16 +3,18 @@ import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import { useRouter } from "next/router";
 import io from "socket.io-client";
 import { v4 as uuid } from "uuid";
-import { LogoutBtn, ContactBoard } from "../components";
+import { LogoutBtn, ContactBoard, SearchContacts } from "../components";
 import { logoutUser } from "../redux/authSlice";
 
 const Chat = () => {
 	const router = useRouter();
 	const dispatch = useAppDispatch();
 	const { user } = useAppSelector((state) => state.auth);
+	const socket = io("http://localhost:4000");
+
 	const [inputMessage, setInputMessage] = useState("");
 	const [chatMessage, setChatMessage] = useState([]);
-	const socket = io("http://localhost:4000");
+	const [search, setSearch] = useState("");
 
 	// useEffect(() => {
 	// 	socket.on("message", (data) => {
@@ -31,9 +33,16 @@ const Chat = () => {
 		return () => clearTimeout(checkAuth);
 	}, [user]);
 
-	const handleMessageState = (e) => {
+	const handleInputs = (e) => {
 		e.preventDefault();
-		setInputMessage(e.target.value);
+
+		if (e.target.name === "search") {
+			setSearch(e.target.value);
+		}
+
+		if (e.target.name === "chat_msg") {
+			setInputMessage(e.target.value);
+		}
 	};
 
 	const handleSubmit = async (e) => {
@@ -75,7 +84,15 @@ const Chat = () => {
 		<div className="chat">
 			<div className="chat-contacts">
 				<ContactBoard>
-					<p>{user && user.email}</p>
+					<div>
+						<p>{user && user.email}</p>
+						<SearchContacts
+							value={search}
+							onchange={handleInputs}
+							onclick={() => console.log("search")}
+						/>
+						<h3>Contacts</h3>
+					</div>
 					<LogoutBtn onclick={logout}></LogoutBtn>
 				</ContactBoard>
 			</div>
@@ -101,9 +118,9 @@ const Chat = () => {
 			<div className="chat-input">
 				<textarea
 					className="chat-input__textarea"
-					name="chat"
+					name="chat_msg"
 					value={inputMessage}
-					onChange={handleMessageState}
+					onChange={handleInputs}
 				></textarea>
 				<button
 					className="chat-input__btn btn"
