@@ -1,6 +1,7 @@
-import express, { Request, Response } from "express";
+import express, { NextFunction, Request, Response } from "express";
 import http from "http";
 import cors from "cors";
+import { Server } from "socket.io";
 import { corsOptions, dbConnection, ioServer } from "./config";
 import cookieSession from "cookie-session";
 import router from "./routes";
@@ -19,15 +20,10 @@ app.use(
 	})
 );
 
-io.on("connection", (socket) => {
-	socket.on("message", (message, room, user) => {
-		io.emit("message", { message, room, user });
-	});
-});
-
 dbConnection();
 
 app.use("/", router);
+
 app.use(error_handler);
 
 export default server;

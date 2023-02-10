@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import { User } from "../../model/user";
+import { User } from "../../model";
 import jwt from "jsonwebtoken";
 
 const register = async (req: Request, res: Response, next: NextFunction) => {

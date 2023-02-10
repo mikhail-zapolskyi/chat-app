@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useAppSelector } from "../redux/hooks";
 import { useRouter } from "next/router";
 import io from "socket.io-client";
+import { v4 as uuid } from "uuid";
 
 const Chat = () => {
 	const router = useRouter();
@@ -12,8 +13,8 @@ const Chat = () => {
 
 	useEffect(() => {
 		socket.on("message", (data) => {
-			const { message, user } = data;
-			setChatMessage([...chatMessage, { user, message }]);
+			const { message, room, user } = data;
+			setChatMessage([...chatMessage, { user, room, message }]);
 		});
 	}, [socket]);
 
@@ -28,16 +29,30 @@ const Chat = () => {
 		setInputMessage(e.target.value);
 	};
 
-	const handleSubmit = (e) => {
-		const room = "room";
+	const handleSubmit = async (e) => {
 		e.preventDefault();
-		socket.emit("message", inputMessage, room, user.id);
+		const room = uuid();
+		console.log(room);
+		console.log(inputMessage);
 
-		socket.on("disconnect", () => {
-			console.log("disconnected"); // undefined
-		});
-
-		setInputMessage("");
+		await fetch("http://localhost:4000/api/chat", {
+			method: "POST",
+			credentials: "include",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify({
+				message: inputMessage,
+				room,
+				user: user.id,
+			}),
+		})
+			.then(() => {
+				setInputMessage("");
+			})
+			.catch((err) => {
+				console.log(err);
+			});
 	};
 
 	const generate_id = () => {

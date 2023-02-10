@@ -15,7 +15,13 @@ const userSchema = new Schema<IUser>(
 			type: String,
 			required: [true, "Please provide a password"],
 		},
-		contacts: [{ name: String, email: String, id: String }],
+		contacts: [
+			{
+				name: String,
+				email: String,
+				id: String,
+			},
+		],
 	},
 	{
 		collection: "users",
@@ -41,4 +47,6 @@ userSchema.pre("save", async function (done) {
 	done();
 });
 
-export const User = model<IUser>("User", userSchema);
+const User = model<IUser>("User", userSchema);
+
+export default User;
