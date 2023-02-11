@@ -3,13 +3,7 @@ interface IUser {
 	email: string;
 	avatar?: string;
 	password: string;
-	contacts?: [
-		{
-			name: string;
-			email: string;
-			id: string;
-		}
-	];
+	contacts?: [];
 }
 
 export default IUser;
