@@ -5,15 +5,15 @@ const SearchContacts = ({ onchange, value, onclick }) => {
 		<div className={styles.search}>
 			<input
 				type="text"
-				name="search"
+				name="searchInput"
 				value={value}
 				onChange={onchange}
 				className={styles.searchInput}
+				placeholder="Search Contact By Email"
 			/>
 			<button className={`btn ${styles.searchBtn}`} onClick={onclick}>
 				Search
 			</button>
-			<p>Result</p>
 		</div>
 	);
 };

@@ -1,20 +1,26 @@
 import { useState, useEffect } from "react";
-import { useAppDispatch, useAppSelector } from "../redux/hooks";
+import { useAppSelector } from "../redux/hooks";
 import { useRouter } from "next/router";
 import io from "socket.io-client";
 import { v4 as uuid } from "uuid";
-import { LogoutBtn, ContactBoard, SearchContacts } from "../components";
-import { logoutUser } from "../redux/authSlice";
+import {
+	LogoutBtn,
+	ContactBoard,
+	SearchContacts,
+	SearchContactResult,
+	Error,
+} from "../components";
 
 const Chat = () => {
 	const router = useRouter();
-	const dispatch = useAppDispatch();
 	const { user } = useAppSelector((state) => state.auth);
 	const socket = io("http://localhost:4000");
 
 	const [inputMessage, setInputMessage] = useState("");
 	const [chatMessage, setChatMessage] = useState([]);
-	const [search, setSearch] = useState("");
+	const [searchInput, setSearchInput] = useState("");
+	const [searchResult, setSearchResult] = useState({});
+	const [error, setError] = useState("");
 
 	// useEffect(() => {
 	// 	socket.on("message", (data) => {
@@ -36,8 +42,8 @@ const Chat = () => {
 	const handleInputs = (e) => {
 		e.preventDefault();
 
-		if (e.target.name === "search") {
-			setSearch(e.target.value);
+		if (e.target.name === "searchInput") {
+			setSearchInput(e.target.value);
 		}
 
 		if (e.target.name === "chat_msg") {
@@ -75,9 +81,41 @@ const Chat = () => {
 		return `id_${(Math.random() * 10000000000).toFixed(0)}`;
 	};
 
-	const logout = (e) => {
-		e.preventDefault();
-		dispatch(logoutUser());
+	const find_contact = async () => {
+		fetch("http://localhost:4000/api/find-contact", {
+			method: "POST",
+			credentials: "include",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify({
+				email: searchInput,
+			}),
+		})
+			.then((res) => {
+				return res.json();
+			})
+			.then((data) => {
+				if (data.errors) {
+					setError(data.errors.message);
+					clear_error_message();
+				}
+
+				if (data.contact) {
+					setSearchResult(data.contact);
+					setSearchInput("");
+				}
+			});
+	};
+
+	const clear_error_message = () => {
+		setTimeout(() => {
+			setError("");
+		}, 3000);
+	};
+
+	const clearContact = () => {
+		setSearchResult({});
 	};
 
 	return (
@@ -87,13 +125,19 @@ const Chat = () => {
 					<div>
 						<p>{user && user.email}</p>
 						<SearchContacts
-							value={search}
+							value={searchInput}
 							onchange={handleInputs}
-							onclick={() => console.log("search")}
+							onclick={find_contact}
+						/>
+						{error && <Error message={error} />}
+						<SearchContactResult
+							contact={searchResult}
+							addContact={() => console.log("add")}
+							clearContact={clearContact}
 						/>
 						<h3>Contacts</h3>
 					</div>
-					<LogoutBtn onclick={logout}></LogoutBtn>
+					<LogoutBtn />
 				</ContactBoard>
 			</div>
 			<div className="chat-messageBoard">
@@ -114,20 +158,20 @@ const Chat = () => {
 						);
 					})}
 				</ul>
-			</div>
-			<div className="chat-input">
-				<textarea
-					className="chat-input__textarea"
-					name="chat_msg"
-					value={inputMessage}
-					onChange={handleInputs}
-				></textarea>
-				<button
-					className="chat-input__btn btn"
-					onClick={handleSubmit}
-				>
-					Send
-				</button>
+				<div className="chat-input">
+					<textarea
+						className="chat-input__textarea"
+						name="chat_msg"
+						value={inputMessage}
+						onChange={handleInputs}
+					></textarea>
+					<button
+						className="chat-input__btn btn"
+						onClick={handleSubmit}
+					>
+						Send
+					</button>
+				</div>
 			</div>
 		</div>
 	);

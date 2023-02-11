@@ -10,7 +10,9 @@ const find = async (req: Request, res: Response, next: NextFunction) => {
 		return next(new BadRequest("Contact not found"));
 	}
 
-	res.status(200).json({ contact });
+	res.status(200).json({
+		contact: { email: contact.email, id: contact.id },
+	});
 };
 
 export default find;

@@ -5,14 +5,20 @@
 }
 
 .search * {
-	margin-top: 1rem;
+	margin-top: 0.5rem;
 }
 
 .searchInput {
 	border-style: none;
-	padding: 1rem;
+	border-radius: 0.3rem;
+	padding: 0.5rem;
 }
 
 .searchBtn {
 	color: black;
+	justify-self: center;
+}
+
+.searchResult {
+	justify-self: center;
 }
