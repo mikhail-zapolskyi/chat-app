@@ -3,6 +3,7 @@ import { User } from "../../model";
 
 const add_contact = async (req: Request, res: Response, next: NextFunction) => {
 	const { id } = req.body;
+
 	const contact = await User.findOne({
 		_id: id,
 	});
@@ -22,8 +23,8 @@ const add_contact = async (req: Request, res: Response, next: NextFunction) => {
 			},
 			{ new: true }
 		);
-
 		res.status(200).json({ user, message: "Contact added" });
+		// res.status(200).json({ user, message: "Contact added" });
 	} catch (error) {
 		next(error);
 	}

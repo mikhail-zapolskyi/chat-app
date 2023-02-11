@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useAppSelector } from "../redux/hooks";
+import { useAppSelector, useAppDispatch } from "../redux/hooks";
 import { useRouter } from "next/router";
 import io from "socket.io-client";
 import { v4 as uuid } from "uuid";
@@ -10,16 +10,18 @@ import {
 	SearchContactResult,
 	Error,
 } from "../components";
+import { addContact } from "../redux/authSlice";
 
 const Chat = () => {
 	const router = useRouter();
+	const dispatch = useAppDispatch();
 	const { user } = useAppSelector((state) => state.auth);
 	const socket = io("http://localhost:4000");
 
 	const [inputMessage, setInputMessage] = useState("");
 	const [chatMessage, setChatMessage] = useState([]);
 	const [searchInput, setSearchInput] = useState("");
-	const [searchResult, setSearchResult] = useState({});
+	const [searchResult, setSearchResult] = useState({ id: "", email: "" });
 	const [error, setError] = useState("");
 
 	// useEffect(() => {
@@ -108,14 +110,19 @@ const Chat = () => {
 			});
 	};
 
+	const add_contact = () => {
+		dispatch(addContact({ id: searchResult.id }));
+		clear_contact();
+	};
+
 	const clear_error_message = () => {
 		setTimeout(() => {
 			setError("");
 		}, 3000);
 	};
 
-	const clearContact = () => {
-		setSearchResult({});
+	const clear_contact = () => {
+		setSearchResult({ id: "", email: "" });
 	};
 
 	return (
@@ -130,12 +137,22 @@ const Chat = () => {
 							onclick={find_contact}
 						/>
 						{error && <Error message={error} />}
-						<SearchContactResult
-							contact={searchResult}
-							addContact={() => console.log("add")}
-							clearContact={clearContact}
-						/>
+						{searchResult.id && (
+							<SearchContactResult
+								contact={searchResult}
+								clearContact={clear_contact}
+								addContact={add_contact}
+							/>
+						)}
 						<h3>Contacts</h3>
+						{user &&
+							user.contacts.map((contact) => {
+								return (
+									<p key={contact.id}>
+										{contact.email}
+									</p>
+								);
+							})}
 					</div>
 					<LogoutBtn />
 				</ContactBoard>

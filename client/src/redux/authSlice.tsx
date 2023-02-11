@@ -6,6 +6,10 @@ interface IAuth {
 	confirmPassword?: string;
 }
 
+interface IContact {
+	id: string;
+}
+
 export const fetchUser = createAsyncThunk("auth/fetchUser", async () => {
 	const response = await fetch(`http://localhost:4000/api/user`, {
 		method: "GET",
@@ -57,6 +61,25 @@ export const logoutUser = createAsyncThunk("auth/logoutUser", async () => {
 	return await response.json();
 });
 
+export const addContact = createAsyncThunk(
+	"auth/addContact",
+	async (id: IContact) => {
+		const response = await fetch(
+			`http://localhost:4000/api/add-contact`,
+			{
+				method: "PATCH",
+				credentials: "include",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify(id),
+			}
+		);
+
+		return response.json();
+	}
+);
+
 export const authSlice = createSlice({
 	name: "auth",
 	initialState: { user: null },
@@ -70,12 +93,19 @@ export const authSlice = createSlice({
 		builder.addCase(loginUser.fulfilled, (state, { payload }) => {
 			state.user = payload.user;
 		});
+		builder.addCase(loginUser.rejected, (state, { payload }) => {
+			state.user = payload;
+		});
 		// REGISTER USER
 		builder.addCase(registerUser.fulfilled, (state, { payload }) => {
 			state.user = payload.user;
 		});
 		// LOGOUT USER
 		builder.addCase(logoutUser.fulfilled, (state, { payload }) => {
+			state.user = payload.user;
+		});
+		// ADD CONTACT
+		builder.addCase(addContact.fulfilled, (state, { payload }) => {
 			state.user = payload.user;
 		});
 	},
