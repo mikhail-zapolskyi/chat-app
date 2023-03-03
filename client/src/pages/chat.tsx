@@ -10,6 +10,7 @@ import {
 	SearchContactResult,
 	Error,
 	ContactTab,
+	UserTab,
 } from "../components";
 import { addContact } from "../redux/authSlice";
 
@@ -188,6 +189,7 @@ const Chat = () => {
 			</div>
 			{room && (
 				<div className="chat-messageBoard">
+					<UserTab contacts={user.contacts} room={room} />
 					<ul className="chat-messageBoard__messages">
 						{chatMessages.map((msg) => {
 							return (

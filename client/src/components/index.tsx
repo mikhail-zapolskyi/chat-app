@@ -5,3 +5,4 @@ export { default as ContactBoard } from "./boards/contact-board";
 export { default as SearchContacts } from "./search/search-contacts";
 export { default as SearchContactResult } from "./search/search-contact-result";
 export { default as ContactTab } from "./tabs/contact-tab";
+export { default as UserTab } from "./tabs/user-tab";
