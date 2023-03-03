@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useAppSelector, useAppDispatch } from "../redux/hooks";
 import { useRouter } from "next/router";
-import io from "socket.io-client";
+import { io, Socket } from "socket.io-client";
 import { v4 as uuid } from "uuid";
 import {
 	LogoutBtn,
@@ -9,6 +9,7 @@ import {
 	SearchContacts,
 	SearchContactResult,
 	Error,
+	ContactTab,
 } from "../components";
 import { addContact } from "../redux/authSlice";
 
@@ -16,20 +17,58 @@ const Chat = () => {
 	const router = useRouter();
 	const dispatch = useAppDispatch();
 	const { user } = useAppSelector((state) => state.auth);
-	const socket = io("http://localhost:4000");
+	const [socket, setSocket] = useState<Socket | null>(null);
 
 	const [inputMessage, setInputMessage] = useState("");
-	const [chatMessage, setChatMessage] = useState([]);
+	const [chatMessages, setChatMessages] = useState([]);
 	const [searchInput, setSearchInput] = useState("");
 	const [searchResult, setSearchResult] = useState({ id: "", email: "" });
+	const [usersOnline, setUsersOnline] = useState([]);
+	const [room, setRoom] = useState("");
 	const [error, setError] = useState("");
 
-	// useEffect(() => {
-	// 	socket.on("message", (data) => {
-	// 		const { message, room, user } = data;
-	// 		setChatMessage([...chatMessage, { user, room, message }]);
-	// 	});
-	// }, [socket]);
+	useEffect(() => {
+		const newSocket = io("http://localhost:4000", {
+			auth: { id: user?.id },
+		});
+
+		setSocket(newSocket);
+
+		return () => {
+			newSocket.disconnect();
+		};
+	}, [user]);
+
+	useEffect(() => {
+		if (!socket) {
+			return;
+		}
+
+		socket.on("userConnected", (onlineStatus: []) => {
+			setUsersOnline(onlineStatus);
+		});
+
+		socket.on("userDisconnected", (onlineStatus: []) => {
+			setUsersOnline(onlineStatus);
+		});
+
+		socket.on("message", (data) => {
+			const { message, userId } = data;
+			console.log(message);
+			setChatMessages((chatMessages) => [
+				...chatMessages,
+				{ message, user: userId },
+			]);
+		});
+
+		return () => {
+			socket.off("userConnected");
+			socket.off("message");
+			socket.off("userDisconnected");
+		};
+	}, [socket]);
+
+	console.log(chatMessages);
 
 	useEffect(() => {
 		const checkAuth = setTimeout(() => {
@@ -55,28 +94,12 @@ const Chat = () => {
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
-		const room = uuid();
-		console.log(room);
-		console.log(inputMessage);
-
-		await fetch("http://localhost:4000/api/chat", {
-			method: "POST",
-			credentials: "include",
-			headers: {
-				"Content-Type": "application/json",
-			},
-			body: JSON.stringify({
-				message: inputMessage,
-				room,
-				user: user.id,
-			}),
-		})
-			.then(() => {
-				setInputMessage("");
-			})
-			.catch((err) => {
-				console.log(err);
-			});
+		socket.emit("sendMessageToRoom", {
+			message: inputMessage,
+			room,
+			userId: user.id,
+		});
+		setInputMessage("");
 	};
 
 	const generate_id = () => {
@@ -111,7 +134,8 @@ const Chat = () => {
 	};
 
 	const add_contact = () => {
-		dispatch(addContact({ id: searchResult.id }));
+		const roomId: string = uuid();
+		dispatch(addContact({ id: searchResult.id, room: roomId }));
 		clear_contact();
 	};
 
@@ -148,48 +172,55 @@ const Chat = () => {
 						{user &&
 							user.contacts.map((contact) => {
 								return (
-									<p key={contact.id}>
-										{contact.email}
-									</p>
+									<ContactTab
+										key={contact.id}
+										contact={contact}
+										onclick={() =>
+											setRoom(contact.room)
+										}
+										online={usersOnline}
+									/>
 								);
 							})}
 					</div>
 					<LogoutBtn />
 				</ContactBoard>
 			</div>
-			<div className="chat-messageBoard">
-				<ul className="chat-messageBoard__messages">
-					{chatMessage.map((msg) => {
-						return (
-							<li
-								className={
-									user.id === msg.user
-										? `chat-messageBoard__user-message`
-										: `chat-messageBoard__contact-message`
-								}
-								key={generate_id()}
-							>
-								<h3>{msg.user}</h3>
-								<p>{msg.message}</p>
-							</li>
-						);
-					})}
-				</ul>
-				<div className="chat-input">
-					<textarea
-						className="chat-input__textarea"
-						name="chat_msg"
-						value={inputMessage}
-						onChange={handleInputs}
-					></textarea>
-					<button
-						className="chat-input__btn btn"
-						onClick={handleSubmit}
-					>
-						Send
-					</button>
+			{room && (
+				<div className="chat-messageBoard">
+					<ul className="chat-messageBoard__messages">
+						{chatMessages.map((msg) => {
+							return (
+								<li
+									className={
+										user?.id === msg.user
+											? `chat-messageBoard__user-message`
+											: `chat-messageBoard__contact-message`
+									}
+									key={generate_id()}
+								>
+									<h3>{msg.user}</h3>
+									<p>{msg.message}</p>
+								</li>
+							);
+						})}
+					</ul>
+					<div className="chat-input">
+						<textarea
+							className="chat-input__textarea"
+							name="chat_msg"
+							value={inputMessage}
+							onChange={handleInputs}
+						></textarea>
+						<button
+							className="chat-input__btn btn"
+							onClick={handleSubmit}
+						>
+							Send
+						</button>
+					</div>
 				</div>
-			</div>
+			)}
 		</div>
 	);
 };

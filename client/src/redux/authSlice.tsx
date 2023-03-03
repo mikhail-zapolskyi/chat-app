@@ -1,4 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import build from "next/dist/build";
 
 interface IAuth {
 	email: string;
@@ -8,6 +9,7 @@ interface IAuth {
 
 interface IContact {
 	id: string;
+	room: string;
 }
 
 export const fetchUser = createAsyncThunk("auth/fetchUser", async () => {
@@ -49,7 +51,6 @@ export const registerUser = createAsyncThunk(
 );
 
 export const logoutUser = createAsyncThunk("auth/logoutUser", async () => {
-	console.log("work front");
 	const response = await fetch(`http://localhost:4000/api/logout`, {
 		method: "POST",
 		credentials: "include",
