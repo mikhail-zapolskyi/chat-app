@@ -11,7 +11,7 @@
 .chat-messageBoard {
 	display: grid;
 	grid-template-columns: 1fr;
-	grid-template-rows: 3fr 1fr;
+	grid-template-rows: 2rem 3fr 1fr;
 	box-shadow: 2px 2px 21px -12px rgba(0, 0, 0, 0.75) inset;
 	-webkit-box-shadow: 2px 2px 21px -12px rgba(0, 0, 0, 0.75) inset;
 	-moz-box-shadow: 2px 2px 21px -12px rgba(0, 0, 0, 0.75) inset;

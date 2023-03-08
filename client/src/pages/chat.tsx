@@ -19,7 +19,6 @@ const Chat = () => {
 	const dispatch = useAppDispatch();
 	const { user } = useAppSelector((state) => state.auth);
 	const [socket, setSocket] = useState<Socket | null>(null);
-
 	const [inputMessage, setInputMessage] = useState("");
 	const [chatMessages, setChatMessages] = useState([]);
 	const [searchInput, setSearchInput] = useState("");
@@ -69,8 +68,6 @@ const Chat = () => {
 		};
 	}, [socket]);
 
-	console.log(chatMessages);
-
 	useEffect(() => {
 		const checkAuth = setTimeout(() => {
 			if (!user) {
@@ -80,6 +77,32 @@ const Chat = () => {
 
 		return () => clearTimeout(checkAuth);
 	}, [user]);
+
+	useEffect(() => {
+		const getConversation = async () => {
+			const response = await fetch(
+				"http://localhost:4000/api/conversations",
+				{
+					method: "POST",
+					credentials: "include",
+					headers: {
+						"Content-Type": "application/json",
+					},
+					body: JSON.stringify({ roomId: room }),
+				}
+			);
+
+			const conversation = await response.json();
+			if (conversation) {
+				console.log(conversation.messages);
+				setChatMessages(conversation.messages);
+			}
+		};
+
+		return () => {
+			getConversation();
+		};
+	}, [room]);
 
 	const handleInputs = (e) => {
 		e.preventDefault();
@@ -176,9 +199,10 @@ const Chat = () => {
 									<ContactTab
 										key={contact.id}
 										contact={contact}
-										onclick={() =>
-											setRoom(contact.room)
-										}
+										onclick={() => {
+											setRoom(contact.room);
+											setChatMessages([]);
+										}}
 										online={usersOnline}
 									/>
 								);

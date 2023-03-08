@@ -4,7 +4,11 @@ import cors from "cors";
 import { corsOptions, dbConnection, ioServer } from "./config";
 import cookieSession from "cookie-session";
 import router from "./routes";
-import { error_handler, manage_online_status } from "./service";
+import {
+	error_handler,
+	manage_online_status,
+	manage_conversations,
+} from "./service";
 
 const app = express();
 const server: http.Server = http.createServer(app);
@@ -36,10 +40,11 @@ io.on("connection", async (socket) => {
 		io.emit("userConnected", onlineStatus);
 	}
 
-	socket.on("sendMessageToRoom", (data) => {
+	socket.on("sendMessageToRoom", async (data) => {
 		const { message, room, userId } = data;
 		socket.join(room);
 		io.to(room).emit("message", { message, userId });
+		await manage_conversations(room, message, userId);
 	});
 
 	socket.on("disconnect", async () => {
