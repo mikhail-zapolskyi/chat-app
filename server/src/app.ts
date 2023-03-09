@@ -1,18 +1,17 @@
-import express from "express";
+import express, { Application } from "express";
 import http from "http";
+import { Server } from "socket.io";
 import cors from "cors";
 import { corsOptions, dbConnection, ioServer } from "./config";
 import cookieSession from "cookie-session";
 import router from "./routes";
-import {
-	error_handler,
-	manage_online_status,
-	manage_conversations,
-} from "./service";
+import { error_handler } from "./service";
 
-const app = express();
+const app: Application = express();
 const server: http.Server = http.createServer(app);
-const io = ioServer(server);
+const io: Server = ioServer(server);
+
+dbConnection();
 
 app.use(express.json());
 app.use(cors(corsOptions));
@@ -23,40 +22,7 @@ app.use(
 	})
 );
 
-dbConnection();
-
 app.use("/", router);
 app.use(error_handler);
 
-io.on("connection", async (socket) => {
-	// GET USER ID ON LOGIN
-	const user = socket.handshake.auth;
-
-	// MANAGE ONLINE STATUS VIA DATABASE
-	let onlineStatus = await manage_online_status(user.id, true);
-
-	// CHECK IF ONLINE STATUS NOT UNDEFINED
-	if (await manage_online_status(user.id, true)) {
-		io.emit("userConnected", onlineStatus);
-	}
-
-	socket.on("sendMessageToRoom", async (data) => {
-		const { message, room, userId } = data;
-		socket.join(room);
-		io.to(room).emit("message", { message, userId });
-		await manage_conversations(room, message, userId);
-	});
-
-	socket.on("disconnect", async () => {
-		// CHECK IF USER ID PASSED ON LOGOUT
-		if (user) {
-			onlineStatus = await manage_online_status(user.id, false);
-			// CHECK IF ONLINE STATUS NOT UNDEFINED
-			if (onlineStatus) {
-				io.emit("userDisconnected", onlineStatus);
-			}
-		}
-	});
-});
-
-export default server;
+export { server, io };

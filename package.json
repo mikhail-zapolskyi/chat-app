@@ -5,7 +5,7 @@
 	"main": "index.js",
 	"scripts": {
 		"dev": "npm run dev --prefix server & npm run dev --prefix client",
-		"ghup": "git add . && echo \"Enter commit message\" && read message && git commit -m \"$message\" && git push"
+		"ghupdate": "git add . && echo \"Enter commit message\" && read message && git commit -m \"$message\" && git push"
 	},
 	"repository": {
 		"type": "git",

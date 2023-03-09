@@ -24,12 +24,12 @@ const Chat = () => {
 	const [searchInput, setSearchInput] = useState("");
 	const [searchResult, setSearchResult] = useState({ id: "", email: "" });
 	const [usersOnline, setUsersOnline] = useState([]);
-	const [room, setRoom] = useState("");
+	const [roomId, setRoomId] = useState("");
 	const [error, setError] = useState("");
 
 	useEffect(() => {
 		const newSocket = io("http://localhost:4000", {
-			auth: { id: user?.id },
+			auth: { userId: user?.id },
 		});
 
 		setSocket(newSocket);
@@ -57,7 +57,7 @@ const Chat = () => {
 			console.log(message);
 			setChatMessages((chatMessages) => [
 				...chatMessages,
-				{ message, user: userId },
+				{ userId, message },
 			]);
 		});
 
@@ -78,31 +78,26 @@ const Chat = () => {
 		return () => clearTimeout(checkAuth);
 	}, [user]);
 
-	useEffect(() => {
-		const getConversation = async () => {
-			const response = await fetch(
-				"http://localhost:4000/api/conversations",
-				{
-					method: "POST",
-					credentials: "include",
-					headers: {
-						"Content-Type": "application/json",
-					},
-					body: JSON.stringify({ roomId: room }),
-				}
-			);
-
-			const conversation = await response.json();
-			if (conversation) {
-				console.log(conversation.messages);
-				setChatMessages(conversation.messages);
+	const getConversation = async (roomId) => {
+		const response = await fetch(
+			"http://localhost:4000/api/conversations",
+			{
+				method: "POST",
+				credentials: "include",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify({ roomId }),
 			}
-		};
+		);
 
-		return () => {
-			getConversation();
-		};
-	}, [room]);
+		const conversation = await response.json();
+		if (conversation) {
+			setChatMessages(conversation.messages);
+		} else {
+			setChatMessages([]);
+		}
+	};
 
 	const handleInputs = (e) => {
 		e.preventDefault();
@@ -120,7 +115,7 @@ const Chat = () => {
 		e.preventDefault();
 		socket.emit("sendMessageToRoom", {
 			message: inputMessage,
-			room,
+			roomId,
 			userId: user.id,
 		});
 		setInputMessage("");
@@ -158,8 +153,8 @@ const Chat = () => {
 	};
 
 	const add_contact = () => {
-		const roomId: string = uuid();
-		dispatch(addContact({ id: searchResult.id, room: roomId }));
+		const generateId: string = uuid();
+		dispatch(addContact({ id: searchResult.id, roomId: generateId }));
 		clear_contact();
 	};
 
@@ -200,8 +195,12 @@ const Chat = () => {
 										key={contact.id}
 										contact={contact}
 										onclick={() => {
-											setRoom(contact.room);
-											setChatMessages([]);
+											setRoomId(
+												contact.roomId
+											);
+											getConversation(
+												contact.roomId
+											);
 										}}
 										online={usersOnline}
 									/>
@@ -211,15 +210,15 @@ const Chat = () => {
 					<LogoutBtn />
 				</ContactBoard>
 			</div>
-			{room && (
+			{roomId && user && (
 				<div className="chat-messageBoard">
-					<UserTab contacts={user.contacts} room={room} />
+					<UserTab contacts={user.contacts} roomId={roomId} />
 					<ul className="chat-messageBoard__messages">
 						{chatMessages.map((msg) => {
 							return (
 								<li
 									className={
-										user?.id === msg.user
+										user?.id === msg.userId
 											? `chat-messageBoard__user-message`
 											: `chat-messageBoard__contact-message`
 									}

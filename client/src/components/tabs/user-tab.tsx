@@ -1,13 +1,15 @@
 interface IContactTarget {
 	id: string;
 	name?: string;
-	room: string;
+	roomId: string;
 	email: string;
 }
 
-const UserTab = ({ contacts, room }) => {
+const UserTab = ({ contacts, roomId }) => {
 	const targetContact = (): IContactTarget => {
-		const [contact] = contacts.filter((contact) => contact.room === room);
+		const [contact] = contacts.filter(
+			(contact) => contact.roomId === roomId
+		);
 		return contact;
 	};
 

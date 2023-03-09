@@ -15,7 +15,15 @@ const userSchema = new Schema<IUser>(
 			type: String,
 			required: [true, "Please provide a password"],
 		},
-		contacts: [],
+		contacts: [
+			{
+				email: String,
+				name: String,
+				id: String,
+				avatar: String,
+				roomId: String,
+			},
+		],
 	},
 	{
 		collection: "users",

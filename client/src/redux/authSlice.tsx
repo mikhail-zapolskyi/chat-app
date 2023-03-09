@@ -9,7 +9,7 @@ interface IAuth {
 
 interface IContact {
 	id: string;
-	room: string;
+	roomId: string;
 }
 
 export const fetchUser = createAsyncThunk("auth/fetchUser", async () => {

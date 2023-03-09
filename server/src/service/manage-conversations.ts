@@ -5,15 +5,11 @@ const manage_conversations = async (
 	message: string,
 	userId: string
 ) => {
-	await Conversation.updateOne(
+	await Conversation.findOneAndUpdate(
 		{ roomId },
 		{ $push: { messages: { message, userId, readStatus: false } } },
 		{ upsert: true, new: true }
 	);
-
-	const conversations = await Conversation.find({});
-
-	console.log(conversations);
 };
 
 export default manage_conversations;

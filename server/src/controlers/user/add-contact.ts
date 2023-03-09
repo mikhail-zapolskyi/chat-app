@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from "express";
 import { User } from "../../model";
 
 const add_contact = async (req: Request, res: Response, next: NextFunction) => {
-	const { id, room } = req.body;
+	const { id, roomId } = req.body;
 	const contact = await User.findOne({
 		_id: id,
 	});
@@ -17,7 +17,7 @@ const add_contact = async (req: Request, res: Response, next: NextFunction) => {
 						name: contact?.name,
 						id: contact?._id,
 						avatar: contact?.avatar,
-						room: room,
+						roomId,
 					},
 				},
 			},
@@ -33,7 +33,7 @@ const add_contact = async (req: Request, res: Response, next: NextFunction) => {
 						name: user?.name,
 						id: user?._id,
 						avatar: user?.avatar,
-						room: room,
+						roomId,
 					},
 				},
 			},

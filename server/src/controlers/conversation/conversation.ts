@@ -6,7 +6,6 @@ const getConversationByRoomId = async (
 	res: Response,
 	next: NextFunction
 ) => {
-	console.log("works");
 	const { roomId } = req.body;
 	const conversations = await Conversation.findOne(
 		{ roomId },
