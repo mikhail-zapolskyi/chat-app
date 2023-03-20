@@ -37,19 +37,11 @@ const Chat = () => {
 	}, [user]);
 
 	useEffect(() => {
-		dispatch(getContactList({ userId: user?.id }));
-	}, [contacts]);
-
-	useEffect(() => {
 		if (!socket) {
 			return;
 		}
 
-		socket.on("connect", () => {
-			dispatch(getContactList({ userId: user?.id }));
-		});
-
-		socket.on("disconnect", () => {
+		socket.on("userOnlineStatusChanged", async () => {
 			dispatch(getContactList({ userId: user?.id }));
 		});
 
@@ -63,9 +55,8 @@ const Chat = () => {
 		});
 
 		return () => {
-			socket.off("connect");
-			socket.off("disconnect");
 			socket.off("message");
+			socket.off("userOnlineStatusChanged");
 		};
 	}, [socket]);
 

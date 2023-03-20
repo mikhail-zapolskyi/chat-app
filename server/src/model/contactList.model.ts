@@ -2,15 +2,15 @@ import { Schema, Types, model } from "mongoose";
 
 export interface IContactList {
 	userId: Types.ObjectId;
-	contactId: Types.ObjectId;
 	roomId: Types.ObjectId;
+	users: [Types.ObjectId];
 }
 
 const contactListSchema = new Schema<IContactList>(
 	{
 		userId: { type: Schema.Types.ObjectId, ref: "User" },
-		contactId: { type: Schema.Types.ObjectId, ref: "User" },
 		roomId: { type: Schema.Types.ObjectId, ref: "Room" },
+		users: [{ type: Schema.Types.ObjectId, ref: "User" }],
 	},
 	{ collection: "contactList" }
 );

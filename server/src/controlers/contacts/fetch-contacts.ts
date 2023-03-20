@@ -26,9 +26,9 @@ const fetch_contacts = async (
 			{
 				$lookup: {
 					from: "users",
-					localField: "contactList.contactId",
+					localField: "contactList.users",
 					foreignField: "_id",
-					as: "contactList.contactId",
+					as: "users",
 				},
 			},
 			{
@@ -42,9 +42,13 @@ const fetch_contacts = async (
 			{
 				$project: {
 					_id: "$contactList._id",
-					contactId: "$contactList.contactId._id",
-					email: "$contactList.contactId.email",
-					onlineStatus: "$contactList.contactId.onlineStatus",
+					users: {
+						$filter: {
+							input: "$users",
+							as: "user",
+							cond: { $ne: ["$$user._id", id] },
+						},
+					},
 					roomId: "$contactList.roomId._id",
 				},
 			},
@@ -52,16 +56,18 @@ const fetch_contacts = async (
 
 		// PULLS STRINGS FROM ARRAY TO DELIVER CONTACT OBJECT
 		const contactList = rawContactList.map((contact) => {
+			const { _id, email, onlineStatus } = contact.users[0];
+
 			return {
 				id: contact._id,
-				contactId: contact.contactId[0],
-				email: contact.email[0],
-				onlineStatus: contact.onlineStatus[0],
+				contactId: _id,
+				email: email,
+				onlineStatus: onlineStatus,
 				roomId: contact.roomId[0],
 			};
 		});
 
-		res.status(200).json({ contacts: contactList || [] });
+		return res.status(200).json({ contacts: contactList || [] });
 	} catch (error) {
 		next(error);
 	}

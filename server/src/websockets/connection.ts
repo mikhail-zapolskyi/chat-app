@@ -5,13 +5,16 @@ import { create_new_message, manage_user_online } from "../service";
 io.on("connection", async (socket: Socket) => {
 	// GET USER ID ON LOGIN
 	const { userId } = socket.handshake.auth;
-	// CHANGE USER ONLINE STATUS
-	await manage_user_online(userId, true);
+
+	io.emit("userOnlineStatusChanged", async () => {
+		// CHANGE USER ONLINE STATUS TO TRUE
+		await manage_user_online(userId, true);
+	});
 
 	socket.on("disconnect", async () => {
 		// CHECK IF USER ID PASSED ON LOGOUT
 		if (userId) {
-			// CHECK IF ONLINE STATUS NOT UNDEFINED
+			// CHANGE USER ONLINE STATUS TO FALSE
 			await manage_user_online(userId, false);
 		}
 	});

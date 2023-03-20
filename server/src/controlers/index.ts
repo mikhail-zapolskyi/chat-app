@@ -6,3 +6,4 @@ export { default as find } from "./contacts/find";
 export { default as add } from "./contacts/add";
 export { default as getConversationByRoomId } from "./messages/messages";
 export { default as fetch_contacts } from "./contacts/fetch-contacts";
+export { default as remove } from "./contacts/remove";
