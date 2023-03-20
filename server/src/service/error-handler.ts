@@ -20,7 +20,7 @@ const error_handler = (
 		return res.status(400).json({ errors: { message: messages[0] } });
 	}
 
-	if (err.name === "MongoServerError" && err.code) {
+	if (err.name === "MongoServerError" && err.code === 11000) {
 		return res
 			.status(400)
 			.json({ errors: { message: "User already exist" } });
@@ -33,7 +33,7 @@ const error_handler = (
 			},
 		});
 	}
-
+	console.log(err);
 	return res
 		.status(500)
 		.json({ errors: { message: "Something went wrong" } });

@@ -8,7 +8,7 @@ const register = async (req: Request, res: Response, next: NextFunction) => {
 	const user = new User({ email, password });
 
 	user.save()
-		.then((data) => {
+		.then((data: {}) => {
 			const chatToken = jwt.sign(
 				{
 					exp: Math.floor(Date.now() / 1000) + 3600, // 1 hour
@@ -23,7 +23,7 @@ const register = async (req: Request, res: Response, next: NextFunction) => {
 				message: "You succefully registred",
 			});
 		})
-		.catch((err) => {
+		.catch((err: Error) => {
 			return next(err);
 		});
 };

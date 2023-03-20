@@ -1,6 +1,14 @@
-import { Schema, model } from "mongoose";
+import { Schema, model, Types } from "mongoose";
 import { Password } from "../service/index";
-import { IUser } from "../interface";
+
+export interface IUser {
+	name?: string;
+	email: string;
+	avatar?: string;
+	password: string;
+	contactList?: string[];
+	onlineStatus: boolean;
+}
 
 const userSchema = new Schema<IUser>(
 	{
@@ -15,15 +23,13 @@ const userSchema = new Schema<IUser>(
 			type: String,
 			required: [true, "Please provide a password"],
 		},
-		contacts: [
+		contactList: [
 			{
-				email: String,
-				name: String,
-				id: String,
-				avatar: String,
-				roomId: String,
+				type: Schema.Types.ObjectId,
+				ref: "ContactList",
 			},
 		],
+		onlineStatus: { type: Boolean, default: false },
 	},
 	{
 		collection: "users",

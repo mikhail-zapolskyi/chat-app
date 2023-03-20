@@ -4,7 +4,7 @@ import { BadRequest } from "../../errors";
 
 const find = async (req: Request, res: Response, next: NextFunction) => {
 	const { email } = req.body;
-	const contact = await User.findOne({ email });
+	const contact = await User.findOne({ email }, { email: 1, id: 1 });
 
 	if (!contact) {
 		return next(new BadRequest("Contact not found"));

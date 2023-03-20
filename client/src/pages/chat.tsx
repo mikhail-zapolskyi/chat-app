@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import { useAppSelector, useAppDispatch } from "../redux/hooks";
 import { useRouter } from "next/router";
 import { io, Socket } from "socket.io-client";
-import { v4 as uuid } from "uuid";
 import {
 	LogoutBtn,
 	ContactBoard,
@@ -12,18 +11,18 @@ import {
 	ContactTab,
 	UserTab,
 } from "../components";
-import { addContact } from "../redux/authSlice";
+import { addContact, getContactList } from "../redux/contactsSlice";
 
 const Chat = () => {
 	const router = useRouter();
+	const [socket, setSocket] = useState<Socket | null>(null);
 	const dispatch = useAppDispatch();
 	const { user } = useAppSelector((state) => state.auth);
-	const [socket, setSocket] = useState<Socket | null>(null);
+	const { contacts } = useAppSelector((state) => state);
 	const [inputMessage, setInputMessage] = useState("");
 	const [chatMessages, setChatMessages] = useState([]);
 	const [searchInput, setSearchInput] = useState("");
 	const [searchResult, setSearchResult] = useState({ id: "", email: "" });
-	const [usersOnline, setUsersOnline] = useState([]);
 	const [roomId, setRoomId] = useState("");
 	const [error, setError] = useState("");
 
@@ -31,25 +30,27 @@ const Chat = () => {
 		const newSocket = io("http://localhost:4000", {
 			auth: { userId: user?.id },
 		});
-
 		setSocket(newSocket);
-
 		return () => {
 			newSocket.disconnect();
 		};
 	}, [user]);
 
 	useEffect(() => {
+		dispatch(getContactList({ userId: user?.id }));
+	}, [contacts]);
+
+	useEffect(() => {
 		if (!socket) {
 			return;
 		}
 
-		socket.on("userConnected", (onlineStatus: []) => {
-			setUsersOnline(onlineStatus);
+		socket.on("connect", () => {
+			dispatch(getContactList({ userId: user?.id }));
 		});
 
-		socket.on("userDisconnected", (onlineStatus: []) => {
-			setUsersOnline(onlineStatus);
+		socket.on("disconnect", () => {
+			dispatch(getContactList({ userId: user?.id }));
 		});
 
 		socket.on("message", (data) => {
@@ -62,9 +63,9 @@ const Chat = () => {
 		});
 
 		return () => {
-			socket.off("userConnected");
+			socket.off("connect");
+			socket.off("disconnect");
 			socket.off("message");
-			socket.off("userDisconnected");
 		};
 	}, [socket]);
 
@@ -126,7 +127,7 @@ const Chat = () => {
 	};
 
 	const find_contact = async () => {
-		fetch("http://localhost:4000/api/find-contact", {
+		fetch("http://localhost:4000/api/contacts/find", {
 			method: "POST",
 			credentials: "include",
 			headers: {
@@ -153,8 +154,12 @@ const Chat = () => {
 	};
 
 	const add_contact = () => {
-		const generateId: string = uuid();
-		dispatch(addContact({ id: searchResult.id, roomId: generateId }));
+		dispatch(
+			addContact({
+				userId: user.id,
+				contactId: searchResult.id,
+			})
+		);
 		clear_contact();
 	};
 
@@ -189,7 +194,7 @@ const Chat = () => {
 						)}
 						<h3>Contacts</h3>
 						{user &&
-							user.contacts.map((contact) => {
+							contacts.map((contact) => {
 								return (
 									<ContactTab
 										key={contact.id}
@@ -202,7 +207,6 @@ const Chat = () => {
 												contact.roomId
 											);
 										}}
-										online={usersOnline}
 									/>
 								);
 							})}
@@ -212,7 +216,7 @@ const Chat = () => {
 			</div>
 			{roomId && user && (
 				<div className="chat-messageBoard">
-					<UserTab contacts={user.contacts} roomId={roomId} />
+					<UserTab contacts={contacts} roomId={roomId} />
 					<ul className="chat-messageBoard__messages">
 						{chatMessages.map((msg) => {
 							return (
