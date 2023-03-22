@@ -6,8 +6,8 @@ io.on("connection", async (socket: Socket) => {
 	// GET USER ID ON LOGIN
 	const { userId } = socket.handshake.auth;
 
+	// CHANGE USER ONLINE STATUS TO TRUE ON LOGIN
 	io.emit("userOnlineStatusChanged", async () => {
-		// CHANGE USER ONLINE STATUS TO TRUE
 		await manage_user_online(userId, true);
 	});
 

@@ -71,21 +71,18 @@ const Chat = () => {
 	}, [user]);
 
 	const getConversation = async (roomId) => {
-		const response = await fetch(
-			"http://localhost:4000/api/conversations",
-			{
-				method: "POST",
-				credentials: "include",
-				headers: {
-					"Content-Type": "application/json",
-				},
-				body: JSON.stringify({ roomId }),
-			}
-		);
+		const response = await fetch("http://localhost:4000/api/messages", {
+			method: "POST",
+			credentials: "include",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify({ roomId }),
+		});
+		const room = await response.json();
 
-		const conversation = await response.json();
-		if (conversation) {
-			setChatMessages(conversation.messages);
+		if (room) {
+			setChatMessages(room.messages);
 		} else {
 			setChatMessages([]);
 		}

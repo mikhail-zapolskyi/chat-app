@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import "dotenv/config";
 
 interface IConnectionResult {
 	connection: string;
@@ -7,9 +8,9 @@ interface IConnectionResult {
 
 const DB_URL: string = process.env.DB_URL!;
 
-const dbConnection = () => {
-	mongoose.set("strictQuery", false);
-	mongoose
+const dbConnection = async () => {
+	await mongoose.set("strictQuery", false);
+	await mongoose
 		.connect(DB_URL, { dbName: "chat" })
 		.then((res) => {
 			if (res.connection.readyState === 1) {

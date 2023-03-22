@@ -1,9 +1,9 @@
 import { Router } from "express";
 import { verify_user } from "../middleware";
-import { getConversationByRoomId } from "../controlers";
+import { getMessagesByRoomId } from "../controlers";
 
 const router: Router = Router();
 
-router.post("/api/conversations", verify_user, getConversationByRoomId);
+router.post("/api/messages", verify_user, getMessagesByRoomId);
 
 export default router;
