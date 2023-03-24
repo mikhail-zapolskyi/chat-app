@@ -1,5 +1,4 @@
 import { Request, Response, NextFunction } from "express";
-import { Types } from "mongoose";
 import { User, Room, ContactList } from "../../model";
 import { BadRequest } from "../../errors";
 
@@ -25,26 +24,12 @@ const add = async (req: Request, res: Response, next: NextFunction) => {
 		const room = new Room();
 		room.save();
 
+		// CREATE CONTACT IN CONTACT LIST
 		const contactListItem = new ContactList({
 			users: [userId, contactId],
 			roomId: room._id,
 		});
 		contactListItem.save();
-		// CREATE CONTACT FOR MAIN USER
-		// const contact = new ContactList({
-		// 	userId,
-		// 	contactId,
-		// 	roomId: room._id,
-		// });
-		// contact.save();
-
-		// // CREATE FOR OPPOSITE USER
-		// const oppositeContact = new ContactList({
-		// 	userId: contactId,
-		// 	contactId: userId,
-		// 	roomId: room._id,
-		// });
-		// oppositeContact.save();
 
 		// FIND USER AND ADD CONTACT TO USER CONTACT LIST
 		await User.findByIdAndUpdate(

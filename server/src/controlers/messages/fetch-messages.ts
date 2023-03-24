@@ -6,7 +6,7 @@ const getMessagesByRoomId = async (
 	res: Response,
 	next: NextFunction
 ) => {
-	const { roomId } = req.body;
+	const { roomId } = req.params;
 
 	const messages = await Room.findOne({ _id: roomId }).populate({
 		path: "messages",

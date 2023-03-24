@@ -4,6 +4,6 @@ import { getMessagesByRoomId } from "../controlers";
 
 const router: Router = Router();
 
-router.post("/api/messages", verify_user, getMessagesByRoomId);
+router.post("/api/rooms/:roomId/messages", verify_user, getMessagesByRoomId);
 
 export default router;

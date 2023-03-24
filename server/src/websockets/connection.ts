@@ -12,9 +12,8 @@ io.on("connection", async (socket: Socket) => {
 	});
 
 	socket.on("disconnect", async () => {
-		// CHECK IF USER ID PASSED ON LOGOUT
+		// CHANGE USER ONLINE STATUS TO FALSE
 		if (userId) {
-			// CHANGE USER ONLINE STATUS TO FALSE
 			await manage_user_online(userId, false);
 		}
 	});

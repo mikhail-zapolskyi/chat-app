@@ -71,14 +71,16 @@ const Chat = () => {
 	}, [user]);
 
 	const getConversation = async (roomId) => {
-		const response = await fetch("http://localhost:4000/api/messages", {
-			method: "POST",
-			credentials: "include",
-			headers: {
-				"Content-Type": "application/json",
-			},
-			body: JSON.stringify({ roomId }),
-		});
+		const response = await fetch(
+			`http://localhost:4000/api/rooms/${roomId}/messages`,
+			{
+				method: "POST",
+				credentials: "include",
+				headers: {
+					"Content-Type": "application/json",
+				},
+			}
+		);
 		const room = await response.json();
 
 		if (room) {
