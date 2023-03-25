@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from "express";
 import { User, Room, ContactList } from "../../model";
 import { BadRequest } from "../../errors";
 
-const add = async (req: Request, res: Response, next: NextFunction) => {
+const addContact = async (req: Request, res: Response, next: NextFunction) => {
 	const { userId, contactId } = req.body;
 
 	if (!userId || !contactId) {
@@ -55,4 +55,4 @@ const add = async (req: Request, res: Response, next: NextFunction) => {
 	}
 };
 
-export default add;
+export default addContact;

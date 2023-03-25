@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import { Message, Room } from "../../model";
+import { Room } from "../../model";
 import { BadRequest } from "../../errors";
 
 const getMessagesByRoomId = async (
@@ -12,7 +12,7 @@ const getMessagesByRoomId = async (
 
 	// Check if roomId is valid
 	if (!roomId) {
-		return next(new BadRequest("RoomId is required"));
+		return next(new BadRequest("Room #id is required"));
 	}
 
 	// Find room by roomId and populate messages

@@ -2,11 +2,7 @@ import { Request, Response, NextFunction } from "express";
 import { User } from "../../model";
 import mongoose from "mongoose";
 
-const fetch_contacts = async (
-	req: Request,
-	res: Response,
-	next: NextFunction
-) => {
+const getContacts = async (req: Request, res: Response, next: NextFunction) => {
 	const { userId } = req.body;
 	const id = new mongoose.Types.ObjectId(userId);
 
@@ -73,4 +69,4 @@ const fetch_contacts = async (
 	}
 };
 
-export default fetch_contacts;
+export default getContacts;

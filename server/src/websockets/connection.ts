@@ -1,6 +1,7 @@
 import { io } from "../app";
 import { Socket } from "socket.io";
-import { create_new_message, manage_user_online } from "../service";
+import { createNewMessage } from "../controlers";
+import { manage_user_online } from "../service";
 
 io.on("connection", async (socket: Socket) => {
 	// GET USER ID ON LOGIN
@@ -22,6 +23,6 @@ io.on("connection", async (socket: Socket) => {
 		const { message, roomId, userId } = data;
 		socket.join(roomId);
 		io.to(roomId).emit("message", { message, userId });
-		await create_new_message(roomId, message, userId);
+		await createNewMessage(roomId, message, userId);
 	});
 });

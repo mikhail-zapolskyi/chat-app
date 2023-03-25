@@ -2,7 +2,11 @@ import { Request, Response, NextFunction } from "express";
 import { User } from "../../model";
 import { BadRequest } from "../../errors";
 
-const find = async (req: Request, res: Response, next: NextFunction) => {
+const findContactByEmail = async (
+	req: Request,
+	res: Response,
+	next: NextFunction
+) => {
 	const { email } = req.body;
 	const contact = await User.findOne({ email }, { email: 1, id: 1 });
 
@@ -15,4 +19,4 @@ const find = async (req: Request, res: Response, next: NextFunction) => {
 	});
 };
 
-export default find;
+export default findContactByEmail;

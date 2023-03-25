@@ -1,15 +1,15 @@
-import { Message, Room } from "../model";
+import { Message, Room } from "../../model";
 
-const create_new_message = async (
+const createNewMessage = async (
 	roomId: string,
 	message: string,
 	userId: string
 ) => {
-	// CREATE NEW MESSAGE
+	// Create new message and save it to database
 	const newMessage = new Message({ roomId, userId, message });
 	await newMessage.save();
 
-	// PASS AN ID OF NEW CREATED MESSAGE TO ROOM MESSAGES ARRAY
+	// Push new message to room messages array
 	await Room.findOneAndUpdate(
 		{ _id: roomId },
 		{
@@ -19,4 +19,4 @@ const create_new_message = async (
 	);
 };
 
-export default create_new_message;
+export default createNewMessage;
