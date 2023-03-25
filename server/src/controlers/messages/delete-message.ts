@@ -18,8 +18,14 @@ const deleteMessageById = async (
 		return next(new BadRequest("Message #id is required"));
 	}
 
-	// Delete message by messageId
-	await Message.findOneAndDelete({ _id: messageId });
+	// Delete message
+	const message = await Message.findOne({ _id: messageId });
+
+	if (!message) {
+		return next(new BadRequest("Message not found"));
+	}
+
+	await message.remove();
 
 	// Send message to client
 	res.status(200).json({ message: "Message deleted" });

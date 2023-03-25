@@ -9,5 +9,5 @@ export { default as getContacts } from "./contacts/get-contacts";
 export { default as remove } from "./contacts/remove";
 // Messages
 export { default as getMessagesByRoomId } from "./messages/get-messages";
-export { default as deleteMessageById } from "./messages/delete";
-export { default as createNewMessage } from "./messages/create";
+export { default as deleteMessageById } from "./messages/delete-message";
+export { default as createNewMessage } from "./messages/create-message";
