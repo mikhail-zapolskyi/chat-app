@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import { useAppDispatch } from "../redux/hooks";
 import { useRouter } from "next/router";
 import { registerUser } from "../redux/authSlice";
-import { Message, Error } from "../components";
+import { Message, Error, Button } from "../components";
+import styles from "../styles/auth/auth.module.css";
 
 const Register = () => {
 	const router = useRouter();
@@ -49,14 +50,17 @@ const Register = () => {
 	return (
 		<>
 			<div className="wrapper-full-screen-dark">
-				<form onSubmit={handleSubmit} className="auth-form">
+				<form onSubmit={handleSubmit} className={styles.auth}>
+					<h1 className={styles.auth__title}>
+						Register to pMessanger
+					</h1>
 					<input
 						type="text"
 						name="email"
 						placeholder="Email"
 						value={auth.email}
 						onChange={handle_auth_state}
-						className="auth-form__input auth-form__username"
+						className={styles.auth__input}
 					/>
 					<input
 						type="password"
@@ -64,7 +68,7 @@ const Register = () => {
 						placeholder="Password"
 						value={auth.password}
 						onChange={handle_auth_state}
-						className="auth-form__input auth-form__password"
+						className={styles.auth__input}
 					/>
 					<input
 						type="password"
@@ -72,14 +76,14 @@ const Register = () => {
 						placeholder="Confirm Password"
 						value={auth.confirmPassword}
 						onChange={handle_auth_state}
-						className="auth-form__input auth-form__password"
+						className={styles.auth__input}
 					/>
-					<button type="submit" className="auth-form__btn btn">
-						Register
-					</button>
-					<p>
-						Already have an account?
-						<a href="/login">Login</a>
+					<Button text="Register" />
+					<p className={styles.auth__text}>
+						Already have an account? Please{" "}
+						<a href="/login" className={styles.auth__link}>
+							login
+						</a>
 					</p>
 				</form>
 			</div>
