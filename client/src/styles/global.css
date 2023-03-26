@@ -1,0 +1,40 @@
+:root {
+	--color-primary: #1e1e1e;
+	--color-secondary: #262626;
+	--color-tertiary: #ffffff;
+	--color-online: #53e04e;
+	--color-offline: #f0971d;
+	--color-button: linear-gradient(to right, #fff500 0%, #b42ba6 100%);
+	--color-button-hover: #4cbb17;
+	--color-error: #ff0000;
+}
+
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+html {
+	font-size: 62.5%;
+}
+
+.btn-grad {
+	background-image: linear-gradient(to right, #fff500 0%, #b42ba6 100%);
+	margin: 10px;
+	padding: 15px 45px;
+	text-align: center;
+	text-transform: uppercase;
+	transition: 0.5s;
+	background-size: 200% auto;
+	color: white;
+	box-shadow: 0 0 20px #eee;
+	border-radius: 10px;
+	display: block;
+}
+
+.btn-grad:hover {
+	background-position: right center; /* change the direction of the change here */
+	color: #fff;
+	text-decoration: none;
+}

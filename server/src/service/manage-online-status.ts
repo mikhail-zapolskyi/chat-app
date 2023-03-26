@@ -1,6 +1,6 @@
 import { User } from "../model";
 
-const manage_user_online = async (userId: string, status: boolean) => {
+const manageOnlineStatus = async (userId: string, status: boolean) => {
 	await User.findOneAndUpdate(
 		{ _id: userId },
 		{ $set: { onlineStatus: status } },
@@ -8,4 +8,4 @@ const manage_user_online = async (userId: string, status: boolean) => {
 	);
 };
 
-export default manage_user_online;
+export default manageOnlineStatus;

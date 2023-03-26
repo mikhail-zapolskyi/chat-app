@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import { useAppDispatch } from "../redux/hooks";
 import { useRouter } from "next/router";
 import { loginUser } from "../redux/authSlice";
-import { Message, Error } from "../components";
+import { Message, Button, Error } from "../components";
+import styles from "./login.module.css";
 
 const Login = () => {
 	const dispatch = useAppDispatch();
@@ -44,15 +45,15 @@ const Login = () => {
 
 	return (
 		<>
-			<div className="container-fs">
-				<form onSubmit={handleSubmit} className="auth-form">
+			<div className="wrapper-full-screen-dark">
+				<form onSubmit={handleSubmit} className={styles.auth}>
 					<input
 						type="text"
 						name="email"
 						placeholder="Email"
 						value={auth.email}
 						onChange={handle_auth_state}
-						className="auth-form__input auth-form__username"
+						className={styles.auth__input}
 					/>
 					<input
 						type="password"
@@ -60,14 +61,14 @@ const Login = () => {
 						placeholder="Password"
 						value={auth.password}
 						onChange={handle_auth_state}
-						className="auth-form__input auth-form__password"
+						className={styles.auth__input}
 					/>
-					<button type="submit" className="auth-form__btn btn">
-						Login
-					</button>
-					<p>
-						Don't have an account.
-						<a href="/register">Register</a>
+					<Button text="Login" />
+					<p className={styles.auth__text}>
+						Don't have an account. Please{" "}
+						<a href="/register" className={styles.auth__link}>
+							register
+						</a>
 					</p>
 				</form>
 			</div>
