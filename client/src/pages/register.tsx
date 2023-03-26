@@ -48,7 +48,7 @@ const Register = () => {
 
 	return (
 		<>
-			<div className="container-fs">
+			<div className="wrapper-full-screen-dark">
 				<form onSubmit={handleSubmit} className="auth-form">
 					<input
 						type="text"

@@ -3,7 +3,7 @@ import { useAppDispatch } from "../redux/hooks";
 import { useRouter } from "next/router";
 import { loginUser } from "../redux/authSlice";
 import { Message, Button, Error } from "../components";
-import styles from "./login.module.css";
+import styles from "../styles/auth/auth.module.css";
 
 const Login = () => {
 	const dispatch = useAppDispatch();
@@ -47,6 +47,9 @@ const Login = () => {
 		<>
 			<div className="wrapper-full-screen-dark">
 				<form onSubmit={handleSubmit} className={styles.auth}>
+					<h1 className={styles.auth__title}>
+						Login to pMessanger
+					</h1>
 					<input
 						type="text"
 						name="email"
