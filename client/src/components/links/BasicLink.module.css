@@ -1,0 +1,8 @@
+.basicLink {
+	margin: 2rem;
+	color: #ffffff;
+	text-decoration: underline;
+	font-size: 1.6rem;
+	font-weight: 600;
+	transition: all 0.2s ease-in-out;
+}

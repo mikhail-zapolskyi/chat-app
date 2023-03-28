@@ -32,13 +32,7 @@
 	outline: none;
 }
 
-.auth__title {
-	color: var(--color-tertiary);
-	font-size: 2.4rem;
-}
-
-.auth__text,
-.auth__link {
+.auth__text {
 	color: var(--color-tertiary);
 	font-size: 1.6rem;
 }

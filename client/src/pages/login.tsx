@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useAppDispatch } from "../redux/hooks";
 import { useRouter } from "next/router";
 import { loginUser } from "../redux/authSlice";
-import { Message, Button, Error } from "../components";
+import { Message, Button, Error, Title } from "../components";
 import styles from "../styles/auth/auth.module.css";
 
 const Login = () => {
@@ -47,9 +47,7 @@ const Login = () => {
 		<>
 			<div className="wrapper-full-screen-dark">
 				<form onSubmit={handleSubmit} className={styles.auth}>
-					<h1 className={styles.auth__title}>
-						Login to pMessanger
-					</h1>
+					<Title message="Login to pMessanger" />
 					<input
 						type="text"
 						name="email"

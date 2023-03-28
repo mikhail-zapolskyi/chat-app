@@ -1,5 +1,6 @@
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import { logoutUser } from "../redux/authSlice";
+import { BasicLink, Button, Title } from "../components";
 
 const HomePage = () => {
 	const { user } = useAppSelector((state) => state.auth);
@@ -10,25 +11,18 @@ const HomePage = () => {
 	};
 
 	return (
-		<div>
-			<h1>Welcome to Chat App. Please proceed to login page</h1>
-			{!user && (
-				<a href="/login" className="">
-					Login
-				</a>
-			)}
+		<div className="wrapper-full-screen-dark">
+			<Title message="Welcome to pMessanger. Please proceed to login page" />
+			{"\n"}
+			{!user && <BasicLink href="/login" text="Get Started" />}
 			{user && (
-				<div>
-					<a href="/chat" className="">
-						Chat
-					</a>
-					<p
-						onClick={handleLogOut}
-						style={{ cursor: "pointer" }}
-					>
-						Logout
-					</p>
-				</div>
+				<>
+					<BasicLink
+						href="/chat"
+						text="Proceed to the messanger"
+					/>
+					<Button onClick={handleLogOut} text="Logout" />
+				</>
 			)}
 		</div>
 	);

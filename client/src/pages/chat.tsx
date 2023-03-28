@@ -3,7 +3,7 @@ import { useAppSelector, useAppDispatch } from "../redux/hooks";
 import { useRouter } from "next/router";
 import { io, Socket } from "socket.io-client";
 import {
-	LogoutBtn,
+	Button,
 	ContactBoard,
 	SearchContacts,
 	SearchContactResult,
@@ -12,6 +12,7 @@ import {
 	UserTab,
 } from "../components";
 import { addContact, getContactList } from "../redux/contactsSlice";
+import { logoutUser } from "../redux/authSlice";
 
 const Chat = () => {
 	const router = useRouter();
@@ -163,6 +164,11 @@ const Chat = () => {
 		setSearchResult({ id: "", email: "" });
 	};
 
+	const logout = () => {
+		console.log("logout");
+		dispatch(logoutUser());
+	};
+
 	return (
 		<div className="chat">
 			<div className="chat-contacts">
@@ -201,7 +207,7 @@ const Chat = () => {
 								);
 							})}
 					</div>
-					<LogoutBtn />
+					<Button text="Logout" onClick={logout} />
 				</ContactBoard>
 			</div>
 			{roomId && user && (

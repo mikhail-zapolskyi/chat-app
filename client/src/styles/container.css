@@ -1,18 +1,20 @@
 /* fs - full screen */
-.container-fs {
-	width: 100vw;
-	height: 100vh;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-}
 
 .wrapper-full-screen-dark {
 	width: 100vw;
 	height: 100vh;
 	position: relative;
 	display: flex;
+	flex-direction: column;
 	align-items: center;
 	justify-content: center;
 	background-color: var(--color-primary);
+}
+
+.container-fs {
+	width: 100vw;
+	height: 100vh;
+	display: flex;
+	align-items: center;
+	justify-content: center;
 }
