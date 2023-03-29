@@ -161,7 +161,7 @@ const Chat = () => {
 		console.log("logout");
 		dispatch(logoutUser());
 	};
-	console.log(chatMessages);
+
 	return (
 		<div className="chat">
 			<div className="chat-contacts">

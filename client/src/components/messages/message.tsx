@@ -2,7 +2,7 @@ import React from "react";
 import styles from "./Message.module.css";
 import { BsThreeDots } from "react-icons/bs";
 
-interface Props {
+interface IMessage {
 	msg: string;
 	isContact: boolean;
 	date: string;
@@ -13,7 +13,7 @@ interface Props {
 	};
 }
 
-const Message: React.FC<Props> = ({ msg, isContact, date, contact }) => {
+const Message: React.FC<IMessage> = ({ msg, isContact, date, contact }) => {
 	return (
 		<li className={styles.wrapper}>
 			<div className={styles.container}>

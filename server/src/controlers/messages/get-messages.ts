@@ -24,6 +24,8 @@ const getMessagesByRoomId = async (
 		},
 	});
 
+	const msg = await Room.aggregate([{ $match: { _id: roomId } }]);
+	console.log(msg);
 	// Send messages to client
 	res.status(200).json(messages);
 };
