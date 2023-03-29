@@ -8,6 +8,7 @@ export interface IUser {
 	password: string;
 	contactList?: string[];
 	onlineStatus: boolean;
+	lastTimeOnline?: Date;
 }
 
 const userSchema = new Schema<IUser>(
@@ -30,6 +31,7 @@ const userSchema = new Schema<IUser>(
 			},
 		],
 		onlineStatus: { type: Boolean, default: false },
+		lastTimeOnline: { type: Date },
 	},
 	{
 		collection: "users",

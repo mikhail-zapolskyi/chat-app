@@ -1,0 +1,41 @@
+.wrapper,
+.wrapper__active {
+	display: flex;
+	cursor: pointer;
+}
+
+.wrapper__active {
+	background-color: var(--color-chat-active);
+}
+
+.avatarContainer {
+	position: relative;
+}
+
+.avatar {
+	width: 5rem;
+	height: 5rem;
+	padding: 0.5rem;
+	border-radius: 1.6rem;
+}
+
+.onlineStatusIcon__online,
+.onlineStatusIcon__offline {
+	position: absolute;
+	left: 74%;
+	top: 72%;
+}
+
+.onlineStatusIcon__online {
+	color: var(--color-online);
+}
+
+.onlineStatusIcon__offline {
+	color: var(--color-offline);
+}
+
+.info {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+}

@@ -2,7 +2,13 @@
 	width: 100vw;
 	height: 100vh;
 	display: grid;
-	grid-template-columns: 1fr 2fr;
+	grid-template-columns: 0.5fr 2fr;
+	background-color: var(--color-chat);
+}
+
+.chat__contacts {
+	display: grid;
+	grid-template-columns: 10rem 1fr;
 	background-color: var(--color-chat);
 }
 

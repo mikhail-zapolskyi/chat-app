@@ -26,7 +26,7 @@ const Chat = () => {
 	const [searchInput, setSearchInput] = useState("");
 	const [searchResult, setSearchResult] = useState({ id: "", email: "" });
 	const [roomId, setRoomId] = useState("");
-	const [contact, setContact] = useState({});
+	const [contact, setContact] = useState({ id: "" });
 	const [error, setError] = useState("");
 
 	useEffect(() => {
@@ -164,7 +164,9 @@ const Chat = () => {
 
 	return (
 		<div className="chat">
-			<div className="chat-contacts">
+			<div className="chat__contacts">
+				{/* This div for the menuBoard */}
+				<div></div>
 				<ContactBoard>
 					<div>
 						<p>{user && user.email}</p>
@@ -182,24 +184,34 @@ const Chat = () => {
 							/>
 						)}
 						<h3>Contacts</h3>
-						{user &&
-							contacts.map((contact) => {
-								return (
-									<ContactTab
-										key={contact.id}
-										contact={contact}
-										onclick={() => {
-											setRoomId(
-												contact.roomId
-											);
-											getConversation(
-												contact.roomId
-											);
-											setContact(contact);
-										}}
-									/>
-								);
-							})}
+						<div>
+							{user &&
+								contacts.map((userContact) => {
+									return (
+										<ContactTab
+											key={userContact.id}
+											contact={userContact}
+											onClick={() => {
+												setRoomId(
+													userContact.roomId
+												);
+												getConversation(
+													userContact.roomId
+												);
+												setContact(
+													userContact
+												);
+											}}
+											active={
+												contact?.id ===
+												userContact.id
+													? true
+													: false
+											}
+										/>
+									);
+								})}
+						</div>
 					</div>
 					<Button text="Logout" onClick={logout} />
 				</ContactBoard>

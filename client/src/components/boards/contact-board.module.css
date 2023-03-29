@@ -1,12 +1,12 @@
 .contactBoard {
-	/* width: 100%; */
+	width: 100%;
 	height: 100%;
-	padding: 0.5rem;
+	padding: 1rem 0;
 	display: grid;
+	grid-template-columns: 1fr;
 	justify-content: center;
-	justify-items: center;
 }
 
-.contactBoard :last-child {
+.contactBoard button:last-child {
 	align-self: flex-end;
 }
