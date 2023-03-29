@@ -30,8 +30,8 @@ const Message: React.FC<IMessage> = ({ msg, isContact, date, contact }) => {
 					<div className={styles.userAndTime}>
 						<p className={styles.userName}>
 							{isContact
-								? "Contact"
-								: contact?.name || contact?.email}
+								? contact?.name || contact?.email
+								: "Me"}
 						</p>
 						<p className={styles.time}>{getTime(date)}</p>
 					</div>

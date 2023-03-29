@@ -211,7 +211,7 @@ const Chat = () => {
 						{chatMessages.map((msg) => {
 							return (
 								<Message
-									key={msg._id}
+									key={msg.id}
 									msg={msg.message}
 									isContact={
 										msg.userId === user.id

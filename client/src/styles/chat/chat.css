@@ -9,15 +9,24 @@
 .chat-messageBoard {
 	display: grid;
 	grid-template-columns: 1fr;
-	grid-template-rows: 2rem 3fr 1fr;
+	grid-template-rows: 5rem 3fr 1fr;
 	overflow-y: scroll;
 	background-color: var(--color-chat-active);
 }
 
 .chat-messageBoard__messages {
+	min-width: 32rem;
 	list-style: none;
 	padding: 2rem;
 	overflow-y: scroll;
+	/* Hide scrollbar for IE, Edge and Firefox */
+	-ms-overflow-style: none; /* IE and Edge */
+	scrollbar-width: none; /* Firefox */
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.chat-messageBoard__messages::-webkit-scrollbar {
+	display: none;
 }
 
 .chat-input {
