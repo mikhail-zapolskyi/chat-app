@@ -4,25 +4,35 @@ import { BsThreeDots } from "react-icons/bs";
 
 interface Props {
 	msg: string;
-	name?: string;
-	email?: string;
 	isContact: boolean;
 	date: string;
+	contact?: {
+		name?: string;
+		email?: string;
+		avatar?: string;
+	};
 }
 
-const Message: React.FC<Props> = ({ msg, name, email, isContact, date }) => {
-	console.log(isContact);
+const Message: React.FC<Props> = ({ msg, isContact, date, contact }) => {
 	return (
 		<li className={styles.wrapper}>
 			<div className={styles.container}>
 				<img
-					src="https://www.w3schools.com/howto/img_avatar.png"
+					src={
+						contact?.avatar
+							? contact?.avatar
+							: "https://www.w3schools.com/howto/img_avatar.png"
+					}
 					alt="Avatar"
 					className={styles.avatar}
 				/>
 				<div className={styles.content}>
 					<div className={styles.userAndTime}>
-						<p className={styles.userName}>Name</p>
+						<p className={styles.userName}>
+							{isContact
+								? "Contact"
+								: contact?.name || contact?.email}
+						</p>
 						<p className={styles.time}>{getTime(date)}</p>
 					</div>
 					<p className={styles.text}>{msg}</p>

@@ -26,6 +26,7 @@ const Chat = () => {
 	const [searchInput, setSearchInput] = useState("");
 	const [searchResult, setSearchResult] = useState({ id: "", email: "" });
 	const [roomId, setRoomId] = useState("");
+	const [contact, setContact] = useState({});
 	const [error, setError] = useState("");
 
 	useEffect(() => {
@@ -194,6 +195,7 @@ const Chat = () => {
 											getConversation(
 												contact.roomId
 											);
+											setContact(contact);
 										}}
 									/>
 								);
@@ -216,6 +218,7 @@ const Chat = () => {
 											? false
 											: true
 									}
+									contact={contact}
 									date={msg.createdAt}
 								/>
 							);
