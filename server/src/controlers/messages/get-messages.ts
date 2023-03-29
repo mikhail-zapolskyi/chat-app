@@ -1,4 +1,5 @@
 import { Request, Response, NextFunction } from "express";
+import mongoose from "mongoose";
 import { Room } from "../../model";
 import { BadRequest } from "../../errors";
 
@@ -9,23 +10,37 @@ const getMessagesByRoomId = async (
 ) => {
 	// Get roomId from params
 	const { roomId } = req.params;
+	const id = new mongoose.Types.ObjectId(roomId);
 
 	// Check if roomId is valid
 	if (!roomId) {
 		return next(new BadRequest("Room #id is required"));
 	}
 
-	// Find room by roomId and populate messages
-	const messages = await Room.findOne({ _id: roomId }, { __v: 0 }).populate({
-		path: "messages",
-		select: {
-			__v: 0,
-			updatedAt: 0,
+	// Find room and aggregate messages
+	const messages = await Room.aggregate([
+		{ $match: { _id: id } },
+		{
+			$lookup: {
+				from: "messages",
+				localField: "_id",
+				foreignField: "roomId",
+				as: "messages",
+			},
 		},
-	});
+		{ $unwind: "$messages" },
+		{
+			$project: {
+				_id: 0,
+				id: "$messages._id",
+				roomId: "$messages.roomId",
+				userId: "$messages.userId",
+				message: "$messages.message",
+				createdAt: "$messages.createdAt",
+			},
+		},
+	]);
 
-	const msg = await Room.aggregate([{ $match: { _id: roomId } }]);
-	console.log(msg);
 	// Send messages to client
 	res.status(200).json(messages);
 };

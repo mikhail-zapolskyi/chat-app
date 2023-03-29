@@ -79,10 +79,10 @@ const Chat = () => {
 				},
 			}
 		);
-		const room = await response.json();
+		const messages: [] = await response.json();
 
-		if (room) {
-			setChatMessages(room.messages);
+		if (messages) {
+			setChatMessages(messages);
 		} else {
 			setChatMessages([]);
 		}
