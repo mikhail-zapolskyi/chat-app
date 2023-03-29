@@ -8,7 +8,6 @@ import { useAppDispatch } from "../redux/hooks";
 import "../styles/global.css";
 import "../styles/container.css";
 import "../styles/chat/chat.css";
-import "../styles/button/button.css";
 
 const Auth = ({ children }) => {
 	const dispatch = useAppDispatch();

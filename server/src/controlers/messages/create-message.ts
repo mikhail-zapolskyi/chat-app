@@ -17,6 +17,8 @@ const createNewMessage = async (
 		},
 		{ upsert: true, new: true }
 	);
+
+	return newMessage;
 };
 
 export default createNewMessage;

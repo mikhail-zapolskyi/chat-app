@@ -1,4 +1,4 @@
-export { default as Message } from "./messages/message";
+export { default as Message } from "./messages/Message";
 export { default as Error } from "./errors/error";
 export { default as ContactBoard } from "./boards/contact-board";
 export { default as SearchContacts } from "./search/search-contacts";

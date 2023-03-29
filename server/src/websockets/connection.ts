@@ -22,7 +22,7 @@ io.on("connection", async (socket: Socket) => {
 	socket.on("sendMessageToRoom", async (data) => {
 		const { message, roomId, userId } = data;
 		socket.join(roomId);
-		io.to(roomId).emit("message", { message, userId });
-		await createNewMessage(roomId, message, userId);
+		const newMessage = await createNewMessage(roomId, message, userId);
+		io.to(roomId).emit("message", newMessage);
 	});
 });

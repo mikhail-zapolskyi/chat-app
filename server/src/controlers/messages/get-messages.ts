@@ -16,8 +16,12 @@ const getMessagesByRoomId = async (
 	}
 
 	// Find room by roomId and populate messages
-	const messages = await Room.findOne({ _id: roomId }).populate({
+	const messages = await Room.findOne({ _id: roomId }, { __v: 0 }).populate({
 		path: "messages",
+		select: {
+			__v: 0,
+			updatedAt: 0,
+		},
 	});
 
 	// Send messages to client

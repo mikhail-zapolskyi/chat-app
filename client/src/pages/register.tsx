@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useAppDispatch } from "../redux/hooks";
 import { useRouter } from "next/router";
 import { registerUser } from "../redux/authSlice";
-import { Message, Error, Button } from "../components";
+import { Message, Error, Button, Title, BasicLink } from "../components";
 import styles from "../styles/auth/auth.module.css";
 
 const Register = () => {
@@ -51,9 +51,7 @@ const Register = () => {
 		<>
 			<div className="wrapper-full-screen-dark">
 				<form onSubmit={handleSubmit} className={styles.auth}>
-					<h1 className={styles.auth__title}>
-						Register to pMessanger
-					</h1>
+					<Title message="Register to pMessanger" />
 					<input
 						type="text"
 						name="email"
@@ -80,10 +78,8 @@ const Register = () => {
 					/>
 					<Button text="Register" />
 					<p className={styles.auth__text}>
-						Already have an account? Please{" "}
-						<a href="/login" className={styles.auth__link}>
-							login
-						</a>
+						Already have an account?
+						<BasicLink href="/login" text="Login" />
 					</p>
 				</form>
 			</div>

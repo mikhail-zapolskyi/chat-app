@@ -10,6 +10,7 @@ import {
 	Error,
 	ContactTab,
 	UserTab,
+	Message,
 } from "../components";
 import { addContact, getContactList } from "../redux/contactsSlice";
 import { logoutUser } from "../redux/authSlice";
@@ -46,13 +47,8 @@ const Chat = () => {
 			dispatch(getContactList({ userId: user?.id }));
 		});
 
-		socket.on("message", (data) => {
-			const { message, userId } = data;
-			console.log(message);
-			setChatMessages((chatMessages) => [
-				...chatMessages,
-				{ userId, message },
-			]);
+		socket.on("message", (newMessage) => {
+			setChatMessages((chatMessages) => [...chatMessages, newMessage]);
 		});
 
 		return () => {
@@ -113,10 +109,6 @@ const Chat = () => {
 		setInputMessage("");
 	};
 
-	const generate_id = () => {
-		return `id_${(Math.random() * 10000000000).toFixed(0)}`;
-	};
-
 	const find_contact = async () => {
 		fetch("http://localhost:4000/api/contacts/find", {
 			method: "POST",
@@ -168,7 +160,7 @@ const Chat = () => {
 		console.log("logout");
 		dispatch(logoutUser());
 	};
-
+	console.log(chatMessages);
 	return (
 		<div className="chat">
 			<div className="chat-contacts">
@@ -216,17 +208,16 @@ const Chat = () => {
 					<ul className="chat-messageBoard__messages">
 						{chatMessages.map((msg) => {
 							return (
-								<li
-									className={
-										user?.id === msg.userId
-											? `chat-messageBoard__user-message`
-											: `chat-messageBoard__contact-message`
+								<Message
+									key={msg._id}
+									msg={msg.message}
+									isContact={
+										msg.userId === user.id
+											? false
+											: true
 									}
-									key={generate_id()}
-								>
-									<h3>{msg.user}</h3>
-									<p>{msg.message}</p>
-								</li>
+									date={msg.createdAt}
+								/>
 							);
 						})}
 					</ul>

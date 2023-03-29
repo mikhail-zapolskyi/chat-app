@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useAppDispatch } from "../redux/hooks";
 import { useRouter } from "next/router";
 import { loginUser } from "../redux/authSlice";
-import { Message, Button, Error, Title } from "../components";
+import { Message, Button, Error, Title, BasicLink } from "../components";
 import styles from "../styles/auth/auth.module.css";
 
 const Login = () => {
@@ -66,10 +66,8 @@ const Login = () => {
 					/>
 					<Button text="Login" />
 					<p className={styles.auth__text}>
-						Don't have an account. Please{" "}
-						<a href="/register" className={styles.auth__link}>
-							register
-						</a>
+						Don't have an account?
+						<BasicLink href="/register" text="Register" />
 					</p>
 				</form>
 			</div>

@@ -7,6 +7,8 @@
 	--color-button: linear-gradient(to right, #fff500 0%, #b42ba6 100%);
 	--color-button-hover: #4cbb17;
 	--color-error: #ff0000;
+	--color-chat: #e5e5e5;
+	--color-chat-active: #eeeeee;
 }
 
 * {

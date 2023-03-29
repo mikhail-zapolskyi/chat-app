@@ -3,47 +3,21 @@
 	height: 100vh;
 	display: grid;
 	grid-template-columns: 1fr 2fr;
+	background-color: var(--color-chat);
 }
 
-.chat-contacts {
-	background-color: lightgray;
-}
 .chat-messageBoard {
 	display: grid;
 	grid-template-columns: 1fr;
 	grid-template-rows: 2rem 3fr 1fr;
-	box-shadow: 2px 2px 21px -12px rgba(0, 0, 0, 0.75) inset;
-	-webkit-box-shadow: 2px 2px 21px -12px rgba(0, 0, 0, 0.75) inset;
-	-moz-box-shadow: 2px 2px 21px -12px rgba(0, 0, 0, 0.75) inset;
 	overflow-y: scroll;
+	background-color: var(--color-chat-active);
 }
 
 .chat-messageBoard__messages {
 	list-style: none;
 	padding: 2rem;
-}
-
-.chat-messageBoard__user-message,
-.chat-messageBoard__contact-message {
-	padding: 5px;
-	margin-bottom: 3px;
-	background-color: rgb(233, 233, 233);
-	color: rgb(96, 96, 96);
-	border-radius: 5px;
-	display: flex;
-	align-items: center;
-	width: 60%;
-}
-
-.chat-messageBoard__user-message {
-	background-color: rgb(85, 190, 255);
-	float: right;
-}
-
-.chat-messageBoard__user-message h3,
-.chat-messageBoard__contact-message h3 {
-	margin: 5px;
-	padding: 5px;
+	overflow-y: scroll;
 }
 
 .chat-input {

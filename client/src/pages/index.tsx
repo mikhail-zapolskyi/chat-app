@@ -12,7 +12,7 @@ const HomePage = () => {
 
 	return (
 		<div className="wrapper-full-screen-dark">
-			<Title message="Welcome to pMessanger. Please proceed to login page" />
+			<Title message="Welcome to pMessanger" />
 			{"\n"}
 			{!user && <BasicLink href="/login" text="Get Started" />}
 			{user && (

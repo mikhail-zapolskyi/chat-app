@@ -9,7 +9,7 @@
 }
 
 .auth * {
-	margin-bottom: 1rem;
+	margin-bottom: 0.5rem;
 }
 
 .auth__input {
@@ -34,5 +34,6 @@
 
 .auth__text {
 	color: var(--color-tertiary);
+	text-align: center;
 	font-size: 1.6rem;
 }
