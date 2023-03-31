@@ -13,13 +13,11 @@ const Register = () => {
 		password: "",
 		confirmPassword: "",
 	});
-	const [message, setMessage] = useState("");
 	const [error, setError] = useState("");
 
 	const clear_error_message = () => {
 		setTimeout(() => {
 			setError("");
-			setMessage("");
 		}, 3000);
 	};
 
@@ -32,15 +30,12 @@ const Register = () => {
 	const handleSubmit = (event: React.FormEvent) => {
 		event.preventDefault();
 		dispatch(registerUser(auth)).then((res) => {
-			const { errors, message } = res.payload;
+			const { errors } = res.payload;
 
 			if (errors) {
 				setError(errors.message);
 			} else {
-				setMessage(message);
-				setTimeout(() => {
-					router.push("/chat");
-				}, 500);
+				router.push("/chat");
 			}
 
 			clear_error_message();
@@ -83,7 +78,6 @@ const Register = () => {
 					</p>
 				</form>
 			</div>
-			{message && <Message message={message}></Message>}
 			{error && <Error message={error}></Error>}
 		</>
 	);

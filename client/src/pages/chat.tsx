@@ -11,6 +11,8 @@ import {
 	ContactTab,
 	UserTab,
 	Message,
+	ContactList,
+	ChatInput,
 } from "../components";
 import { addContact, getContactList } from "../redux/contactsSlice";
 import { logoutUser } from "../redux/authSlice";
@@ -100,7 +102,7 @@ const Chat = () => {
 		}
 	};
 
-	const handleSubmit = async (e) => {
+	const handleSendMessage = async (e) => {
 		e.preventDefault();
 		socket.emit("sendMessageToRoom", {
 			message: inputMessage,
@@ -168,52 +170,46 @@ const Chat = () => {
 				{/* This div for the menuBoard */}
 				<div></div>
 				<ContactBoard>
-					<div>
-						<p>{user && user.email}</p>
-						<SearchContacts
-							value={searchInput}
-							onchange={handleInputs}
-							onclick={find_contact}
+					<p>{user && user.email}</p>
+					<SearchContacts
+						value={searchInput}
+						onchange={handleInputs}
+						onclick={find_contact}
+					/>
+					{error && <Error message={error} />}
+					{searchResult.id && (
+						<SearchContactResult
+							contact={searchResult}
+							clearContact={clear_contact}
+							addContact={add_contact}
 						/>
-						{error && <Error message={error} />}
-						{searchResult.id && (
-							<SearchContactResult
-								contact={searchResult}
-								clearContact={clear_contact}
-								addContact={add_contact}
-							/>
-						)}
-						<h3>Contacts</h3>
-						<div>
-							{user &&
-								contacts.map((userContact) => {
-									return (
-										<ContactTab
-											key={userContact.id}
-											contact={userContact}
-											onClick={() => {
-												setRoomId(
-													userContact.roomId
-												);
-												getConversation(
-													userContact.roomId
-												);
-												setContact(
-													userContact
-												);
-											}}
-											active={
-												contact?.id ===
-												userContact.id
-													? true
-													: false
-											}
-										/>
-									);
-								})}
-						</div>
-					</div>
-					<Button text="Logout" onClick={logout} />
+					)}
+					<ContactList>
+						{user &&
+							contacts.map((userContact) => {
+								return (
+									<ContactTab
+										key={userContact.id}
+										contact={userContact}
+										onClick={() => {
+											setRoomId(
+												userContact.roomId
+											);
+											getConversation(
+												userContact.roomId
+											);
+											setContact(userContact);
+										}}
+										active={
+											contact?.id ===
+											userContact.id
+												? true
+												: false
+										}
+									/>
+								);
+							})}
+					</ContactList>
 				</ContactBoard>
 			</div>
 			{roomId && user && (
@@ -236,20 +232,11 @@ const Chat = () => {
 							);
 						})}
 					</ul>
-					<div className="chat-input">
-						<textarea
-							className="chat-input__textarea"
-							name="chat_msg"
-							value={inputMessage}
-							onChange={handleInputs}
-						></textarea>
-						<button
-							className="chat-input__btn btn"
-							onClick={handleSubmit}
-						>
-							Send
-						</button>
-					</div>
+					<ChatInput
+						input={inputMessage}
+						onChange={handleInputs}
+						onClick={handleSendMessage}
+					/>
 				</div>
 			)}
 		</div>

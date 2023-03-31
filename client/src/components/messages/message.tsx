@@ -1,12 +1,14 @@
 import React from "react";
 import styles from "./Message.module.css";
 import { BsThreeDots } from "react-icons/bs";
+import { useTime } from "../../hooks";
 
 interface IMessage {
 	msg: string;
 	isContact: boolean;
 	date: string;
 	contact?: {
+		id: string;
 		name?: string;
 		email?: string;
 		avatar?: string;
@@ -14,6 +16,8 @@ interface IMessage {
 }
 
 const Message: React.FC<IMessage> = ({ msg, isContact, date, contact }) => {
+	const [time] = useTime(date);
+
 	return (
 		<li className={styles.wrapper}>
 			<div className={styles.container}>
@@ -33,7 +37,7 @@ const Message: React.FC<IMessage> = ({ msg, isContact, date, contact }) => {
 								? contact?.name || contact?.email
 								: "Me"}
 						</p>
-						<p className={styles.time}>{getTime(date)}</p>
+						<p className={styles.time}>{time}</p>
 					</div>
 					<p className={styles.text}>{msg}</p>
 				</div>
@@ -41,15 +45,6 @@ const Message: React.FC<IMessage> = ({ msg, isContact, date, contact }) => {
 			<BsThreeDots className={styles.settings} />
 		</li>
 	);
-};
-
-const getTime = (dateString: string): string => {
-	const date = new Date(dateString);
-	const hours = date.getHours();
-	const minutes = date.getMinutes();
-	const formattedHours = hours < 10 ? `0${hours}` : hours.toString();
-	const formattedMinutes = minutes < 10 ? `0${minutes}` : minutes.toString();
-	return `${formattedHours}:${formattedMinutes}`;
 };
 
 export default Message;

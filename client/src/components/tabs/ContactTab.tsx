@@ -46,7 +46,7 @@ const ContactTab: React.FC<IContactTab> = ({ active, contact, onClick }) => {
 				<p>{name || email}</p>
 				<p>{onlineStatus ? "Active" : "Offline"}</p>
 				<p>
-					Last time online: {date} - {time}
+					Last time online: {date} {time}
 				</p>
 			</div>
 		</div>

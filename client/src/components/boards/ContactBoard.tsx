@@ -1,4 +1,4 @@
-import styles from "./contact-board.module.css";
+import styles from "./ContactBoard.module.css";
 
 const ContactBoard = ({ children }) => {
 	return <div className={styles.contactBoard}>{children}</div>;

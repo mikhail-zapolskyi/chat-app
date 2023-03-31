@@ -2,14 +2,13 @@ import React, { useState } from "react";
 import { useAppDispatch } from "../redux/hooks";
 import { useRouter } from "next/router";
 import { loginUser } from "../redux/authSlice";
-import { Message, Button, Error, Title, BasicLink } from "../components";
+import { SuccessMessage, Button, Error, Title, BasicLink } from "../components";
 import styles from "../styles/auth/auth.module.css";
 
 const Login = () => {
 	const dispatch = useAppDispatch();
 	const router = useRouter();
 	const [auth, setAuth] = useState({ email: "", password: "" });
-	const [message, setMessage] = useState("");
 	const [error, setError] = useState("");
 
 	const handle_auth_state = (e) => {
@@ -21,15 +20,12 @@ const Login = () => {
 	const handleSubmit = (event: React.FormEvent) => {
 		event.preventDefault();
 		dispatch(loginUser(auth)).then((res) => {
-			const { errors, message } = res.payload;
+			const { errors } = res.payload;
 
 			if (errors) {
 				setError(errors.message);
 			} else {
-				setMessage(message);
-				setTimeout(() => {
-					router.push("/chat");
-				}, 500);
+				router.push("/chat");
 			}
 
 			clear_error_message();
@@ -39,7 +35,6 @@ const Login = () => {
 	const clear_error_message = () => {
 		setTimeout(() => {
 			setError("");
-			setMessage("");
 		}, 3000);
 	};
 
@@ -71,7 +66,6 @@ const Login = () => {
 					</p>
 				</form>
 			</div>
-			{message && <Message message={message}></Message>}
 			{error && <Error message={error}></Error>}
 		</>
 	);
