@@ -15,7 +15,7 @@ import {
 	MenuTab,
 } from "../components";
 import { addContact, getContactList } from "../redux/contactsSlice";
-import { getMessages } from "../redux/messagesSlice";
+import { getMessages, addMessage } from "../redux/messagesSlice";
 
 const Chat = () => {
 	const router = useRouter();
@@ -23,8 +23,8 @@ const Chat = () => {
 	const dispatch = useAppDispatch();
 	const { user } = useAppSelector((state) => state.auth);
 	const { contacts } = useAppSelector((state) => state);
+	const { messages } = useAppSelector((state) => state);
 	const [inputMessage, setInputMessage] = useState("");
-	const [chatMessages, setChatMessages] = useState([]);
 	const [searchInput, setSearchInput] = useState("");
 	const [searchResult, setSearchResult] = useState({ id: "", email: "" });
 	const [roomId, setRoomId] = useState("");
@@ -41,12 +41,9 @@ const Chat = () => {
 	// Get messages and update chatMessages state
 	useEffect(() => {
 		if (roomId) {
-			const messages = dispatch(getMessages(roomId));
-			messages.then((res) => {
-				setChatMessages(res.payload);
-			});
+			dispatch(getMessages(roomId));
 		}
-	}, [roomId]);
+	}, [roomId, dispatch]);
 
 	useEffect(() => {
 		const newSocket = io("http://localhost:4000", {
@@ -68,7 +65,7 @@ const Chat = () => {
 		});
 
 		socket.on("message", (newMessage) => {
-			setChatMessages((chatMessages) => [...chatMessages, newMessage]);
+			dispatch(addMessage(newMessage));
 		});
 
 		return () => {
@@ -76,10 +73,6 @@ const Chat = () => {
 			socket.off("userOnlineStatusChanged");
 		};
 	}, [socket]);
-
-	const handleMessages = async (roomId) => {
-		dispatch(getMessages(roomId));
-	};
 
 	const handleInputs = (e) => {
 		e.preventDefault();
@@ -181,9 +174,6 @@ const Chat = () => {
 											setRoomId(
 												userContact.roomId
 											);
-											// handleMessages(
-											// 	userContact.roomId
-											// );
 											setContact(userContact);
 										}}
 										active={
@@ -202,7 +192,7 @@ const Chat = () => {
 				<div className="chat-messageBoard">
 					<UserTab contacts={contacts} roomId={roomId} />
 					<ul className="chat-messageBoard__messages">
-						{chatMessages.map((msg) => {
+						{messages.map((msg) => {
 							return (
 								<ChatMessage
 									key={msg.id}

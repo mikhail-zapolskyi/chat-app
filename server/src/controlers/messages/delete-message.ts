@@ -2,7 +2,7 @@
 // Path: server/src/controlers/messages/delete.ts
 
 import { Request, Response, NextFunction } from "express";
-import { Message } from "../../model";
+import { Message, Room } from "../../model";
 import { BadRequest } from "../../errors";
 
 const deleteMessageById = async (
@@ -27,8 +27,14 @@ const deleteMessageById = async (
 
 	await message.remove();
 
+	// Delete message from Room message array
+	await Room.findOneAndUpdate(
+		{ _id: message.roomId },
+		{ $pull: { messages: message._id } }
+	);
+
 	// Send message to client
-	res.status(200).json({ message: "Message deleted" });
+	res.status(200).json({ id: message._id });
 };
 
 export default deleteMessageById;

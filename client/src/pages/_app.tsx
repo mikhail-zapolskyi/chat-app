@@ -2,7 +2,7 @@ import type { AppProps } from "next/app";
 import { Provider } from "react-redux";
 import { store } from "../redux/store";
 import { useEffect } from "react";
-import { fetchUser } from "../redux/authSlice";
+import { getUser } from "../redux/authSlice";
 import { useAppDispatch } from "../redux/hooks";
 
 import "../styles/global.css";
@@ -13,7 +13,7 @@ const Auth = ({ children }) => {
 	const dispatch = useAppDispatch();
 
 	useEffect(() => {
-		dispatch(fetchUser());
+		dispatch(getUser());
 	}, [dispatch]);
 
 	return children;

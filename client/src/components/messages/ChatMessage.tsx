@@ -2,8 +2,9 @@ import React from "react";
 import styles from "./ChatMessage.module.css";
 import { BsThreeDots } from "react-icons/bs";
 import { useTime } from "../../hooks";
-import { useAppDispatch, useAppSelector } from "../../redux/hooks";
+import { useAppDispatch } from "../../redux/hooks";
 import MessageSettingMenu from "../menu/MessageSettingMenu";
+import { deleteMessage } from "../../redux/messagesSlice";
 
 interface IChatMessage {
 	id: string;
@@ -25,12 +26,13 @@ const ChatMessage: React.FC<IChatMessage> = ({
 	date,
 	contact,
 }) => {
+	const dispatch = useAppDispatch();
 	const [time] = useTime(date);
 	const [messageSettingMenuState, setMessageSettingMenuState] =
 		React.useState(false);
 
-	const deleteMessage = () => {
-		console.log("delete message", id);
+	const handleDeleteMessage = () => {
+		dispatch(deleteMessage(id));
 		setMessageSettingMenuState(false);
 	};
 
@@ -70,7 +72,7 @@ const ChatMessage: React.FC<IChatMessage> = ({
 			</li>
 			<li>
 				{messageSettingMenuState && (
-					<MessageSettingMenu onClick={deleteMessage} />
+					<MessageSettingMenu onClick={handleDeleteMessage} />
 				)}
 			</li>
 		</>

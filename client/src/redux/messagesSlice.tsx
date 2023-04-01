@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk, createAction } from "@reduxjs/toolkit";
 
 interface IChatMessage {
 	id: string;
@@ -28,6 +28,15 @@ export const getMessages = createAsyncThunk(
 	}
 );
 
+export const addMessage = createAction(
+	"messages/addMessage",
+	(message: IChatMessage) => ({
+		payload: {
+			message,
+		},
+	})
+);
+
 export const deleteMessage = createAsyncThunk(
 	"messages/deleteMessage",
 	async (messageId: string) => {
@@ -53,6 +62,10 @@ export const messagesSlice = createSlice({
 	extraReducers: (builder) => {
 		builder.addCase(getMessages.fulfilled, (state, { payload }) => {
 			return payload;
+		});
+
+		builder.addCase(addMessage, (state, { payload }) => {
+			state.push(payload.message);
 		});
 
 		builder.addCase(deleteMessage.fulfilled, (state, { payload }) => {

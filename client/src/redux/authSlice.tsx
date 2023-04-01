@@ -6,7 +6,7 @@ interface IAuth {
 	confirmPassword?: string;
 }
 
-export const fetchUser = createAsyncThunk("auth/fetchUser", async () => {
+export const getUser = createAsyncThunk("auth/fetchUser", async () => {
 	const response = await fetch(`http://localhost:4000/api/user`, {
 		method: "GET",
 		credentials: "include",
@@ -62,7 +62,7 @@ export const authSlice = createSlice({
 	reducers: {},
 	extraReducers: (builder) => {
 		// CHECK IF USER STILL LOGEDIN
-		builder.addCase(fetchUser.fulfilled, (state, { payload }) => {
+		builder.addCase(getUser.fulfilled, (state, { payload }) => {
 			state.user = payload.user;
 		});
 		// LOGIN USER
