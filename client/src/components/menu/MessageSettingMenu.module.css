@@ -1,0 +1,17 @@
+.wrapper {
+	background-color: var(--color-chat);
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
+}
+
+.button {
+	padding: 0.5rem;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	color: var(--color-primary);
+	text-transform: uppercase;
+}

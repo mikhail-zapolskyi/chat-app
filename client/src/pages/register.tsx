@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useAppDispatch } from "../redux/hooks";
 import { useRouter } from "next/router";
 import { registerUser } from "../redux/authSlice";
-import { Message, Error, Button, Title, BasicLink } from "../components";
+import { Message, ErrorMessage, Button, Title, BasicLink } from "../components";
 import styles from "../styles/auth/auth.module.css";
 
 const Register = () => {
@@ -78,7 +78,7 @@ const Register = () => {
 					</p>
 				</form>
 			</div>
-			{error && <Error message={error}></Error>}
+			{error && <ErrorMessage message={error} />}
 		</>
 	);
 };

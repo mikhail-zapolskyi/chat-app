@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useAppDispatch } from "../redux/hooks";
 import { useRouter } from "next/router";
 import { loginUser } from "../redux/authSlice";
-import { SuccessMessage, Button, Error, Title, BasicLink } from "../components";
+import { Button, ErrorMessage, Title, BasicLink } from "../components";
 import styles from "../styles/auth/auth.module.css";
 
 const Login = () => {
@@ -66,7 +66,7 @@ const Login = () => {
 					</p>
 				</form>
 			</div>
-			{error && <Error message={error}></Error>}
+			{error && <ErrorMessage message={error} />}
 		</>
 	);
 };

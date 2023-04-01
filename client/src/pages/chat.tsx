@@ -3,16 +3,16 @@ import { useAppSelector, useAppDispatch } from "../redux/hooks";
 import { useRouter } from "next/router";
 import { io, Socket } from "socket.io-client";
 import {
-	Button,
 	ContactBoard,
 	SearchContacts,
 	SearchContactResult,
-	Error,
+	ErrorMessage,
 	ContactTab,
 	UserTab,
-	Message,
+	ChatMessage,
 	ContactList,
 	ChatInput,
+	MenuTab,
 } from "../components";
 import { addContact, getContactList } from "../redux/contactsSlice";
 import { logoutUser } from "../redux/authSlice";
@@ -159,16 +159,11 @@ const Chat = () => {
 		setSearchResult({ id: "", email: "" });
 	};
 
-	const logout = () => {
-		console.log("logout");
-		dispatch(logoutUser());
-	};
-
 	return (
 		<div className="chat">
 			<div className="chat__contacts">
 				{/* This div for the menuBoard */}
-				<div></div>
+				<MenuTab />
 				<ContactBoard>
 					<p>{user && user.email}</p>
 					<SearchContacts
@@ -176,7 +171,7 @@ const Chat = () => {
 						onchange={handleInputs}
 						onclick={find_contact}
 					/>
-					{error && <Error message={error} />}
+					{error && <ErrorMessage message={error} />}
 					{searchResult.id && (
 						<SearchContactResult
 							contact={searchResult}
@@ -218,8 +213,9 @@ const Chat = () => {
 					<ul className="chat-messageBoard__messages">
 						{chatMessages.map((msg) => {
 							return (
-								<Message
+								<ChatMessage
 									key={msg.id}
+									id={msg.id}
 									msg={msg.message}
 									isContact={
 										msg.userId === user.id

@@ -30,7 +30,7 @@ const UserTab: React.FC<IContactProps> = ({ contacts, roomId }) => {
 				<div className={styles.avatarContainer}>
 					<GrStatusGoodSmall
 						className={
-							targetContact().onlineStatus
+							targetContact()?.onlineStatus
 								? styles.onlineStatusIcon__online
 								: styles.onlineStatusIcon__offline
 						}
@@ -46,9 +46,11 @@ const UserTab: React.FC<IContactProps> = ({ contacts, roomId }) => {
 					/>
 				</div>
 				<div>
-					<p>{targetContact()?.name || targetContact().email}</p>
 					<p>
-						{targetContact().onlineStatus
+						{targetContact()?.name || targetContact()?.email}
+					</p>
+					<p>
+						{targetContact()?.onlineStatus
 							? "Active"
 							: "Offline"}
 					</p>
