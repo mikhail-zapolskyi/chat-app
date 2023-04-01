@@ -38,15 +38,15 @@ const Chat = () => {
 		}
 	}, [user]);
 
-	// useEffect(() => {
-	// 	const checkAuth = setTimeout(() => {
-	// 		if (!user) {
-	// 			router.push("/login");
-	// 		}
-	// 	}, 500);
-
-	// 	return () => clearTimeout(checkAuth);
-	// }, [user]);
+	// Get messages and update chatMessages state
+	useEffect(() => {
+		if (roomId) {
+			const messages = dispatch(getMessages(roomId));
+			messages.then((res) => {
+				setChatMessages(res.payload);
+			});
+		}
+	}, [roomId]);
 
 	useEffect(() => {
 		const newSocket = io("http://localhost:4000", {
@@ -181,9 +181,9 @@ const Chat = () => {
 											setRoomId(
 												userContact.roomId
 											);
-											handleMessages(
-												userContact.roomId
-											);
+											// handleMessages(
+											// 	userContact.roomId
+											// );
 											setContact(userContact);
 										}}
 										active={
