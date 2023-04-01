@@ -1,5 +1,4 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import build from "next/dist/build";
 
 interface IAuth {
 	email: string;
