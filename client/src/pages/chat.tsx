@@ -15,7 +15,7 @@ import {
 	MenuTab,
 } from "../components";
 import { addContact, getContactList } from "../redux/contactsSlice";
-import { logoutUser } from "../redux/authSlice";
+import { getMessages } from "../redux/messagesSlice";
 
 const Chat = () => {
 	const router = useRouter();
@@ -30,6 +30,23 @@ const Chat = () => {
 	const [roomId, setRoomId] = useState("");
 	const [contact, setContact] = useState({ id: "" });
 	const [error, setError] = useState("");
+
+	// Check if user is logged in
+	useEffect(() => {
+		if (!user) {
+			router.push("/login");
+		}
+	}, [user]);
+
+	// useEffect(() => {
+	// 	const checkAuth = setTimeout(() => {
+	// 		if (!user) {
+	// 			router.push("/login");
+	// 		}
+	// 	}, 500);
+
+	// 	return () => clearTimeout(checkAuth);
+	// }, [user]);
 
 	useEffect(() => {
 		const newSocket = io("http://localhost:4000", {
@@ -60,34 +77,8 @@ const Chat = () => {
 		};
 	}, [socket]);
 
-	useEffect(() => {
-		const checkAuth = setTimeout(() => {
-			if (!user) {
-				router.push("/login");
-			}
-		}, 500);
-
-		return () => clearTimeout(checkAuth);
-	}, [user]);
-
-	const getConversation = async (roomId) => {
-		const response = await fetch(
-			`http://localhost:4000/api/rooms/${roomId}/messages`,
-			{
-				method: "POST",
-				credentials: "include",
-				headers: {
-					"Content-Type": "application/json",
-				},
-			}
-		);
-		const messages: [] = await response.json();
-
-		if (messages) {
-			setChatMessages(messages);
-		} else {
-			setChatMessages([]);
-		}
+	const handleMessages = async (roomId) => {
+		dispatch(getMessages(roomId));
 	};
 
 	const handleInputs = (e) => {
@@ -190,7 +181,7 @@ const Chat = () => {
 											setRoomId(
 												userContact.roomId
 											);
-											getConversation(
+											handleMessages(
 												userContact.roomId
 											);
 											setContact(userContact);
