@@ -18,7 +18,13 @@ const createNewMessage = async (
 		{ upsert: true, new: true }
 	);
 
-	return newMessage;
+	return {
+		id: newMessage._id,
+		message: newMessage.message,
+		userId: newMessage.userId,
+		roomId: newMessage.roomId,
+		createdAt: newMessage.createdAt,
+	};
 };
 
 export default createNewMessage;

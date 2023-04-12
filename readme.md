@@ -1,4 +1,4 @@
-<h1 align="center">Chat using Typescript, NextJS, Socket IO</h1>
+<h1 align="center">Chat using Typescript, React, NextJS, NodeJS, Socket IO</h1>
 
 ### Description
 

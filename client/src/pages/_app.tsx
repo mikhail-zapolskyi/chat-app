@@ -3,7 +3,7 @@ import { Provider } from "react-redux";
 import { store } from "../redux/store";
 import { useEffect } from "react";
 import { getUser } from "../redux/authSlice";
-import { useAppDispatch } from "../redux/hooks";
+import { useAppDispatch, useAppSelector } from "../redux/hooks";
 
 import "../styles/global.css";
 import "../styles/container.css";
@@ -19,7 +19,10 @@ const Auth = ({ children }) => {
 	return children;
 };
 
-export default function MyApp({ Component, pageProps }: AppProps) {
+export default function MyApp({
+	Component,
+	pageProps: { user, pageProps },
+}: AppProps) {
 	return (
 		<Provider store={store}>
 			<Auth>

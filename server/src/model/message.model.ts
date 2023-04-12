@@ -4,6 +4,7 @@ interface IMessage {
 	roomId: Types.ObjectId;
 	userId: Types.ObjectId;
 	message: string;
+	createdAt?: Date;
 }
 
 const messagesSchema = new Schema<IMessage>(

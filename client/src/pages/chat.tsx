@@ -16,6 +16,7 @@ import {
 } from "../components";
 import { addContact, getContactList } from "../redux/contactsSlice";
 import { getMessages, addMessage } from "../redux/messagesSlice";
+import UserCard from "../components/cards/UserCard";
 
 const Chat = () => {
 	const router = useRouter();
@@ -88,6 +89,7 @@ const Chat = () => {
 
 	const handleSendMessage = async (e) => {
 		e.preventDefault();
+
 		socket.emit("sendMessageToRoom", {
 			message: inputMessage,
 			roomId,
@@ -149,8 +151,8 @@ const Chat = () => {
 				{/* This div for the menuBoard */}
 				<MenuTab />
 				<ContactBoard>
-					<p>{user && user.email}</p>
-					<SearchContacts
+					<UserCard user={user} />
+					{/* <SearchContacts
 						value={searchInput}
 						onchange={handleInputs}
 						onclick={find_contact}
@@ -162,7 +164,7 @@ const Chat = () => {
 							clearContact={clear_contact}
 							addContact={add_contact}
 						/>
-					)}
+					)} */}
 					<ContactList>
 						{user &&
 							contacts.map((userContact) => {

@@ -6,10 +6,14 @@ interface IAuth {
 	confirmPassword?: string;
 }
 
-export const getUser = createAsyncThunk("auth/fetchUser", async () => {
+// CHECK IF USER STILL LOGEDIN
+export const getUser = createAsyncThunk("auth/getUser", async () => {
 	const response = await fetch(`http://localhost:4000/api/user`, {
 		method: "GET",
 		credentials: "include",
+		headers: {
+			"Content-Type": "application/json",
+		},
 	});
 	return await response.json();
 });
@@ -62,6 +66,9 @@ export const authSlice = createSlice({
 	reducers: {},
 	extraReducers: (builder) => {
 		// CHECK IF USER STILL LOGEDIN
+		builder.addCase(getUser.pending, (state, { payload }) => {
+			state.user = payload;
+		});
 		builder.addCase(getUser.fulfilled, (state, { payload }) => {
 			state.user = payload.user;
 		});
