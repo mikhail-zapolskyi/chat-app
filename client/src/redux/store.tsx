@@ -2,12 +2,14 @@ import { configureStore } from "@reduxjs/toolkit";
 import { authSlice } from "./authSlice";
 import { contactsSlice } from "./contactsSlice";
 import { messagesSlice } from "./messagesSlice";
+import { menuTabSlice } from "./menuTabSlice";
 
 export const store = configureStore({
 	reducer: {
 		auth: authSlice.reducer,
 		contacts: contactsSlice.reducer,
 		messages: messagesSlice.reducer,
+		menuTab: menuTabSlice.reducer,
 	},
 });
 

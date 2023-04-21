@@ -2,7 +2,7 @@
 	width: 100vw;
 	height: 100vh;
 	display: grid;
-	grid-template-columns: minmax(15rem, auto) minmax(3.2rem, 1fr);
+	grid-template-columns: minmax(40rem, auto) minmax(30rem, 1fr);
 	background-color: var(--color-chat);
 }
 

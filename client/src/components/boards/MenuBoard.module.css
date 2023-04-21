@@ -1,0 +1,20 @@
+.menuBoard {
+	display: grid;
+	grid-template-areas:
+		"header"
+		"content"
+		"footer";
+	grid-template-rows: 15rem 1fr 10rem;
+	justify-content: center;
+}
+
+.footer {
+	grid-area: footer;
+}
+
+.item {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	padding: 1rem;
+}

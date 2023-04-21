@@ -1,19 +1,18 @@
-import styles from "./search-contacts.module.css";
+import styles from "./SearchContacts.module.css";
+import { BsSearch } from "react-icons/bs";
 
 const SearchContacts = ({ onchange, value, onclick }) => {
 	return (
-		<div className={styles.search}>
+		<div className={styles.wrapper}>
 			<input
 				type="text"
 				name="searchInput"
 				value={value}
 				onChange={onchange}
-				className={styles.searchInput}
+				className={styles.input}
 				placeholder="Search Contact By Email"
 			/>
-			<button className={`btn ${styles.searchBtn}`} onClick={onclick}>
-				Search
-			</button>
+			<BsSearch className={styles.button} onClick={onclick} />
 		</div>
 	);
 };

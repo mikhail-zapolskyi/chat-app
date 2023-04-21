@@ -12,7 +12,8 @@ import {
 	ChatMessage,
 	ContactList,
 	ChatInput,
-	MenuTab,
+	MenuBoard,
+	AdditionalMenu,
 } from "../components";
 import { addContact, getContactList } from "../redux/contactsSlice";
 import { getMessages, addMessage } from "../redux/messagesSlice";
@@ -23,14 +24,14 @@ const Chat = () => {
 	const [socket, setSocket] = useState<Socket | null>(null);
 	const dispatch = useAppDispatch();
 	const { user } = useAppSelector((state) => state.auth);
-	const { contacts } = useAppSelector((state) => state);
-	const { messages } = useAppSelector((state) => state);
+	const { contacts, messages, menuTab } = useAppSelector((state) => state);
 	const [inputMessage, setInputMessage] = useState("");
 	const [searchInput, setSearchInput] = useState("");
 	const [searchResult, setSearchResult] = useState({ id: "", email: "" });
 	const [roomId, setRoomId] = useState("");
 	const [contact, setContact] = useState({ id: "" });
 	const [error, setError] = useState("");
+	const searchButton = true;
 
 	// Check if user is logged in
 	useEffect(() => {
@@ -149,45 +150,53 @@ const Chat = () => {
 		<div className="chat">
 			<div className="chat__contacts">
 				{/* This div for the menuBoard */}
-				<MenuTab />
+				<MenuBoard />
 				<ContactBoard>
 					<UserCard user={user} />
-					{/* <SearchContacts
-						value={searchInput}
-						onchange={handleInputs}
-						onclick={find_contact}
-					/>
-					{error && <ErrorMessage message={error} />}
-					{searchResult.id && (
-						<SearchContactResult
-							contact={searchResult}
-							clearContact={clear_contact}
-							addContact={add_contact}
-						/>
-					)} */}
-					<ContactList>
-						{user &&
-							contacts.map((userContact) => {
-								return (
-									<ContactTab
-										key={userContact.id}
-										contact={userContact}
-										onClick={() => {
-											setRoomId(
-												userContact.roomId
-											);
-											setContact(userContact);
-										}}
-										active={
-											contact?.id ===
-											userContact.id
-												? true
-												: false
-										}
-									/>
-								);
-							})}
-					</ContactList>
+					{menuTab.type === "contacts" && (
+						<ContactList>
+							{user &&
+								contacts.map((userContact) => {
+									return (
+										<ContactTab
+											key={userContact.id}
+											contact={userContact}
+											onClick={() => {
+												setRoomId(
+													userContact.roomId
+												);
+												setContact(
+													userContact
+												);
+											}}
+											active={
+												contact?.id ===
+												userContact.id
+													? true
+													: false
+											}
+										/>
+									);
+								})}
+						</ContactList>
+					)}
+					{menuTab.type === "addContact" && (
+						<AdditionalMenu>
+							<SearchContacts
+								value={searchInput}
+								onchange={handleInputs}
+								onclick={find_contact}
+							/>
+							{error && <ErrorMessage message={error} />}
+							{searchResult.id && (
+								<SearchContactResult
+									contact={searchResult}
+									clearContact={clear_contact}
+									addContact={add_contact}
+								/>
+							)}
+						</AdditionalMenu>
+					)}
 				</ContactBoard>
 			</div>
 			{roomId && user && (

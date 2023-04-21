@@ -1,0 +1,26 @@
+.wrapper {
+	position: relative;
+	display: grid;
+	align-items: center;
+}
+
+.input {
+	border-style: none;
+	border-radius: 0.3rem;
+	padding: 1rem;
+}
+
+.button {
+	position: absolute;
+	top: 50%;
+	right: 3%;
+	transform: translateY(-50%);
+	color: black;
+	justify-self: center;
+	font-size: 1.6rem;
+	cursor: pointer;
+}
+
+.searchResult {
+	justify-self: center;
+}
