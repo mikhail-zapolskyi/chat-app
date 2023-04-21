@@ -26,3 +26,5 @@ export { default as ChatInput } from "./inputs/ChatInput";
 
 export { default as MessageSettingMenu } from "./menu/MessageSettingMenu";
 export { default as AdditionalMenu } from "./menu/AdditionalMenu";
+
+export { default as Spinner } from "./spinner/Spinner";

@@ -31,7 +31,6 @@ const Chat = () => {
 	const [roomId, setRoomId] = useState("");
 	const [contact, setContact] = useState({ id: "" });
 	const [error, setError] = useState("");
-	const searchButton = true;
 
 	// Check if user is logged in
 	useEffect(() => {

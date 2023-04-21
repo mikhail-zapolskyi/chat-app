@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk, createAction } from "@reduxjs/toolkit";
 
 interface IAuth {
 	email: string;
@@ -62,15 +62,13 @@ export const logoutUser = createAsyncThunk("auth/logoutUser", async () => {
 
 export const authSlice = createSlice({
 	name: "auth",
-	initialState: { user: null },
+	initialState: { user: null, loading: true },
 	reducers: {},
 	extraReducers: (builder) => {
 		// CHECK IF USER STILL LOGEDIN
-		builder.addCase(getUser.pending, (state, { payload }) => {
-			state.user = payload;
-		});
 		builder.addCase(getUser.fulfilled, (state, { payload }) => {
 			state.user = payload.user;
+			state.loading = false;
 		});
 		// LOGIN USER
 		builder.addCase(loginUser.fulfilled, (state, { payload }) => {
