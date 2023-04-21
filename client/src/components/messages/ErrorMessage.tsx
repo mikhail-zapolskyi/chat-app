@@ -1,10 +1,27 @@
 import styles from "./ErrorMessage.module.css";
+import { useState, useEffect } from "react";
+import { useAppSelector } from "../../redux/hooks";
 
-const Error = ({ message }) => {
+const Error = () => {
+	const { error } = useAppSelector((state) => state.errors);
+	const [message, setMessage] = useState("");
+
+	useEffect(() => {
+		if (error) {
+			setMessage(error);
+		} else {
+			setMessage("");
+		}
+	}, [error]);
+
 	return (
-		<div className={styles.message}>
-			<p>{message}</p>
-		</div>
+		<>
+			{message && (
+				<div className={styles.message}>
+					<p>{message}</p>
+				</div>
+			)}
+		</>
 	);
 };
 

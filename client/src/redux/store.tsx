@@ -3,6 +3,7 @@ import { authSlice } from "./authSlice";
 import { contactsSlice } from "./contactsSlice";
 import { messagesSlice } from "./messagesSlice";
 import { menuTabSlice } from "./menuTabSlice";
+import { errorSlice } from "./errorSlice";
 
 export const store = configureStore({
 	reducer: {
@@ -10,6 +11,7 @@ export const store = configureStore({
 		contacts: contactsSlice.reducer,
 		messages: messagesSlice.reducer,
 		menuTab: menuTabSlice.reducer,
+		errors: errorSlice.reducer,
 	},
 });
 

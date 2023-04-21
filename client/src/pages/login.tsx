@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useAppDispatch } from "../redux/hooks";
 import { useRouter } from "next/router";
 import { loginUser } from "../redux/authSlice";
+import { getError } from "../redux/errorSlice";
 import { Button, ErrorMessage, Title, BasicLink } from "../components";
 import styles from "../styles/auth/auth.module.css";
 
@@ -9,7 +10,6 @@ const Login = () => {
 	const dispatch = useAppDispatch();
 	const router = useRouter();
 	const [auth, setAuth] = useState({ email: "", password: "" });
-	const [error, setError] = useState("");
 
 	const handle_auth_state = (e) => {
 		e.preventDefault();
@@ -23,19 +23,11 @@ const Login = () => {
 			const { errors } = res.payload;
 
 			if (errors) {
-				setError(errors.message);
+				dispatch(getError(errors.message));
 			} else {
 				router.push("/chat");
 			}
-
-			clear_error_message();
 		});
-	};
-
-	const clear_error_message = () => {
-		setTimeout(() => {
-			setError("");
-		}, 3000);
 	};
 
 	return (
@@ -66,7 +58,7 @@ const Login = () => {
 					</p>
 				</form>
 			</div>
-			{error && <ErrorMessage message={error} />}
+			<ErrorMessage />
 		</>
 	);
 };

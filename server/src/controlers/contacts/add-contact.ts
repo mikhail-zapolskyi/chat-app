@@ -9,6 +9,10 @@ const addContact = async (req: Request, res: Response, next: NextFunction) => {
 		return next(new BadRequest("Contact user not found"));
 	}
 
+	if (contactId === userId) {
+		return next(new BadRequest("You can't add yourself"));
+	}
+
 	// CHECK IF USER IN CONTACT LIST OR NOT
 	const isUserInContact = await ContactList.findOne({
 		userId,
