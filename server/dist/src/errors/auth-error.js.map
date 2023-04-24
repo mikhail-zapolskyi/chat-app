@@ -1,1 +1,0 @@
-{"version":3,"file":"auth-error.js","sourceRoot":"","sources":["../../../src/errors/auth-error.ts"],"names":[],"mappings":";;;;;AAAA,kEAAyC;AAEzC,MAAM,SAAU,SAAQ,sBAAW;IAGlC,YAAY,OAAe,EAAE,aAAqB,GAAG;QACpD,KAAK,CAAC,OAAO,EAAE,UAAU,CAAC,CAAC;QAH5B,SAAI,GAAW,WAAW,CAAC;IAI3B,CAAC;CACD;AAED,kBAAe,SAAS,CAAC"}

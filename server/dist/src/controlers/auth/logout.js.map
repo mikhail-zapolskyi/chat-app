@@ -1,1 +1,0 @@
-{"version":3,"file":"logout.js","sourceRoot":"","sources":["../../../../src/controlers/auth/logout.ts"],"names":[],"mappings":";;AAEA,MAAM,MAAM,GAAG,CAAC,GAAY,EAAE,GAAa,EAAE,IAAkB,EAAE,EAAE;IAClE,GAAG,CAAC,OAAO,GAAG,IAAI,CAAC;IACnB,GAAG,CAAC,MAAM,CAAC,GAAG,CAAC,CAAC,IAAI,CAAC,EAAE,IAAI,EAAE,IAAI,EAAE,OAAO,EAAE,0BAA0B,EAAE,CAAC,CAAC;AAC3E,CAAC,CAAC;AAEF,kBAAe,MAAM,CAAC"}
