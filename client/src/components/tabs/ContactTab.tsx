@@ -2,9 +2,14 @@ import React from "react";
 import styles from "./ContactTab.module.css";
 import { GrStatusGoodSmall } from "react-icons/gr";
 import { useTime } from "../../hooks";
+import { removeContact } from "../../redux/contactsSlice";
+import { useAppDispatch } from "../../redux/hooks";
+import { getError } from "../../redux/errorSlice";
 
 interface IContactTab {
+	userId: string;
 	contact: {
+		contactId: string;
 		name?: string;
 		email: string;
 		onlineStatus: boolean;
@@ -15,9 +20,24 @@ interface IContactTab {
 	active: boolean;
 }
 
-const ContactTab: React.FC<IContactTab> = ({ active, contact, onClick }) => {
+const ContactTab: React.FC<IContactTab> = ({
+	userId,
+	active,
+	contact,
+	onClick,
+}) => {
+	const dispatch = useAppDispatch();
 	const [time, date] = useTime(contact?.lastTimeOnline);
-	const { avatar, name, email, onlineStatus } = contact;
+	const { contactId, avatar, name, email, onlineStatus } = contact;
+
+	const remove_contact = () => {
+		dispatch(
+			removeContact({
+				userId,
+				contactId,
+			})
+		);
+	};
 
 	return (
 		<div
@@ -48,6 +68,7 @@ const ContactTab: React.FC<IContactTab> = ({ active, contact, onClick }) => {
 				<p>
 					Last time online: {date} {time}
 				</p>
+				<p onClick={remove_contact}>remove</p>
 			</div>
 		</div>
 	);

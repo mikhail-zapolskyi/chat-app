@@ -15,8 +15,7 @@ const addContact = async (req: Request, res: Response, next: NextFunction) => {
 
 	// CHECK IF USER IN CONTACT LIST OR NOT
 	const isUserInContact = await ContactList.findOne({
-		userId,
-		contactId,
+		users: { $all: [userId, contactId] },
 	});
 
 	if (isUserInContact) {

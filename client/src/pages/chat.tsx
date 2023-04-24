@@ -4,8 +4,8 @@ import { useRouter } from "next/router";
 import { io, Socket } from "socket.io-client";
 import {
 	ContactBoard,
-	SearchContacts,
-	SearchContactResult,
+	SearchContactsTab,
+	SearchContactResultCard,
 	ErrorMessage,
 	ContactTab,
 	UserTab,
@@ -14,10 +14,15 @@ import {
 	ChatInput,
 	MenuBoard,
 	AdditionalMenu,
+	UserCard,
 } from "../components";
-import { addContact, getContactList } from "../redux/contactsSlice";
+import {
+	addContact,
+	getContactList,
+	removeContact,
+} from "../redux/contactsSlice";
 import { getMessages, addMessage } from "../redux/messagesSlice";
-import UserCard from "../components/cards/UserCard";
+import { getError } from "../redux/errorSlice";
 
 const Chat = () => {
 	const router = useRouter();
@@ -30,7 +35,6 @@ const Chat = () => {
 	const [searchResult, setSearchResult] = useState({ id: "", email: "" });
 	const [roomId, setRoomId] = useState("");
 	const [contact, setContact] = useState({ id: "" });
-	const [error, setError] = useState("");
 
 	// Check if user is logged in
 	useEffect(() => {
@@ -114,8 +118,7 @@ const Chat = () => {
 			})
 			.then((data) => {
 				if (data.errors) {
-					setError(data.errors.message);
-					clear_error_message();
+					dispatch(getError(data.errors.message));
 				}
 
 				if (data.contact) {
@@ -131,14 +134,12 @@ const Chat = () => {
 				userId: user.id,
 				contactId: searchResult.id,
 			})
-		);
+		).then((res) => {
+			if (res.payload.errors) {
+				dispatch(getError(res.payload.errors.message));
+			}
+		});
 		clear_contact();
-	};
-
-	const clear_error_message = () => {
-		setTimeout(() => {
-			setError("");
-		}, 3000);
 	};
 
 	const clear_contact = () => {
@@ -159,6 +160,7 @@ const Chat = () => {
 									return (
 										<ContactTab
 											key={userContact.id}
+											userId={user.id}
 											contact={userContact}
 											onClick={() => {
 												setRoomId(
@@ -181,16 +183,14 @@ const Chat = () => {
 					)}
 					{menuTab.type === "addContact" && (
 						<AdditionalMenu>
-							<SearchContacts
+							<SearchContactsTab
 								value={searchInput}
 								onchange={handleInputs}
 								onclick={find_contact}
 							/>
-							{error && <ErrorMessage message={error} />}
 							{searchResult.id && (
-								<SearchContactResult
+								<SearchContactResultCard
 									contact={searchResult}
-									clearContact={clear_contact}
 									addContact={add_contact}
 								/>
 							)}
@@ -226,6 +226,7 @@ const Chat = () => {
 					/>
 				</div>
 			)}
+			<ErrorMessage />
 		</div>
 	);
 };

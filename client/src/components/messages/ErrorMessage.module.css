@@ -1,13 +1,16 @@
 .message {
-	width: 100vw;
-	height: 5vh;
+	width: auto;
+	height: 10rem;
+	padding: 1rem;
 	position: absolute;
-	top: 0;
-	left: 0;
+	bottom: 2rem;
+	left: 2rem;
 	background-color: rgb(214, 71, 0);
+	border-radius: 0.5rem;
 	display: flex;
 	align-items: center;
 	justify-content: center;
 	color: white;
 	font-size: 20px;
+	z-index: 100;
 }

@@ -2,8 +2,9 @@ import React, { useState } from "react";
 import { useAppDispatch } from "../redux/hooks";
 import { useRouter } from "next/router";
 import { registerUser } from "../redux/authSlice";
-import { Message, ErrorMessage, Button, Title, BasicLink } from "../components";
+import { ErrorMessage, Button, Title, BasicLink } from "../components";
 import styles from "../styles/auth/auth.module.css";
+import { getError } from "../redux/errorSlice";
 
 const Register = () => {
 	const router = useRouter();
@@ -13,13 +14,6 @@ const Register = () => {
 		password: "",
 		confirmPassword: "",
 	});
-	const [error, setError] = useState("");
-
-	const clear_error_message = () => {
-		setTimeout(() => {
-			setError("");
-		}, 3000);
-	};
 
 	const handle_auth_state = (e) => {
 		e.preventDefault();
@@ -33,12 +27,10 @@ const Register = () => {
 			const { errors } = res.payload;
 
 			if (errors) {
-				setError(errors.message);
+				getError(errors.message);
 			} else {
 				router.push("/chat");
 			}
-
-			clear_error_message();
 		});
 	};
 
@@ -78,7 +70,7 @@ const Register = () => {
 					</p>
 				</form>
 			</div>
-			{error && <ErrorMessage message={error} />}
+			<ErrorMessage />
 		</>
 	);
 };

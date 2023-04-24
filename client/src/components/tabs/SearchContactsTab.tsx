@@ -1,7 +1,7 @@
-import styles from "./SearchContacts.module.css";
+import styles from "./SearchContactsTab.module.css";
 import { BsSearch } from "react-icons/bs";
 
-const SearchContacts = ({ onchange, value, onclick }) => {
+const SearchContactsTab = ({ onchange, value, onclick }) => {
 	return (
 		<div className={styles.wrapper}>
 			<input
@@ -17,4 +17,4 @@ const SearchContacts = ({ onchange, value, onclick }) => {
 	);
 };
 
-export default SearchContacts;
+export default SearchContactsTab;

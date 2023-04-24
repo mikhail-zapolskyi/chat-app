@@ -1,4 +1,4 @@
-import { Schema, model, Types } from "mongoose";
+import { Schema, model } from "mongoose";
 import { Password } from "../service/index";
 
 export interface IUser {

@@ -43,6 +43,25 @@ export const addContact = createAsyncThunk(
 	}
 );
 
+export const removeContact = createAsyncThunk(
+	"contacts/removeContact",
+	async (data: IContact) => {
+		const response = await fetch(
+			`http://localhost:4000/api/contacts/remove`,
+			{
+				method: "DELETE",
+				credentials: "include",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify(data),
+			}
+		);
+
+		return await response.json();
+	}
+);
+
 export const contactsSlice = createSlice({
 	name: "contacts",
 	initialState: [],
@@ -55,6 +74,12 @@ export const contactsSlice = createSlice({
 		// GET CONTACTS LIST
 		builder.addCase(getContactList.fulfilled, (state, { payload }) => {
 			return (state = payload.contacts);
+		});
+		// REMOVE CONTACT
+		builder.addCase(removeContact.fulfilled, (state, { payload }) => {
+			return (state = state.filter((contact) => {
+				return contact.id !== payload._id;
+			}));
 		});
 	},
 });

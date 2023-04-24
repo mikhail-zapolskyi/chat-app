@@ -5,9 +5,10 @@ export { default as SuccessMessage } from "./messages/SuccessMessage";
 export { default as ContactBoard } from "./boards/ContactBoard";
 export { default as MenuBoard } from "./boards/MenuBoard";
 
-export { default as SearchContacts } from "./search/SearchContacts";
-export { default as SearchContactResult } from "./search/search-contact-result";
+export { default as SearchContactResultCard } from "./cards/SearchContactResultCard";
+export { default as UserCard } from "./cards/UserCard";
 
+export { default as SearchContactsTab } from "./tabs/SearchContactsTab";
 export { default as ContactTab } from "./tabs/ContactTab";
 export { default as UserTab } from "./tabs/UserTab";
 

@@ -4,7 +4,7 @@
 	"main": "server.ts",
 	"scripts": {
 		"build": "npx tsc",
-		"start": "node dist/server.js",
+		"start": "ts-node-dev server.ts",
 		"dev": "ts-node-dev server.ts",
 		"test": "jest --passWithNoTests"
 	},
