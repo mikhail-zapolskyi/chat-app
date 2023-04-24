@@ -7,13 +7,15 @@
 		"dev": "next dev",
 		"build": "next build",
 		"start": "next start",
-		"lint": "next lint"
+		"lint": "next lint",
+		"build-server": "next build && rm -rf ../server/public && mkdir -p ../server/public && cp -r .next/* ../server/public"
 	},
 	"keywords": [],
 	"author": "Mykhailo Zapolskyi",
 	"license": "ISC",
 	"dependencies": {
 		"@reduxjs/toolkit": "^1.9.2",
+		"express": "^4.18.2",
 		"next": "^13.1.6",
 		"react": "^18.2.0",
 		"react-dom": "^18.2.0",

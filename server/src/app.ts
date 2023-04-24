@@ -22,8 +22,6 @@ app.use(
 	})
 );
 
-console.log(path.join(__dirname, "../build"));
-
 app.use("/", router);
 app.use(error_handler);
 

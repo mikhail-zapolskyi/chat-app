@@ -4,10 +4,11 @@
 	"description": "<h1 align=\"center\">Chat using Typescript, NextJS, Socket IO</h1>",
 	"main": "index.js",
 	"scripts": {
-		"install": "npm install --prefix server && npm install --prefix client",
 		"dev": "npm run dev --prefix server & npm run dev --prefix client",
-		"ghupdate": "git add . && echo \"Enter commit message\" && read message && git commit -m \"$message\" && git push",
-		"build": "npm run build --prefix client"
+		"install": "npm install --prefix server && npm install --prefix client",
+		"build": "npm run build-server --prefix client && npm run build --prefix server",
+		"start": "npm start --prefix client && node server/build/index.js",
+		"ghupdate": "git add . && echo \"Enter commit message\" && read message && git commit -m \"$message\" && git push"
 	},
 	"repository": {
 		"type": "git",
