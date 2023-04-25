@@ -5,10 +5,9 @@
 	"main": "index.js",
 	"scripts": {
 		"dev": "next dev",
-		"build": "next build",
+		"build": "next build && rm -rf .next",
 		"start": "next start",
-		"lint": "next lint",
-		"build-server": "next build && rm -rf ../server/public && mkdir -p ../server/public && cp -r .next/* ../server/public"
+		"lint": "next lint"
 	},
 	"keywords": [],
 	"author": "Mykhailo Zapolskyi",

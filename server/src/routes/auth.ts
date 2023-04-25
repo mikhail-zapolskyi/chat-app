@@ -6,7 +6,7 @@ import { validation_result, verify_user } from "../middleware";
 const router: Router = Router();
 
 router.post(
-	"/api/register",
+	"/register",
 	check("email").isEmail().withMessage("Email format is incorrect"),
 	check("password")
 		.exists()
@@ -22,7 +22,7 @@ router.post(
 	register
 );
 router.post(
-	"/api/login",
+	"/login",
 	check("email").isEmail().withMessage("Email format is incorrect"),
 	check("password")
 		.exists()
@@ -31,7 +31,7 @@ router.post(
 	validation_result,
 	login
 );
-router.post("/api/logout", logout);
-router.get("/api/user", verify_user, user);
+router.post("/logout", logout);
+router.get("/user", verify_user, user);
 
 export default router;
