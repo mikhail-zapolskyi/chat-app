@@ -15,7 +15,7 @@ const Register = () => {
 		confirmPassword: "",
 	});
 
-	const handle_auth_state = (e) => {
+	const handle_auth_state = (e: React.ChangeEvent<HTMLInputElement>) => {
 		e.preventDefault();
 
 		setAuth({ ...auth, [e.target.name]: e.target.value });

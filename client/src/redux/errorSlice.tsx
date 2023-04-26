@@ -8,9 +8,12 @@ const initialState: ErrorState = {
 	error: null,
 };
 
-export const getError = createAction("error/getError", (error: string) => ({
-	payload: error,
-}));
+export const getError = createAction(
+	"error/getError",
+	(error: string | null) => ({
+		payload: error,
+	})
+);
 export const errorSlice = createSlice({
 	name: "error",
 	initialState,

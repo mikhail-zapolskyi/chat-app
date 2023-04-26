@@ -16,25 +16,25 @@ import {
 	AdditionalMenu,
 	UserCard,
 } from "../components";
-import {
-	addContact,
-	getContactList,
-	removeContact,
-} from "../redux/contactsSlice";
+import { addContact, getContactList } from "../redux/contactsSlice";
 import { getMessages, addMessage } from "../redux/messagesSlice";
 import { getError } from "../redux/errorSlice";
+import { IUser } from "@/interfaces/IUser";
+import { IContact } from "@/interfaces/IContact";
 
 const Chat = () => {
 	const router = useRouter();
 	const [socket, setSocket] = useState<Socket | null>(null);
 	const dispatch = useAppDispatch();
-	const { user } = useAppSelector((state) => state.auth);
+	const { user } = useAppSelector((state) => state.auth) as {
+		user: IUser | null;
+	};
 	const { contacts, messages, menuTab } = useAppSelector((state) => state);
 	const [inputMessage, setInputMessage] = useState("");
 	const [searchInput, setSearchInput] = useState("");
 	const [searchResult, setSearchResult] = useState({ id: "", email: "" });
 	const [roomId, setRoomId] = useState("");
-	const [contact, setContact] = useState({ id: "" });
+	const [contact, setContact] = useState({ id: "" }) as [IContact, any];
 
 	// Check if user is logged in
 	useEffect(() => {
@@ -79,25 +79,27 @@ const Chat = () => {
 		};
 	}, [socket]);
 
-	const handleInputs = (e) => {
+	const handleSearchInputOnChange = (
+		e: React.ChangeEvent<HTMLInputElement>
+	) => {
 		e.preventDefault();
 
-		if (e.target.name === "searchInput") {
-			setSearchInput(e.target.value);
-		}
-
-		if (e.target.name === "chat_msg") {
-			setInputMessage(e.target.value);
-		}
+		setSearchInput(e.target.value);
 	};
 
-	const handleSendMessage = async (e) => {
+	const handleChatTextAreaOnChange = async (
+		e: React.ChangeEvent<HTMLTextAreaElement>
+	) => {
 		e.preventDefault();
 
-		socket.emit("sendMessageToRoom", {
+		setInputMessage(e.target.value);
+	};
+
+	const handleSendMessage = async () => {
+		socket?.emit("sendMessageToRoom", {
 			message: inputMessage,
 			roomId,
-			userId: user.id,
+			userId: user?.id,
 		});
 		setInputMessage("");
 	};
@@ -131,7 +133,7 @@ const Chat = () => {
 	const add_contact = () => {
 		dispatch(
 			addContact({
-				userId: user.id,
+				userId: user?.id,
 				contactId: searchResult.id,
 			})
 		).then((res) => {
@@ -185,7 +187,7 @@ const Chat = () => {
 						<AdditionalMenu>
 							<SearchContactsTab
 								value={searchInput}
-								onchange={handleInputs}
+								onchange={handleSearchInputOnChange}
 								onclick={find_contact}
 							/>
 							{searchResult.id && (
@@ -221,7 +223,7 @@ const Chat = () => {
 					</ul>
 					<ChatInput
 						input={inputMessage}
-						onChange={handleInputs}
+						onChange={handleChatTextAreaOnChange}
 						onClick={handleSendMessage}
 					/>
 				</div>

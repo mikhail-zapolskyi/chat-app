@@ -1,28 +1,28 @@
 import React from "react";
 import styles from "./UserCard.module.css";
 import { BsFillPersonPlusFill } from "react-icons/bs";
+import { IUser } from "@/interfaces/IUser";
 
 interface AvatarProps {
-	imageUrl: string;
+	imageUrl: string | undefined;
 }
 
 const Avatar: React.FC<AvatarProps> = ({ imageUrl }) => {
 	const img = "https://www.w3schools.com/howto/img_avatar.png";
 
 	return img ? (
-		<img src={img} alt="avatar" className={styles.avatarImage} />
+		<img
+			src={imageUrl || img}
+			alt="avatar"
+			className={styles.avatarImage}
+		/>
 	) : (
 		<BsFillPersonPlusFill className={styles.avatarIcon} />
 	);
 };
 
 interface IUserCardProps {
-	user: {
-		id: string;
-		name: string;
-		email: string;
-		avatar: string;
-	};
+	user: IUser | null;
 }
 
 const UserCard: React.FC<IUserCardProps> = ({ user }) => {

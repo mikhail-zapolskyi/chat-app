@@ -3,13 +3,12 @@ import { User } from "../../model";
 import mongoose from "mongoose";
 
 const getContacts = async (req: Request, res: Response, next: NextFunction) => {
-	const { userId } = req.body;
-	const id = new mongoose.Types.ObjectId(userId);
+	const userId = new mongoose.Types.ObjectId(req.body.userId);
 
 	try {
 		// FIND USER AND AGGREGATE CONTACT LIST WITH CONTACT ID AND ROOM ID
 		const rawContactList = await User.aggregate([
-			{ $match: { _id: id } },
+			{ $match: { _id: userId } },
 			{
 				$lookup: {
 					from: "contactList",
@@ -42,7 +41,7 @@ const getContacts = async (req: Request, res: Response, next: NextFunction) => {
 						$filter: {
 							input: "$users",
 							as: "user",
-							cond: { $ne: ["$$user._id", id] },
+							cond: { $ne: ["$$user._id", userId] },
 						},
 					},
 					roomId: "$contactList.roomId._id",

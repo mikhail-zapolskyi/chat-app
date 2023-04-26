@@ -1,23 +1,16 @@
 import React from "react";
 import styles from "./UserTab.module.css";
 import { GrStatusGoodSmall } from "react-icons/gr";
-
-interface IContact {
-	id: string;
-	name?: string;
-	roomId?: string;
-	email: string;
-	avatar?: string;
-	onlineStatus: boolean;
-}
+import { IContact } from "@/interfaces/IContact";
 
 interface IContactProps {
-	contacts?: IContact[];
+	contacts?: IContact[] | undefined;
 	roomId: string;
 }
 
 const UserTab: React.FC<IContactProps> = ({ contacts, roomId }) => {
 	const targetContact = (): IContact => {
+		if (!contacts) return {} as IContact;
 		const [contact] = contacts.filter(
 			(contact) => contact.roomId === roomId
 		);

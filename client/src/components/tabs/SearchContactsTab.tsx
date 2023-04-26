@@ -1,7 +1,17 @@
 import styles from "./SearchContactsTab.module.css";
 import { BsSearch } from "react-icons/bs";
 
-const SearchContactsTab = ({ onchange, value, onclick }) => {
+interface ISearchContactsTabProps {
+	onchange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+	value: string;
+	onclick: () => void;
+}
+
+const SearchContactsTab: React.FC<ISearchContactsTabProps> = ({
+	onchange,
+	value,
+	onclick,
+}) => {
 	return (
 		<div className={styles.wrapper}>
 			<input

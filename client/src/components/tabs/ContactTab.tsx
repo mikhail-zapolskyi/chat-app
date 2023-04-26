@@ -4,18 +4,11 @@ import { GrStatusGoodSmall } from "react-icons/gr";
 import { useTime } from "../../hooks";
 import { removeContact } from "../../redux/contactsSlice";
 import { useAppDispatch } from "../../redux/hooks";
-import { getError } from "../../redux/errorSlice";
+import { IContact } from "@/interfaces/IContact";
 
 interface IContactTab {
 	userId: string;
-	contact: {
-		contactId: string;
-		name?: string;
-		email: string;
-		onlineStatus: boolean;
-		avatar?: string;
-		lastTimeOnline?: string;
-	};
+	contact: IContact;
 	onClick: () => void;
 	active: boolean;
 }
@@ -27,8 +20,9 @@ const ContactTab: React.FC<IContactTab> = ({
 	onClick,
 }) => {
 	const dispatch = useAppDispatch();
-	const [time, date] = useTime(contact?.lastTimeOnline);
-	const { contactId, avatar, name, email, onlineStatus } = contact;
+	const { contactId, avatar, name, email, onlineStatus, lastTimeOnline } =
+		contact;
+	const [time, date] = useTime(lastTimeOnline);
 
 	const remove_contact = () => {
 		dispatch(

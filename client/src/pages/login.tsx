@@ -11,7 +11,7 @@ const Login = () => {
 	const router = useRouter();
 	const [auth, setAuth] = useState({ email: "", password: "" });
 
-	const handle_auth_state = (e) => {
+	const handle_auth_state = (e: React.ChangeEvent<HTMLInputElement>) => {
 		e.preventDefault();
 
 		setAuth({ ...auth, [e.target.name]: e.target.value });

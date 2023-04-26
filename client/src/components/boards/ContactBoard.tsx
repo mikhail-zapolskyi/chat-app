@@ -1,6 +1,8 @@
 import styles from "./ContactBoard.module.css";
 
-const ContactBoard = ({ children }) => {
+const ContactBoard: React.FC<{ children: React.ReactNode }> = ({
+	children,
+}) => {
 	return <div className={styles.contactBoard}>{children}</div>;
 };
 

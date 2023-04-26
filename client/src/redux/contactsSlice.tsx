@@ -1,36 +1,13 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-
-interface IContact {
-	userId: string;
-	contactId?: string;
-}
+import { IContact } from "../interfaces/IContact";
 
 export const getContactList = createAsyncThunk(
 	"contacts/getContactList",
-	async (userId: IContact) => {
+	async (id: {}) => {
 		const response = await fetch(
 			`http://localhost:4000/api/contacts/contact-list`,
 			{
 				method: "POST",
-				credentials: "include",
-				headers: {
-					"Content-Type": "application/json",
-				},
-				body: JSON.stringify(userId),
-			}
-		);
-
-		return await response.json();
-	}
-);
-
-export const addContact = createAsyncThunk(
-	"contacts/addContact",
-	async (id: IContact) => {
-		const response = await fetch(
-			`http://localhost:4000/api/contacts/add`,
-			{
-				method: "PATCH",
 				credentials: "include",
 				headers: {
 					"Content-Type": "application/json",
@@ -43,9 +20,28 @@ export const addContact = createAsyncThunk(
 	}
 );
 
+export const addContact = createAsyncThunk(
+	"contacts/addContact",
+	async (data: {}) => {
+		const response = await fetch(
+			`http://localhost:4000/api/contacts/add`,
+			{
+				method: "PATCH",
+				credentials: "include",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify(data),
+			}
+		);
+
+		return await response.json();
+	}
+);
+
 export const removeContact = createAsyncThunk(
 	"contacts/removeContact",
-	async (data: IContact) => {
+	async (data: {}) => {
 		const response = await fetch(
 			`http://localhost:4000/api/contacts/remove`,
 			{
@@ -64,7 +60,7 @@ export const removeContact = createAsyncThunk(
 
 export const contactsSlice = createSlice({
 	name: "contacts",
-	initialState: [],
+	initialState: [] as IContact[],
 	reducers: {},
 	extraReducers: (builder) => {
 		// ADD CONTACT

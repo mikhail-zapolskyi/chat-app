@@ -1,3 +1,4 @@
+import React from "react";
 import type { AppProps } from "next/app";
 import { Provider } from "react-redux";
 import { store } from "../redux/store";
@@ -11,7 +12,7 @@ import "../styles/global.css";
 import "../styles/container.css";
 import "../styles/chat/chat.css";
 
-const Auth = ({ children }) => {
+const Auth: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 	const dispatch = useAppDispatch();
 	const { loading } = useAppSelector((state) => state.auth);
 	const { error } = useAppSelector((state) => state.errors);
@@ -34,7 +35,7 @@ const Auth = ({ children }) => {
 	// Show spinner while loading
 	if (loading) return <Spinner />;
 
-	return children;
+	return children as React.ReactElement;
 };
 
 export default function MyApp({
