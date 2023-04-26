@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useAppDispatch } from "../redux/hooks";
 import { useRouter } from "next/router";
 import { registerUser } from "../redux/authSlice";
-import { ErrorMessage, Button, Title, BasicLink } from "../components";
+import { ErrorMessage, LoginButton, Title, BasicLink } from "../components";
 import styles from "../styles/auth/auth.module.css";
 import { getError } from "../redux/errorSlice";
 
@@ -63,7 +63,7 @@ const Register = () => {
 						onChange={handle_auth_state}
 						className={styles.auth__input}
 					/>
-					<Button text="Register" />
+					<LoginButton text="Register" />
 					<p className={styles.auth__text}>
 						Already have an account?
 						<BasicLink href="/login" text="Login" />

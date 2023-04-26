@@ -3,7 +3,7 @@ import { useAppDispatch } from "../redux/hooks";
 import { useRouter } from "next/router";
 import { loginUser } from "../redux/authSlice";
 import { getError } from "../redux/errorSlice";
-import { Button, ErrorMessage, Title, BasicLink } from "../components";
+import { LoginButton, ErrorMessage, Title, BasicLink } from "../components";
 import styles from "../styles/auth/auth.module.css";
 
 const Login = () => {
@@ -51,7 +51,7 @@ const Login = () => {
 						onChange={handle_auth_state}
 						className={styles.auth__input}
 					/>
-					<Button text="Login" />
+					<LoginButton text="Login" />
 					<p className={styles.auth__text}>
 						Don't have an account?
 						<BasicLink href="/register" text="Register" />

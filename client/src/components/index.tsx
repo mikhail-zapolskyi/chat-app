@@ -15,6 +15,7 @@ export { default as UserTab } from "./tabs/UserTab";
 export { default as LogoutButton } from "./buttons/LogoutButton";
 export { default as AddContactButton } from "./buttons/AddContactButton";
 export { default as ContactsButton } from "./buttons/ContactsButton";
+export { default as LoginButton } from "./buttons/LoginButton";
 
 export { default as Title } from "./text/Title";
 
