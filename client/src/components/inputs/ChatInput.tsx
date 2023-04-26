@@ -1,6 +1,6 @@
 import React, { useRef } from "react";
 import { FiSend } from "react-icons/fi";
-import styles from "./ChatInput.module.css";
+import styles from "./Chatinput.module.css";
 
 interface IChatInputProps {
 	input: string;
