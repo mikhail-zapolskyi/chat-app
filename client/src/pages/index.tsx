@@ -1,6 +1,6 @@
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import { logoutUser } from "../redux/authSlice";
-import { BasicLink, Button, Title } from "../components";
+import { BasicLink, Title } from "../components";
 
 const HomePage = () => {
 	const { user } = useAppSelector((state) => state.auth);
