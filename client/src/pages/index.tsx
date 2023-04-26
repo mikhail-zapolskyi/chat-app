@@ -20,7 +20,6 @@ const HomePage = () => {
 						href="/chat"
 						text="Proceed to the messanger"
 					/>
-					<Button onClick={handleLogOut} text="Logout" />
 				</>
 			)}
 		</div>

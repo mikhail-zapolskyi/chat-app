@@ -12,7 +12,6 @@ export { default as SearchContactsTab } from "./tabs/SearchContactsTab";
 export { default as ContactTab } from "./tabs/ContactTab";
 export { default as UserTab } from "./tabs/UserTab";
 
-export { default as Button } from "./buttons/Button";
 export { default as LogoutButton } from "./buttons/LogoutButton";
 export { default as AddContactButton } from "./buttons/AddContactButton";
 export { default as ContactsButton } from "./buttons/ContactsButton";
