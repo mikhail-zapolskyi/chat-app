@@ -4,6 +4,6 @@ WORKDIR /app
 COPY . .
 RUN ls -la
 RUN npm run install && npm run build
-RUN --mount=type=secret,id=secret,dst=/etc/secrets/secret cat /app/.env
+RUN --mount=type=secret,id=secret,dst=/etc/secrets/secret
 CMD ["npm", "start"]
 EXPOSE 4000
