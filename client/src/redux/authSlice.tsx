@@ -6,9 +6,13 @@ interface IAuth {
 	confirmPassword?: string;
 }
 
+const devUrl = "http://localhost:4000/api";
+const productionUrl = "https://chat-app-vlw6.onrender.com/api";
+const url = process.env.NODE_ENV === "development" ? devUrl : productionUrl;
+
 // CHECK IF USER STILL LOGEDIN
 export const getUser = createAsyncThunk("auth/getUser", async () => {
-	const response = await fetch(`http://localhost:4000/api/user`, {
+	const response = await fetch(`${url}/user`, {
 		method: "GET",
 		credentials: "include",
 		headers: {
@@ -21,7 +25,7 @@ export const getUser = createAsyncThunk("auth/getUser", async () => {
 export const loginUser = createAsyncThunk(
 	"auth/loginUser",
 	async (data: IAuth) => {
-		const response = await fetch(`http://localhost:4000/api/login`, {
+		const response = await fetch(`${url}/login`, {
 			method: "POST",
 			credentials: "include",
 			headers: {
@@ -36,7 +40,7 @@ export const loginUser = createAsyncThunk(
 export const registerUser = createAsyncThunk(
 	"auth/registerUser",
 	async (data: IAuth) => {
-		const response = await fetch(`http://localhost:4000/api/register`, {
+		const response = await fetch(`${url}/register`, {
 			method: "POST",
 			credentials: "include",
 			headers: {
@@ -49,7 +53,7 @@ export const registerUser = createAsyncThunk(
 );
 
 export const logoutUser = createAsyncThunk("auth/logoutUser", async () => {
-	const response = await fetch(`http://localhost:4000/api/logout`, {
+	const response = await fetch(`${url}/logout`, {
 		method: "POST",
 		credentials: "include",
 		headers: {

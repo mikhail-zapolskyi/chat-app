@@ -1,5 +1,9 @@
 import { createSlice, createAsyncThunk, createAction } from "@reduxjs/toolkit";
 
+const devUrl = "http://localhost:4000/api";
+const productionUrl = "https://chat-app-vlw6.onrender.com/api";
+const url = process.env.NODE_ENV === "development" ? devUrl : productionUrl;
+console.log(url);
 interface IChatMessage {
 	id: string;
 	roomId: string;
@@ -13,16 +17,13 @@ const initialState = [] as IChatMessage[];
 export const getMessages = createAsyncThunk(
 	"messages/getMessages",
 	async (roomId: string) => {
-		const response = await fetch(
-			`http://localhost:4000/api/rooms/${roomId}/messages`,
-			{
-				method: "POST",
-				credentials: "include",
-				headers: {
-					"Content-Type": "application/json",
-				},
-			}
-		);
+		const response = await fetch(`${url}/rooms/${roomId}/messages`, {
+			method: "POST",
+			credentials: "include",
+			headers: {
+				"Content-Type": "application/json",
+			},
+		});
 		const data = await response.json();
 		return data;
 	}
@@ -40,16 +41,13 @@ export const addMessage = createAction(
 export const deleteMessage = createAsyncThunk(
 	"messages/deleteMessage",
 	async (messageId: string) => {
-		const response = await fetch(
-			`http://localhost:4000/api/messages/${messageId}`,
-			{
-				method: "DELETE",
-				credentials: "include",
-				headers: {
-					"Content-Type": "application/json",
-				},
-			}
-		);
+		const response = await fetch(`${url}/messages/${messageId}`, {
+			method: "DELETE",
+			credentials: "include",
+			headers: {
+				"Content-Type": "application/json",
+			},
+		});
 		const data = await response.json();
 		return data;
 	}
