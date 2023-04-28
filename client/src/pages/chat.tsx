@@ -36,6 +36,15 @@ const Chat = () => {
 	const [roomId, setRoomId] = useState("");
 	const [contact, setContact] = useState({ id: "" }) as [IContact, any];
 
+	const socketDevUrl = "http://localhost:4000";
+	const prodSocketUrl = "https://chat-app-vlw6.onrender.com";
+	const devUrl = "http://localhost:4000/api";
+	const productionUrl = "https://chat-app-vlw6.onrender.com/api";
+	const url =
+		process.env.NODE_ENV === "development" ? devUrl : productionUrl;
+	const socketUrl =
+		process.env.NODE_ENV === "development" ? socketDevUrl : prodSocketUrl;
+
 	// Check if user is logged in
 	useEffect(() => {
 		if (!user) {
@@ -51,7 +60,7 @@ const Chat = () => {
 	}, [roomId, dispatch]);
 
 	useEffect(() => {
-		const newSocket = io("http://localhost:4000", {
+		const newSocket = io(socketUrl, {
 			auth: { userId: user?.id },
 		});
 		setSocket(newSocket);
@@ -105,7 +114,7 @@ const Chat = () => {
 	};
 
 	const find_contact = async () => {
-		fetch("http://localhost:4000/api/contacts/find", {
+		fetch(`${url}/contacts/find`, {
 			method: "POST",
 			credentials: "include",
 			headers: {
