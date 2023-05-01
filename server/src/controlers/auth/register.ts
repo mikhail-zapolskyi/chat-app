@@ -5,7 +5,7 @@ import jwt from "jsonwebtoken";
 const register = async (req: Request, res: Response, next: NextFunction) => {
 	const { email, password } = req.body;
 
-	const user = new User({ email, password });
+	const user = new User({ email: email.toLowerCase(), password });
 
 	user.save()
 		.then((data: {}) => {
