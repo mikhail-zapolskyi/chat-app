@@ -27,7 +27,7 @@ const Register = () => {
 			const { errors } = res.payload;
 
 			if (errors) {
-				getError(errors.message);
+				dispatch(getError(errors.message));
 			} else {
 				router.push("/chat");
 			}
