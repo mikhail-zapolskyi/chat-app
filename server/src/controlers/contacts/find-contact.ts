@@ -8,7 +8,10 @@ const findContactByEmail = async (
 	next: NextFunction
 ) => {
 	const { email } = req.body;
-	const contact = await User.findOne({ email }, { email: 1, id: 1 });
+	const contact = await User.findOne(
+		{ email: email.toLowerCase() },
+		{ email: 1, id: 1 }
+	);
 
 	if (!contact) {
 		return next(new BadRequest("Contact not found"));

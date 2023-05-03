@@ -3,7 +3,7 @@ import { createSlice, createAsyncThunk, createAction } from "@reduxjs/toolkit";
 const devUrl = "http://localhost:4000/api";
 const productionUrl = "https://chat-app-vlw6.onrender.com/api";
 const url = process.env.NODE_ENV === "development" ? devUrl : productionUrl;
-console.log(url);
+
 interface IChatMessage {
 	id: string;
 	roomId: string;
