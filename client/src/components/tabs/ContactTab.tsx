@@ -2,36 +2,23 @@ import React from "react";
 import styles from "./ContactTab.module.css";
 import { GrStatusGoodSmall } from "react-icons/gr";
 import { useTime } from "../../hooks";
-import { removeContact } from "../../redux/contactsSlice";
-import { useAppDispatch } from "../../redux/hooks";
 import { IContact } from "@/interfaces/IContact";
 
 interface IContactTab {
-	userId: string;
 	contact: IContact;
 	onClick: () => void;
+	removeContactOnClick: () => void;
 	active: boolean;
 }
 
 const ContactTab: React.FC<IContactTab> = ({
-	userId,
 	active,
 	contact,
 	onClick,
+	removeContactOnClick,
 }) => {
-	const dispatch = useAppDispatch();
-	const { contactId, avatar, name, email, onlineStatus, lastTimeOnline } =
-		contact;
+	const { avatar, name, email, onlineStatus, lastTimeOnline } = contact;
 	const [time, date] = useTime(lastTimeOnline);
-
-	const remove_contact = () => {
-		dispatch(
-			removeContact({
-				userId,
-				contactId,
-			})
-		);
-	};
 
 	return (
 		<div
@@ -62,7 +49,7 @@ const ContactTab: React.FC<IContactTab> = ({
 				<p>
 					Last time online: {date} {time}
 				</p>
-				<p onClick={remove_contact}>remove</p>
+				<p onClick={removeContactOnClick}>remove</p>
 			</div>
 		</div>
 	);

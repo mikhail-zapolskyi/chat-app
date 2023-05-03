@@ -1,4 +1,4 @@
-import { useState, useEffect, InputHTMLAttributes } from "react";
+import { useState, useEffect } from "react";
 import { useAppSelector, useAppDispatch } from "../redux/hooks";
 import { useRouter } from "next/router";
 import { io, Socket } from "socket.io-client";
@@ -16,12 +16,17 @@ import {
 	AdditionalMenu,
 	UserCard,
 } from "../components";
-import { addContact, getContactList } from "../redux/contactsSlice";
+import {
+	addContact,
+	getContactList,
+	removeContact,
+} from "../redux/contactsSlice";
 import { getMessages, addMessage } from "../redux/messagesSlice";
 import { getError } from "../redux/errorSlice";
 import { IUser } from "@/interfaces/IUser";
 import { IContact } from "@/interfaces/IContact";
 import { getUrl, getSocketUrl } from "@/helpers/GetUrl";
+import { changeMenu } from "@/redux/menuTabSlice";
 
 const Chat = () => {
 	const router = useRouter();
@@ -76,9 +81,23 @@ const Chat = () => {
 			dispatch(addMessage(newMessage));
 		});
 
+		socket.on("contactAdded", (data) => {
+			if (data.userId === user?.id || data.contactId === user?.id) {
+				dispatch(getContactList({ userId: user?.id }));
+			}
+		});
+
+		socket.on("contactRemoved", (data) => {
+			if (data.userId === user?.id || data.contactId === user?.id) {
+				dispatch(getContactList({ userId: user?.id }));
+			}
+		});
+
 		return () => {
 			socket.off("message");
 			socket.off("userOnlineStatusChanged");
+			socket.off("contactAdded");
+			socket.off("contactRemoved");
 		};
 	}, [socket]);
 
@@ -160,7 +179,7 @@ const Chat = () => {
 		}
 	};
 
-	const add_contact = () => {
+	const add_contact = async () => {
 		dispatch(
 			addContact({
 				userId: user?.id,
@@ -170,8 +189,32 @@ const Chat = () => {
 			if (res.payload.errors) {
 				dispatch(getError(res.payload.errors.message));
 			}
+
+			socket?.emit("addContact", {
+				userId: user?.id,
+				contactId: searchResult.id,
+			});
 		});
+		dispatch(changeMenu("contacts"));
 		clear_contact();
+	};
+
+	const remove_contact = async (userId: string, contactId: string) => {
+		dispatch(
+			removeContact({
+				userId,
+				contactId,
+			})
+		).then((res) => {
+			if (res.payload.errors) {
+				dispatch(getError(res.payload.errors.message));
+			}
+
+			socket?.emit("removeContact", {
+				userId,
+				contactId,
+			});
+		});
 	};
 
 	const clear_contact = () => {
@@ -192,7 +235,6 @@ const Chat = () => {
 									return (
 										<ContactTab
 											key={userContact.id}
-											userId={user.id}
 											contact={userContact}
 											onClick={() => {
 												setRoomId(
@@ -207,6 +249,12 @@ const Chat = () => {
 												userContact.id
 													? true
 													: false
+											}
+											removeContactOnClick={() =>
+												remove_contact(
+													user.id,
+													userContact.contactId
+												)
 											}
 										/>
 									);

@@ -25,4 +25,14 @@ io.on("connection", async (socket: Socket) => {
 		const newMessage = await createNewMessage(roomId, message, userId);
 		io.to(roomId).emit("message", newMessage);
 	});
+
+	socket.on("addContact", async (data) => {
+		const { userId, contactId } = data;
+		io.emit("contactAdded", { userId, contactId });
+	});
+
+	socket.on("removeContact", async (data) => {
+		const { userId, contactId } = data;
+		io.emit("contactRemoved", { userId, contactId });
+	});
 });
