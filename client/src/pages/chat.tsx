@@ -21,6 +21,7 @@ import { getMessages, addMessage } from "../redux/messagesSlice";
 import { getError } from "../redux/errorSlice";
 import { IUser } from "@/interfaces/IUser";
 import { IContact } from "@/interfaces/IContact";
+import { getUrl, getSocketUrl } from "@/helpers/GetUrl";
 
 const Chat = () => {
 	const router = useRouter();
@@ -35,15 +36,8 @@ const Chat = () => {
 	const [searchResult, setSearchResult] = useState({ id: "", email: "" });
 	const [roomId, setRoomId] = useState("");
 	const [contact, setContact] = useState({ id: "" }) as [IContact, any];
-
-	const socketDevUrl = "http://localhost:4000";
-	const prodSocketUrl = "https://chat-app-vlw6.onrender.com";
-	const devUrl = "http://localhost:4000/api";
-	const productionUrl = "https://chat-app-vlw6.onrender.com/api";
-	const url =
-		process.env.NODE_ENV === "development" ? devUrl : productionUrl;
-	const socketUrl =
-		process.env.NODE_ENV === "development" ? socketDevUrl : prodSocketUrl;
+	const socketUrl = getSocketUrl();
+	const url = getUrl();
 
 	// Check if user is logged in
 	useEffect(() => {

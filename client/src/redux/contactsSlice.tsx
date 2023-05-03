@@ -1,9 +1,8 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { IContact } from "../interfaces/IContact";
+import { getUrl } from "../helpers/GetUrl";
 
-const devUrl = "http://localhost:4000/api";
-const productionUrl = "https://chat-app-vlw6.onrender.com/api";
-const url = process.env.NODE_ENV === "development" ? devUrl : productionUrl;
+const url = getUrl();
 
 export const getContactList = createAsyncThunk(
 	"contacts/getContactList",

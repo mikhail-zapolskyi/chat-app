@@ -1,4 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { getUrl } from "@/helpers/GetUrl";
 
 interface IAuth {
 	email: string;
@@ -6,9 +7,7 @@ interface IAuth {
 	confirmPassword?: string;
 }
 
-const devUrl = "http://localhost:4000/api";
-const productionUrl = "https://chat-app-vlw6.onrender.com/api";
-const url = process.env.NODE_ENV === "development" ? devUrl : productionUrl;
+const url = getUrl();
 
 // CHECK IF USER STILL LOGEDIN
 export const getUser = createAsyncThunk("auth/getUser", async () => {
