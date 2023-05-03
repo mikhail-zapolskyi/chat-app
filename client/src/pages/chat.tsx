@@ -99,12 +99,42 @@ const Chat = () => {
 	};
 
 	const handleSendMessage = async () => {
-		socket?.emit("sendMessageToRoom", {
+		if (!inputMessage || inputMessage === "\n" || inputMessage === "") {
+			return;
+		}
+
+		await socket?.emit("sendMessageToRoom", {
 			message: inputMessage,
 			roomId,
 			userId: user?.id,
 		});
 		setInputMessage("");
+	};
+
+	const handleSendMessageOnEnter = async (
+		e: React.KeyboardEvent<HTMLTextAreaElement>
+	) => {
+		if ((e.key === "Enter" || e.code === "Enter") && !e.shiftKey) {
+			e.preventDefault();
+			if (
+				!inputMessage ||
+				inputMessage === "\n" ||
+				inputMessage === ""
+			) {
+				return;
+			}
+			await socket?.emit("sendMessageToRoom", {
+				message: inputMessage,
+				roomId,
+				userId: user?.id,
+			});
+			setInputMessage("");
+		}
+
+		if ((e.key === "Enter" || e.code === "Enter") && e.shiftKey) {
+			e.preventDefault();
+			setInputMessage(inputMessage + "\n");
+		}
 	};
 
 	const find_contact = async () => {
@@ -228,6 +258,7 @@ const Chat = () => {
 						input={inputMessage}
 						onChange={handleChatTextAreaOnChange}
 						onClick={handleSendMessage}
+						onKeyDown={handleSendMessageOnEnter}
 					/>
 				</div>
 			)}

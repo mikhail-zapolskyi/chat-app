@@ -6,9 +6,15 @@ interface IChatInputProps {
 	input: string;
 	onClick: () => void;
 	onChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
+	onKeyDown: (e: React.KeyboardEvent<HTMLTextAreaElement>) => void;
 }
 
-const ChatInput: React.FC<IChatInputProps> = ({ input, onClick, onChange }) => {
+const ChatInput: React.FC<IChatInputProps> = ({
+	input,
+	onClick,
+	onChange,
+	onKeyDown,
+}) => {
 	const textareaRef = useRef<HTMLTextAreaElement>(null);
 
 	const handleInput = () => {
@@ -27,6 +33,7 @@ const ChatInput: React.FC<IChatInputProps> = ({ input, onClick, onChange }) => {
 				value={input}
 				onChange={onChange}
 				onInput={handleInput}
+				onKeyDown={onKeyDown}
 			/>
 			<FiSend onClick={onClick} className={styles.sendButton} />
 		</div>
