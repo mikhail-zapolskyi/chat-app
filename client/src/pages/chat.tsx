@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, InputHTMLAttributes } from "react";
 import { useAppSelector, useAppDispatch } from "../redux/hooks";
 import { useRouter } from "next/router";
 import { io, Socket } from "socket.io-client";
@@ -116,19 +116,7 @@ const Chat = () => {
 	) => {
 		if ((e.key === "Enter" || e.code === "Enter") && !e.shiftKey) {
 			e.preventDefault();
-			if (
-				!inputMessage ||
-				inputMessage === "\n" ||
-				inputMessage === ""
-			) {
-				return;
-			}
-			await socket?.emit("sendMessageToRoom", {
-				message: inputMessage,
-				roomId,
-				userId: user?.id,
-			});
-			setInputMessage("");
+			await handleSendMessage();
 		}
 
 		if ((e.key === "Enter" || e.code === "Enter") && e.shiftKey) {
@@ -137,8 +125,8 @@ const Chat = () => {
 		}
 	};
 
-	const find_contact = async () => {
-		fetch(`${url}/contacts/find`, {
+	const findContact = async () => {
+		await fetch(`${url}/contacts/find`, {
 			method: "POST",
 			credentials: "include",
 			headers: {
@@ -161,6 +149,15 @@ const Chat = () => {
 					setSearchInput("");
 				}
 			});
+	};
+
+	const findContactOnEnter = async (
+		e: React.KeyboardEvent<HTMLInputElement>
+	) => {
+		if (e.key === "Enter" || e.code === "Enter") {
+			e.preventDefault();
+			await findContact();
+		}
 	};
 
 	const add_contact = () => {
@@ -221,7 +218,8 @@ const Chat = () => {
 							<SearchContactsTab
 								value={searchInput}
 								onchange={handleSearchInputOnChange}
-								onclick={find_contact}
+								onClick={findContact}
+								onKeyDown={findContactOnEnter}
 							/>
 							{searchResult.id && (
 								<SearchContactResultCard

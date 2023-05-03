@@ -4,13 +4,15 @@ import { BsSearch } from "react-icons/bs";
 interface ISearchContactsTabProps {
 	onchange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 	value: string;
-	onclick: () => void;
+	onClick: () => void;
+	onKeyDown?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
 }
 
 const SearchContactsTab: React.FC<ISearchContactsTabProps> = ({
 	onchange,
 	value,
-	onclick,
+	onClick,
+	onKeyDown,
 }) => {
 	return (
 		<div className={styles.wrapper}>
@@ -21,8 +23,9 @@ const SearchContactsTab: React.FC<ISearchContactsTabProps> = ({
 				onChange={onchange}
 				className={styles.input}
 				placeholder="Search Contact By Email"
+				onKeyDown={onKeyDown}
 			/>
-			<BsSearch className={styles.button} onClick={onclick} />
+			<BsSearch className={styles.button} onClick={onClick} />
 		</div>
 	);
 };
