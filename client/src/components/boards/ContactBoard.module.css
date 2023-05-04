@@ -4,7 +4,7 @@
 	display: grid;
 	grid-template-rows: 10rem minmax(5rem, auto);
 	gap: 2rem;
-	overflow-y: scroll;
+	overflow-y: hidden;
 	-ms-overflow-style: none;
 	scrollbar-width: none;
 }
