@@ -3,18 +3,19 @@ import { useAppSelector, useAppDispatch } from "../redux/hooks";
 import { useRouter } from "next/router";
 import { io, Socket } from "socket.io-client";
 import {
-	ContactBoard,
-	SearchContactsTab,
-	SearchContactResultCard,
-	ErrorMessage,
-	ContactCard,
-	UserTab,
-	ChatMessage,
-	ContactList,
-	ChatInput,
-	MenuBoard,
 	AdditionalMenu,
+	ChatInput,
+	ChatMessage,
+	ContactBoard,
+	ContactCard,
+	ContactList,
+	ErrorMessage,
+	MenuBoard,
+	SearchContactResultCard,
+	SearchContactsTab,
 	UserCard,
+	UserSettingsTab,
+	UserTab,
 } from "../components";
 import {
 	addContact,
@@ -275,6 +276,11 @@ const Chat = () => {
 									addContact={add_contact}
 								/>
 							)}
+						</AdditionalMenu>
+					)}
+					{menuTab.type === "userSettings" && (
+						<AdditionalMenu>
+							<UserSettingsTab />
 						</AdditionalMenu>
 					)}
 				</ContactBoard>

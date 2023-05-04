@@ -1,6 +1,11 @@
 import React from "react";
 import styles from "./MenuBoard.module.css";
-import { LogoutButton, AddContactButton, ContactsButton } from "..";
+import {
+	LogoutButton,
+	AddContactButton,
+	ContactsButton,
+	UserSettingsButton,
+} from "..";
 
 const MenuBoard = () => {
 	return (
@@ -11,6 +16,9 @@ const MenuBoard = () => {
 				</div>
 				<div className={styles.item}>
 					<AddContactButton />
+				</div>
+				<div className={styles.item}>
+					<UserSettingsButton />
 				</div>
 			</div>
 			<div className={styles.footer}>

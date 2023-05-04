@@ -11,11 +11,13 @@ export { default as ContactCard } from "./cards/ContactCard";
 
 export { default as SearchContactsTab } from "./tabs/SearchContactsTab";
 export { default as UserTab } from "./tabs/UserTab";
+export { default as UserSettingsTab } from "./tabs/UserSettingsTab";
 
 export { default as LogoutButton } from "./buttons/LogoutButton";
 export { default as AddContactButton } from "./buttons/AddContactButton";
 export { default as ContactsButton } from "./buttons/ContactsButton";
 export { default as LoginButton } from "./buttons/LoginButton";
+export { default as UserSettingsButton } from "./buttons/UserSettingsButton";
 
 export { default as Title } from "./text/Title";
 
