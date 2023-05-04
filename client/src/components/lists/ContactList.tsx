@@ -6,7 +6,7 @@ interface IContactListProps {
 }
 
 const ContactList: React.FC<IContactListProps> = ({ children }) => {
-	return <div className={styles.wrapper}>{children}</div>;
+	return <ul className={styles.wrapper}>{children}</ul>;
 };
 
 export default ContactList;

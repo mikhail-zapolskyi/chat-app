@@ -3,8 +3,15 @@ import { useAppDispatch } from "../redux/hooks";
 import { useRouter } from "next/router";
 import { loginUser } from "../redux/authSlice";
 import { getError } from "../redux/errorSlice";
-import { LoginButton, ErrorMessage, Title, BasicLink } from "../components";
-import styles from "../styles/auth/auth.module.css";
+import {
+	LoginButton,
+	ErrorMessage,
+	Title,
+	BasicLink,
+	PasswordInput,
+	EmailInput,
+	IconLink,
+} from "../components";
 
 const Login = () => {
 	const dispatch = useAppDispatch();
@@ -33,29 +40,26 @@ const Login = () => {
 	return (
 		<>
 			<div className="wrapper-full-screen-dark">
-				<form onSubmit={handleSubmit} className={styles.auth}>
+				<form
+					onSubmit={handleSubmit}
+					className="w-fit p-4 flex flex-col items-center justify-center"
+				>
 					<Title message="Login to pMessanger" />
-					<input
-						type="text"
-						name="email"
-						placeholder="Email"
+					<EmailInput
 						value={auth.email}
 						onChange={handle_auth_state}
-						className={styles.auth__input}
 					/>
-					<input
-						type="password"
+					<PasswordInput
 						name="password"
-						placeholder="Password"
 						value={auth.password}
 						onChange={handle_auth_state}
-						className={styles.auth__input}
 					/>
 					<LoginButton text="Login" />
-					<p className={styles.auth__text}>
-						Don't have an account?
-						<BasicLink href="/register" text="Register" />
-					</p>
+					<IconLink
+						name="Register"
+						href="/register"
+						text="Don't have an account?"
+					/>
 				</form>
 			</div>
 			<ErrorMessage />

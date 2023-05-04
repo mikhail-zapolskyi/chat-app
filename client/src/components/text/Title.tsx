@@ -1,12 +1,11 @@
 import React from "react";
-import styles from "./Title.module.css";
 
 interface ITitleProps {
 	message: string;
 }
 
 const Title: React.FC<ITitleProps> = ({ message }) => (
-	<h1 className={styles.title}>{message}</h1>
+	<h1 className="text-white text-7xl p-3 mt-3 mb-3">{message}</h1>
 );
 
 export default Title;

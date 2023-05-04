@@ -7,7 +7,7 @@ import {
 	SearchContactsTab,
 	SearchContactResultCard,
 	ErrorMessage,
-	ContactTab,
+	ContactCard,
 	UserTab,
 	ChatMessage,
 	ContactList,
@@ -233,7 +233,7 @@ const Chat = () => {
 							{user &&
 								contacts.map((userContact) => {
 									return (
-										<ContactTab
+										<ContactCard
 											key={userContact.id}
 											contact={userContact}
 											onClick={() => {
