@@ -49,7 +49,7 @@ const ContactCard: React.FC<IContactTab> = ({
 						{name || email}
 					</p>
 					<p className="text-sm text-gray-500 truncate dark:text-gray-400">
-						{lastTimeOnline
+						{!onlineStatus && lastTimeOnline
 							? `Last time online: ${date} ${time}`
 							: ""}
 					</p>
