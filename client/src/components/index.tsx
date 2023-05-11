@@ -8,9 +8,9 @@ export { default as MenuBoard } from "./boards/MenuBoard";
 export { default as SearchContactResultCard } from "./cards/SearchContactResultCard";
 export { default as UserCard } from "./cards/UserCard";
 export { default as ContactCard } from "./cards/ContactCard";
+export { default as ContactCardChat } from "./cards/ContactCardChat";
 
 export { default as SearchContactsTab } from "./tabs/SearchContactsTab";
-export { default as UserTab } from "./tabs/UserTab";
 export { default as UserSettingsTab } from "./tabs/UserSettingsTab";
 
 export { default as LogoutButton } from "./buttons/LogoutButton";

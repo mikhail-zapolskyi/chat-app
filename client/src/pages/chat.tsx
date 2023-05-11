@@ -8,6 +8,7 @@ import {
 	ChatMessage,
 	ContactBoard,
 	ContactCard,
+	ContactCardChat,
 	ContactList,
 	ErrorMessage,
 	MenuBoard,
@@ -15,7 +16,6 @@ import {
 	SearchContactsTab,
 	UserCard,
 	UserSettingsTab,
-	UserTab,
 } from "../components";
 import {
 	addContact,
@@ -28,6 +28,7 @@ import { IUser } from "@/interfaces/IUser";
 import { IContact } from "@/interfaces/IContact";
 import { getUrl, getSocketUrl } from "@/helpers/GetUrl";
 import { changeMenu } from "@/redux/menuTabSlice";
+import { useFindContact } from "@/hooks";
 
 const Chat = () => {
 	const router = useRouter();
@@ -44,6 +45,7 @@ const Chat = () => {
 	const [contact, setContact] = useState({ id: "" }) as [IContact, any];
 	const socketUrl = getSocketUrl();
 	const url = getUrl();
+	const targetContact = useFindContact(contacts, roomId);
 
 	// Check if user is logged in
 	useEffect(() => {
@@ -210,6 +212,8 @@ const Chat = () => {
 			if (res.payload.errors) {
 				dispatch(getError(res.payload.errors.message));
 			}
+			setContact({ id: "" });
+			setRoomId("");
 
 			socket?.emit("removeContact", {
 				userId,
@@ -287,7 +291,15 @@ const Chat = () => {
 			</div>
 			{roomId && user && (
 				<div className="chat-messageBoard">
-					<UserTab contacts={contacts} roomId={roomId} />
+					<ContactCardChat
+						contact={targetContact}
+						removeContactOnClick={() =>
+							remove_contact(
+								user.id,
+								targetContact.contactId
+							)
+						}
+					/>
 					<ul className="chat-messageBoard__messages">
 						{messages.map((msg) => {
 							return (
