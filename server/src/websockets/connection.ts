@@ -2,6 +2,7 @@ import { io } from "../app";
 import { Socket } from "socket.io";
 import { createNewMessage } from "../controlers";
 import { manageOnlineStatus } from "../service";
+import { User } from "../model";
 
 io.on("connection", async (socket: Socket) => {
 	// GET USER ID ON LOGIN
@@ -34,5 +35,14 @@ io.on("connection", async (socket: Socket) => {
 	socket.on("removeContact", async (data) => {
 		const { userId, contactId } = data;
 		io.emit("contactRemoved", { userId, contactId });
+	});
+
+	socket.on("changeUserInfo", async (user) => {
+		const u = await User.findOneAndUpdate({ _id: user.id }, user, {
+			new: true,
+		});
+		await u.save();
+
+		io.emit("userInfoChanged", user);
 	});
 });

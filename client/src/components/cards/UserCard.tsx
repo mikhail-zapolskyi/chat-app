@@ -7,7 +7,6 @@ interface IUserCardProps {
 
 const UserCard: React.FC<IUserCardProps> = ({ user }) => {
 	const baseAvatar = "https://www.w3schools.com/howto/img_avatar.png";
-	console.log(user?.onlineStatus);
 	return (
 		user && (
 			<div className="flex flex-col items-center justify-center w-full p-3">

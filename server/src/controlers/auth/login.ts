@@ -7,7 +7,7 @@ import { Password } from "../../service";
 const login = async (req: Request, res: Response, next: NextFunction) => {
 	const { email, password } = req.body;
 
-	const user = await User.findOne({ email });
+	const user = await User.findOne({ email }, { __v: 0 });
 
 	if (!user) {
 		return next(new BadRequest("User not found"));
@@ -24,7 +24,7 @@ const login = async (req: Request, res: Response, next: NextFunction) => {
 	const chatToken = jwt.sign(
 		{
 			exp: Math.floor(Date.now() / 1000) + 3600, // 1 hour
-			user,
+			id: user._id,
 		},
 		process.env.COOKIE_SECRET!
 	);

@@ -18,6 +18,7 @@ export const getUser = createAsyncThunk("auth/getUser", async () => {
 			"Content-Type": "application/json",
 		},
 	});
+
 	return await response.json();
 });
 

@@ -29,6 +29,7 @@ import { IContact } from "@/interfaces/IContact";
 import { getUrl, getSocketUrl } from "@/helpers/GetUrl";
 import { changeMenu } from "@/redux/menuTabSlice";
 import { useFindContact } from "@/hooks";
+import { getUser } from "@/redux/authSlice";
 
 const Chat = () => {
 	const router = useRouter();
@@ -96,11 +97,18 @@ const Chat = () => {
 			}
 		});
 
+		socket.on("userInfoChanged", () => {
+			if (user && user.contactList) {
+				dispatch(getUser());
+			}
+		});
+
 		return () => {
 			socket.off("message");
 			socket.off("userOnlineStatusChanged");
 			socket.off("contactAdded");
 			socket.off("contactRemoved");
+			socket.off("userInfoChanged");
 		};
 	}, [socket]);
 
@@ -282,9 +290,12 @@ const Chat = () => {
 							)}
 						</AdditionalMenu>
 					)}
-					{menuTab.type === "userSettings" && (
+					{menuTab.type === "userSettings" && user && (
 						<AdditionalMenu>
-							<UserSettingsTab />
+							<UserSettingsTab
+								user={user}
+								socket={socket}
+							/>
 						</AdditionalMenu>
 					)}
 				</ContactBoard>
