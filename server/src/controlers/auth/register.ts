@@ -7,6 +7,8 @@ const register = async (req: Request, res: Response, next: NextFunction) => {
 
 	const user = new User({ email: email.toLowerCase(), password });
 
+	user.onlineStatus = true;
+
 	user.save()
 		.then((data: {}) => {
 			const chatToken = jwt.sign(

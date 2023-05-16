@@ -13,6 +13,8 @@ const login = async (req: Request, res: Response, next: NextFunction) => {
 		return next(new BadRequest("User not found"));
 	}
 
+	user.onlineStatus = true;
+
 	const isPasswordCorrect = await Password.verify(password, user.password);
 
 	if (!isPasswordCorrect) {
