@@ -7,7 +7,14 @@ module.exports = {
 		"./public/**/*.html",
 	],
 	theme: {
-		extend: {},
+		extend: {
+			gridTemplateColumns: {
+				mdChat: "10rem minmax(35rem, auto) minmax(30rem, 1fr)",
+			},
+			gridTemplateRows: {
+				mdChat: "minmax(5rem, auto) 1fr minmax(5rem, auto)",
+			},
+		},
 		colors: {
 			primary: "#1e1e1e",
 			secondary: "#262626",

@@ -1,11 +1,13 @@
 // Desc: Logout button component
 import { useAppDispatch } from "../../redux/hooks";
 import { logoutUser } from "../../redux/authSlice";
+import { changeMenu } from "@/redux/menuTabSlice";
 
 const LogoutButton = () => {
 	const dispatch = useAppDispatch();
 	const handleLogout = () => {
 		dispatch(logoutUser());
+		dispatch(changeMenu("contacts"));
 	};
 
 	return (
@@ -16,7 +18,7 @@ const LogoutButton = () => {
 			viewBox="0 0 24 24"
 			xmlns="http://www.w3.org/2000/svg"
 			aria-hidden="true"
-			className="cursor-pointer hover:text-red-600 w-14 h-14"
+			className="cursor-pointer hover:text-red-600 w-14 h-14 mt-auto"
 			onClick={handleLogout}
 		>
 			<path

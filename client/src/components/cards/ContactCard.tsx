@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useTime } from "../../hooks";
 import { IContact } from "@/interfaces/IContact";
 
@@ -55,7 +55,7 @@ const ContactCard: React.FC<IContactTab> = ({
 					</p>
 				</div>
 				<div
-					className="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white z-50"
+					className="inline-flex items-center text-base font-semibold text-gray-900 z-50"
 					onClick={() => setDropMenu(!dropMenu)}
 				>
 					<svg
@@ -76,9 +76,9 @@ const ContactCard: React.FC<IContactTab> = ({
 				</div>
 			</div>
 			{dropMenu && (
-				<div className="bg-white divide-y divide-gray-100 rounded-lg shadow w-full dark:bg-gray-700 dark:divide-gray-600 mt-6">
+				<div className="bg-white divide-y divide-gray-100 rounded-lg shadow w-full  mt-6">
 					<ul
-						className="py-2 text-lg text-gray-700 dark:text-gray-200"
+						className="py-2 text-lg text-gray-700"
 						aria-labelledby="dropdownMenuIconHorizontalButton"
 					>
 						<li

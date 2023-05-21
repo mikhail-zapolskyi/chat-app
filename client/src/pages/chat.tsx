@@ -235,13 +235,22 @@ const Chat = () => {
 	};
 
 	return (
-		<div className="chat">
-			<div className="chat__contacts">
-				{/* This div for the menuBoard */}
-				<MenuBoard />
+		<div
+			className={`
+				w-screen h-screen bg-chat grid grid-rows-2 
+				md:grid-rows-none md:grid-cols-mdChat`}
+		>
+			<MenuBoard />
+			<div
+				className={`${
+					menuTab.type === "messages" && "max-md:hidden"
+				}`}
+			>
 				<ContactBoard>
 					<UserCard user={user} />
-					{menuTab.type === "contacts" && (
+					{(menuTab.type === "contacts" ||
+						(menuTab.type === "messages" &&
+							window.screen.width >= 640)) && (
 						<ContactList>
 							{user &&
 								contacts.map((userContact) => {
@@ -255,6 +264,11 @@ const Chat = () => {
 												);
 												setContact(
 													userContact
+												);
+												dispatch(
+													changeMenu(
+														"messages"
+													)
 												);
 											}}
 											active={
@@ -301,7 +315,11 @@ const Chat = () => {
 				</ContactBoard>
 			</div>
 			{roomId && user && (
-				<div className="chat-messageBoard">
+				<div
+					className={`
+					row-span-full h-full bg-chat-active grid grid-rows-mdChat 
+					md:row-auto md:span-col-3 ${menuTab.type !== "messages" && "hidden md:grid"}`}
+				>
 					<ContactCardChat
 						contact={targetContact}
 						removeContactOnClick={() =>

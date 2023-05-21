@@ -1,5 +1,4 @@
 import React from "react";
-import styles from "./MenuBoard.module.css";
 import {
 	LogoutButton,
 	AddContactButton,
@@ -9,23 +8,15 @@ import {
 
 const MenuBoard = () => {
 	return (
-		<div className={styles.menuBoard}>
-			<div className={styles.header}>
-				<div className={styles.item}>
-					<ContactsButton />
-				</div>
-				<div className={styles.item}>
-					<AddContactButton />
-				</div>
-				<div className={styles.item}>
-					<UserSettingsButton />
-				</div>
-			</div>
-			<div className={styles.footer}>
-				<div className={styles.item}>
-					<LogoutButton />
-				</div>
-			</div>
+		<div
+			className={`
+			grid grid-cols-4 place-items-center row-start-3 pb-10 pt-10 bg-chat z-10
+			md:flex md:flex-col md:pt-10 md:pb-20 md:row-start-auto md:gap-10 border-r border-opacity-10 border-primary md:h-full`}
+		>
+			<ContactsButton />
+			<AddContactButton />
+			<UserSettingsButton />
+			<LogoutButton />
 		</div>
 	);
 };
