@@ -1,7 +1,8 @@
 import { IUser } from "@/interfaces/IUser";
-import React, { useState } from "react";
-import { TextInput } from "../index";
+import React, { useState, useEffect } from "react";
+import { TextInput, FileInput } from "../index";
 import { io, Socket } from "socket.io-client";
+import { useFileToBasse64 } from "@/hooks";
 
 interface IUserSettingsTabProps {
 	user: IUser | null;
@@ -10,6 +11,7 @@ interface IUserSettingsTabProps {
 
 const UserSettingsTab: React.FC<IUserSettingsTabProps> = ({ user, socket }) => {
 	const [data, setData] = useState(user!);
+	const [base64string, handleFileToString] = useFileToBasse64();
 
 	const handleValue = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setData({
@@ -17,6 +19,13 @@ const UserSettingsTab: React.FC<IUserSettingsTabProps> = ({ user, socket }) => {
 			[e.target.name]: e.target.value,
 		});
 	};
+
+	useEffect(() => {
+		setData({
+			...data,
+			avatar: base64string,
+		});
+	}, [base64string]);
 
 	const handleSave = (e: React.MouseEvent<HTMLButtonElement>) => {
 		e.preventDefault();
@@ -43,6 +52,7 @@ const UserSettingsTab: React.FC<IUserSettingsTabProps> = ({ user, socket }) => {
 					value={data.email!}
 					onChange={handleValue}
 				/>
+				<FileInput onChange={handleFileToString} />
 				<button
 					type="submit"
 					className="w-8/12 text-white bg-primary hover:bg-button-hover focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-3	"

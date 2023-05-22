@@ -13,13 +13,16 @@ export interface IUser {
 
 const userSchema = new Schema<IUser>(
 	{
-		name: { type: String },
+		name: { type: String, default: null },
 		email: {
 			type: String,
 			unique: true,
 			required: [true, "Please provide an email"],
 		},
-		avatar: String,
+		avatar: {
+			type: String,
+			default: null,
+		},
 		password: {
 			type: String,
 			required: [true, "Please provide a password"],

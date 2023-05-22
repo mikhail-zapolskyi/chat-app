@@ -51,14 +51,21 @@ const getContacts = async (req: Request, res: Response, next: NextFunction) => {
 
 		// PULLS STRINGS FROM ARRAY TO DELIVER CONTACT OBJECT
 		const contactList = rawContactList.map((contact) => {
-			const { _id, email, name, onlineStatus, lastTimeOnline } =
-				contact.users[0];
+			const {
+				_id,
+				email,
+				name,
+				avatar,
+				onlineStatus,
+				lastTimeOnline,
+			} = contact.users[0];
 
 			return {
 				id: contact._id,
 				contactId: _id,
 				name,
 				email,
+				avatar,
 				onlineStatus,
 				roomId: contact.roomId[0],
 				lastTimeOnline,

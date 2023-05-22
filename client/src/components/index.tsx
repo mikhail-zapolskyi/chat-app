@@ -31,6 +31,7 @@ export { default as ChatInput } from "./inputs/ChatInput";
 export { default as PasswordInput } from "./inputs/PasswordInput";
 export { default as EmailInput } from "./inputs/EmailInput";
 export { default as TextInput } from "./inputs/TextInput";
+export { default as FileInput } from "./inputs/FileInput";
 
 export { default as MessageSettingMenu } from "./menu/MessageSettingMenu";
 export { default as AdditionalMenu } from "./menu/AdditionalMenu";
