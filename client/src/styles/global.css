@@ -16,7 +16,9 @@
 	--color-delete: #cc4646;
 }
 
-* {
+*,
+body,
+html {
 	margin: 0;
 	padding: 0;
 	box-sizing: border-box;
@@ -24,4 +26,12 @@
 
 html {
 	font-size: 62.5%;
+	height: -webkit-fill-available;
+}
+
+body {
+	width: 100vw;
+	min-height: 100vh;
+	min-height: -webkit-fill-available;
+	height: 100vh;
 }

@@ -237,7 +237,7 @@ const Chat = () => {
 	return (
 		<div
 			className={`
-				w-screen h-screen bg-chat grid grid-rows-2 
+				w-screen h-screen bg-chat grid grid-rows-2 relative
 				md:grid-rows-none md:grid-cols-mdChat`}
 		>
 			<MenuBoard />

@@ -13,6 +13,7 @@ module.exports = {
 			},
 			gridTemplateRows: {
 				mdChat: "minmax(5rem, auto) 1fr minmax(5rem, auto)",
+				mobileChat: "minmax(20rem, 1fr), 1fr minmax(5rem, auto)",
 			},
 		},
 		colors: {
