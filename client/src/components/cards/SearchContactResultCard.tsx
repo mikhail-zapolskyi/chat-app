@@ -1,6 +1,3 @@
-import styles from "./SearchContactResultCard.module.css";
-import { BsJournalPlus } from "react-icons/bs";
-
 interface ISearchContactResultCardProps {
 	contact: {
 		id: string;
@@ -15,34 +12,38 @@ const SearchContactResultCard: React.FC<ISearchContactResultCardProps> = ({
 	contact,
 	addContact,
 }) => {
-	const { id, name, email, avatar } = contact;
+	const { name, email, avatar } = contact;
+	const imgURL = "https://www.w3schools.com/howto/img_avatar.png";
 
 	return (
-		<>
-			<div className={styles.wrapper}>
-				<div className={styles.avatarContainer}>
+		<div className="w-fulls mt-5 bg-chat-active border border-chat rounded-lg shadow">
+			<div className="flex justify-center px-4 pt-4">
+				<div className="flex flex-col items-center pb-10">
 					<img
-						src={
-							avatar
-								? avatar
-								: "https://www.w3schools.com/howto/img_avatar.png"
-						}
-						alt="Avatar"
-						className={styles.avatar}
+						className="w-24 h-24 mb-3 rounded-full shadow-lg"
+						src={avatar || imgURL}
+						alt={`${name && name} avatar`}
 					/>
-				</div>
-				<div className={styles.info}>
-					<p className={styles.id}>ID: {id}</p>
-					<p className={styles.name}>Name: {name || email}</p>
-				</div>
-				<div className={styles.actions}>
-					<BsJournalPlus
-						className={styles.addContact}
+					<h5 className="mb-1 text-xl font-medium text-gray-900 dark:text-white">
+						{name}
+					</h5>
+					<span className="text-lg text-gray-500 dark:text-gray-400">
+						{email && email}
+					</span>
+					<div
+						className="flex mt-4 space-x-3 md:mt-6"
 						onClick={addContact}
-					/>
+					>
+						<a
+							href="#"
+							className="inline-flex items-center px-4 py-2 text-md font-medium text-center text-white bg-secondary rounded-lg hover:bg-gray-600 focus:ring-4 focus:outline-none focus:ring-blue-300"
+						>
+							Add friend
+						</a>
+					</div>
 				</div>
 			</div>
-		</>
+		</div>
 	);
 };
 

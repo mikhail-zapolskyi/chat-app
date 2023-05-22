@@ -10,7 +10,7 @@ const findContactByEmail = async (
 	const { email } = req.body;
 	const contact = await User.findOne(
 		{ email: email.toLowerCase() },
-		{ email: 1, id: 1 }
+		{ email: 1, id: 1, name: 1, avatar: 1 }
 	);
 
 	if (!contact) {
@@ -18,7 +18,7 @@ const findContactByEmail = async (
 	}
 
 	res.status(200).json({
-		contact: { email: contact.email, id: contact.id },
+		contact,
 	});
 };
 
