@@ -1,9 +1,8 @@
 import ScaleLoader from "react-spinners/ScaleLoader";
-import styles from "./Spinner.module.css";
 
 const Spinner = () => {
 	return (
-		<div className={styles.wrapper}>
+		<div className="w-screen h-screen flex items-center justify-center">
 			<ScaleLoader color="#1e1e1e" height={10} width={20} />
 		</div>
 	);
