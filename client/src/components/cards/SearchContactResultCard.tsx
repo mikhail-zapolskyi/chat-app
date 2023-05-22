@@ -36,7 +36,7 @@ const SearchContactResultCard: React.FC<ISearchContactResultCardProps> = ({
 					>
 						<a
 							href="#"
-							className="inline-flex items-center px-4 py-2 text-md font-medium text-center text-white bg-secondary rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300"
+							className="inline-flex items-center px-4 py-2 text-md font-medium text-center text-white bg-secondary rounded-lg hover:bg-gray-600 focus:ring-4 focus:outline-none focus:ring-blue-300"
 						>
 							Add friend
 						</a>
