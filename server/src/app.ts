@@ -22,13 +22,13 @@ app.use(
 	})
 );
 
-// app.use(express.static(path.join(__dirname, "..", "public")));
+app.use(express.static(path.join(__dirname, "..", "public")));
 
 app.use("/api", router);
 
-// app.get("/*", (req, res) => {
-// 	res.sendFile(path.join(__dirname, "..", "public", `${req.url}.html`));
-// });
+app.get("/*", (req, res) => {
+	res.sendFile(path.join(__dirname, "..", "public", `${req.url}.html`));
+});
 
 app.use(error_handler);
 
