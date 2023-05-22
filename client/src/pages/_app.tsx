@@ -4,7 +4,6 @@ import { Provider } from "react-redux";
 import { store } from "../redux/store";
 import { useEffect } from "react";
 import { getUser } from "../redux/authSlice";
-import { getContactList } from "@/redux/contactsSlice";
 import { getError } from "../redux/errorSlice";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import { Spinner } from "../components";

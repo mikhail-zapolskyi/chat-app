@@ -17,7 +17,7 @@ declare global {
 }
 
 const verify_user = async (req: Request, res: Response, next: NextFunction) => {
-	if (!req.session?.chatToken) {
+	if (!req.session.chatToken) {
 		return res.json({ user: null });
 	}
 

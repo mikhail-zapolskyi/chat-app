@@ -18,17 +18,17 @@ app.use(
 	cookieSession({
 		name: "chatToken",
 		secret: process.env.COOKIE_SECRET,
-		maxAge: 24 * 60 * 60 * 1000, // 1 day
+		maxAge: 30 * 24 * 60 * 60 * 1000, // 30 day
 	})
 );
 
-// app.use(express.static(path.join(__dirname, "..", "public")));
+app.use(express.static(path.join(__dirname, "..", "public")));
 
 app.use("/api", router);
 
-// app.get("/*", (req, res) => {
-// 	res.sendFile(path.join(__dirname, "..", "public", `${req.url}.html`));
-// });
+app.get("/*", (req, res) => {
+	res.sendFile(path.join(__dirname, "..", "public", `${req.url}.html`));
+});
 
 app.use(error_handler);
 
