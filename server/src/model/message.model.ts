@@ -5,6 +5,7 @@ interface IMessage {
 	userId: Types.ObjectId;
 	message: string;
 	createdAt?: Date;
+	new: Boolean;
 }
 
 const messagesSchema = new Schema<IMessage>(
@@ -16,6 +17,7 @@ const messagesSchema = new Schema<IMessage>(
 			ref: "User",
 			required: true,
 		},
+		new: { type: Boolean, default: true },
 	},
 	{ collection: "messages", timestamps: true }
 );

@@ -35,3 +35,13 @@ body {
 	min-height: -webkit-fill-available;
 	height: 100vh;
 }
+
+.hideScroll {
+	overflow-y: scroll;
+	-ms-overflow-style: none; /* IE and Edge */
+	scrollbar-width: none; /* Firefox */
+}
+
+.hideScroll::-webkit-scrollbar {
+	display: none;
+}

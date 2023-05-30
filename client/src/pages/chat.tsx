@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useAppSelector, useAppDispatch } from "../redux/hooks";
 import { useRouter } from "next/router";
 import { io, Socket } from "socket.io-client";
@@ -103,12 +103,28 @@ const Chat = () => {
 			}
 		});
 
+		socket.on("disconnected", () => {
+			dispatch(getContactList({ userId: user?.id }));
+		});
+
+		socket.on("contactFound", (contact) => {
+			setSearchResult(contact);
+			setSearchInput("");
+		});
+
+		socket.on("contactNotFound", ({ message }) => {
+			dispatch(getError(message));
+		});
+
 		return () => {
 			socket.off("message");
 			socket.off("userOnlineStatusChanged");
 			socket.off("contactAdded");
 			socket.off("contactRemoved");
 			socket.off("userInfoChanged");
+			socket.off("contactFound");
+			socket.off("contactNotFound");
+			socket.off("disconnected");
 		};
 	}, [socket]);
 
@@ -156,29 +172,7 @@ const Chat = () => {
 	};
 
 	const findContact = async () => {
-		await fetch(`${url}/contacts/find`, {
-			method: "POST",
-			credentials: "include",
-			headers: {
-				"Content-Type": "application/json",
-			},
-			body: JSON.stringify({
-				email: searchInput,
-			}),
-		})
-			.then((res) => {
-				return res.json();
-			})
-			.then((data) => {
-				if (data.errors) {
-					dispatch(getError(data.errors.message));
-				}
-
-				if (data.contact) {
-					setSearchResult(data.contact);
-					setSearchInput("");
-				}
-			});
+		await socket?.emit("findContact", { email: searchInput });
 	};
 
 	const findContactOnEnter = async (
@@ -317,7 +311,7 @@ const Chat = () => {
 			{roomId && user && (
 				<div
 					className={`
-					row-span-full h-full bg-chat-active grid grid-rows-mdChat 
+					h-screen row-span-full bg-chat-active grid grid-rows-mdChat 
 					md:row-auto md:span-col-3 ${menuTab.type !== "messages" && "hidden md:grid"}`}
 				>
 					<ContactCardChat
@@ -329,7 +323,7 @@ const Chat = () => {
 							)
 						}
 					/>
-					<ul className="chat-messageBoard__messages">
+					<ul className="h-full p-6 hideScroll">
 						{messages.map((msg) => {
 							return (
 								<ChatMessage

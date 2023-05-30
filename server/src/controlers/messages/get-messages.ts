@@ -37,6 +37,7 @@ const getMessagesByRoomId = async (
 				userId: "$messages.userId",
 				message: "$messages.message",
 				createdAt: "$messages.createdAt",
+				new: "$messages.new",
 			},
 		},
 	]);

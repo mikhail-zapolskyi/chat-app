@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import styles from "./ChatMessage.module.css";
 import { BsThreeDots } from "react-icons/bs";
 import { useTime } from "../../hooks";
@@ -36,9 +36,15 @@ const ChatMessage: React.FC<IChatMessage> = ({
 		setMessageSettingMenuState(false);
 	};
 
+	const scrollRef = useRef<HTMLLIElement | null>(null);
+
+	useEffect(() => {
+		scrollRef.current?.scrollIntoView({ behavior: "smooth" });
+	}, [msg]);
+
 	return (
 		<>
-			<li className={styles.wrapper}>
+			<li className={styles.wrapper} ref={scrollRef}>
 				<div className={styles.container}>
 					<img
 						src={

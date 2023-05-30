@@ -15,7 +15,7 @@ const ContactCard: React.FC<IContactTab> = ({
 	onClick,
 	removeContactOnClick,
 }) => {
-	const { avatar, name, email, onlineStatus, lastTimeOnline } = contact;
+	const { id, avatar, name, email, onlineStatus, lastTimeOnline } = contact;
 	const [time, date] = useTime(lastTimeOnline);
 	const [dropMenu, setDropMenu] = useState(false);
 

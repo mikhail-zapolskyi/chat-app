@@ -9,6 +9,7 @@ interface IChatMessage {
 	userId: string;
 	message: string;
 	createdAt: string;
+	new: boolean;
 }
 
 const initialState = [] as IChatMessage[];

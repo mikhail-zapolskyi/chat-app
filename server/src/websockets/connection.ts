@@ -18,6 +18,7 @@ io.on("connection", async (socket: Socket) => {
 		if (userId) {
 			await manageOnlineStatus(userId, false);
 		}
+		io.emit("disconnected");
 	});
 
 	socket.on("sendMessageToRoom", async (data) => {
@@ -44,5 +45,22 @@ io.on("connection", async (socket: Socket) => {
 		await u.save();
 
 		io.emit("userInfoChanged", user);
+	});
+
+	socket.on("findContact", async ({ email }) => {
+		console.log(email);
+
+		const contact = await User.findOne(
+			{ email: email.toLowerCase() },
+			{ email: 1, id: 1, name: 1, avatar: 1 }
+		);
+
+		if (!contact) {
+			return io.emit("contactNotFound", {
+				message: "Contact not found",
+			});
+		}
+
+		io.emit("contactFound", contact);
 	});
 });

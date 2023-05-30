@@ -24,6 +24,7 @@ const createNewMessage = async (
 		userId: newMessage.userId,
 		roomId: newMessage.roomId,
 		createdAt: newMessage.createdAt,
+		new: newMessage.new,
 	};
 };
 
