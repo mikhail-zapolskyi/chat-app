@@ -21,10 +21,14 @@ const UserSettingsTab: React.FC<IUserSettingsTabProps> = ({ user, socket }) => {
 	};
 
 	useEffect(() => {
-		setData({
-			...data,
-			avatar: base64string,
-		});
+		if (!base64string) {
+			return;
+		} else {
+			setData({
+				...data,
+				avatar: base64string,
+			});
+		}
 	}, [base64string]);
 
 	const handleSave = (e: React.MouseEvent<HTMLButtonElement>) => {
