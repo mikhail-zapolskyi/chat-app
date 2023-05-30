@@ -48,8 +48,6 @@ io.on("connection", async (socket: Socket) => {
 	});
 
 	socket.on("findContact", async ({ email }) => {
-		console.log(email);
-
 		const contact = await User.findOne(
 			{ email: email.toLowerCase() },
 			{ email: 1, id: 1, name: 1, avatar: 1 }
